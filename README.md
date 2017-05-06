@@ -1,7 +1,7 @@
 # SWHLabPHP
 SWHLabPHP is a cross-platform PHP-centric data browser designed to provide a web front-end to easily explore electrophysiology project data (analyzed by SWHLab) residing on a local network. This software was written with emphasis on [ABF files](http://mdc.custhelp.com/app/answers/detail/a_id/18881/~/axon%E2%84%A2-pclamp%C2%AE-abf-file-support-pack-download-page) and microscopy file formats (fluorescent micrographs, time series, 3d stacks, etc) but can be easily modified to allow browing of other file formats. The intended use of this software is to allow quick browsing of data served on the local network in real time as experiments are being performed. SWHLabPHP assumes you are running a modern version of Apache and PHP.
 
-![docs/demo3.png]()
+![](docs/demo3.png)
 
 ## Windows 10 setup
 I developed this on Windows 10 by installing [WAMP server](https://sourceforge.net/projects/wampserver/) (version [3.0.6](https://www.google.com/search?q=wampserver3.0.6_x64_apache2.4.23_mysql5.7.14_php5.6.25-7.0.10.exe)). After installation, I made a few modifications to core apache files:
