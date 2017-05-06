@@ -10,6 +10,7 @@ I developed this on Windows 10 by installing [WAMP server](https://sourceforge.n
 <VirtualHost *:8080>
 	ServerName localhost
 	DocumentRoot c:/wamp64/www
+	IndexOptions NameWidth=*
 	<Directory  "c:/wamp64/www/">
 		Options +Indexes +Includes +FollowSymLinks +MultiViews
 		AllowOverride All
