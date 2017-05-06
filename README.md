@@ -31,3 +31,6 @@ ServerName 192.168.1.225:8080
 Listen 192.168.1.225:8080
 ...
 ```
+
+## Developing with GitHub
+Close this package into `C:\wamp64\www\SWHLabPHP`
