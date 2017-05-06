@@ -71,6 +71,13 @@ function html_pic($fname, $height="200"){
 	echo("\n<a href='$fname'><img src='$fname' height='$height' class='picframe_shadow'></a>");
 }
 
+function html_pics($fnames, $height="200"){
+	// given an array of picture URLs, run html_pic() on each of them.
+	foreach ($fnames as $fname){
+		html_pic($fname, $height);
+	}
+}
+
 
 
 //======================================================================
