@@ -71,10 +71,10 @@ function html_pic($fname, $height="200"){
 	echo("\n<a href='$fname'><img src='$fname' height='$height' class='picframe_shadow'></a>");
 }
 
-function html_pics($fnames, $height="200"){
+function html_pics($fnames, $prepend="", $height="200"){
 	// given an array of picture URLs, run html_pic() on each of them.
 	foreach ($fnames as $fname){
-		html_pic($fname, $height);
+		html_pic($prepend.$fname, $height);
 	}
 }
 
@@ -84,7 +84,19 @@ function html_pics($fnames, $height="200"){
 // DIRECTORY SCANNING / CELL ID GROUPING
 //======================================================================
 
-function dirscan_cellIDs($path, $abfGroups=False) {
+
+function dirscan_abfs($abfProjectPath) {
+	// return a list of all ABF files in a path
+    $abfs=[];
+	foreach (scandir($abfProjectPath) as $fname){
+		if (!endsWith($fname,".abf")) continue;
+		$abfs[]=$fname;
+	}
+	return $abfs;
+	
+}
+
+function dirscan_cellIDs($abfProjectPath, $abfGroups=False) {
    /* Given a path, return an array of just the cell IDs found
     * This works by scanning the folder for all ABF files, and if any
     * file starts with the same sequence of numbers/letters, it's a new cell.
@@ -99,7 +111,7 @@ function dirscan_cellIDs($path, $abfGroups=False) {
 	*  [cell3_abf1,cell3_abf2,cell3_abf3]]
 	*
     */
-    $files=scandir($path);
+    $files=scandir($abfProjectPath);
     $filesMashed=",".implode(",", $files);
     $ids=[];
     $thisCell=[];
@@ -120,4 +132,55 @@ function dirscan_cellIDs($path, $abfGroups=False) {
     if ($abfGroups) return $groups;
     return $ids;
 }
+
+function dirscan_abfCluster($abfProjectPath, $abfID){
+	/* given an ABF ID, scan the path, group all ABFs by cell,
+	 * determine which cell that ABF belongs to, and return an array
+	 * of all the ABFs associated with that cell
+	 */
+	
+	$groups=dirscan_cellIDs($abfProjectPath,True);
+	foreach ($groups as $group){
+		foreach ($group as $abf){
+			if($abfID == bn($abf)){
+				return($group);
+			}
+		}
+	}
+	return([]);
+}
+
+function dirscan_abfPics($abfProjectPath, $abfID, $tif=False){
+	// given an ABF ID, return all data figure filenames associated with it
+	$abfDataPath=$abfProjectPath."/swhlab/";
+	$dataFiles=[];
+	if (endsWith($abfID,".abf")) $abfID=bn($abfID);
+    foreach (scandir($abfDataPath) as $fname){
+		if (!startsWith($fname,$abfID)) continue;
+		if (!endsWith($fname,".jpg")) continue;
+		if ($tif and substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+		if (!$tif and !substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+	}
+	return $dataFiles;
+}
+
+
+function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
+	// given an ABF ID, return all data figure filenames associated with the entire CELL
+	$abfDataPath=$abfProjectPath."/swhlab/";
+	$dataFiles=[];
+	if (endsWith($abfID,".abf")) $abfID=bn($abfID);
+	$validABFs=dirscan_abfCluster($abfProjectPath, $abfID);
+	
+    foreach (scandir($abfDataPath) as $fname){
+		foreach ($validABFs as $abf){
+			if (!startsWith($fname,bn($abf))) continue;
+			if (!endsWith($fname,".jpg")) continue;
+			if ($tif and substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+			if (!$tif and !substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+		}
+	}
+	return $dataFiles;
+}
+
 ?>
