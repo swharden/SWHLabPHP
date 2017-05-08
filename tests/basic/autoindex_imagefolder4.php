@@ -1,4 +1,4 @@
-<?php include('swhlab_functions.php');?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/SWHLabPHP/src/swhlab.php"); ?>
 <?php timer(); ?>
 <?php $path="C:/Users/scott/Documents/Data/swhlab"; ?>
 <html>
@@ -56,7 +56,7 @@
 		// If TIF files exist, assume it's a new cell
 		if (sizeof($pics_tif)){
 			echo("<h2>$ID</h2>");
-			html_pics($pics_tif);
+			//html_pics($pics_tif);
 			echo("<br>");
 		}
 		html_pics($pics_jpg);

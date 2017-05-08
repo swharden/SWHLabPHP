@@ -1,4 +1,4 @@
-<?php include('swhlab_functions.php');?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/SWHLabPHP/src/swhlab.php"); ?>
 <?php $abfProject="C:/Users/scott/Documents/Data"; ?>
 <html>
 <body>

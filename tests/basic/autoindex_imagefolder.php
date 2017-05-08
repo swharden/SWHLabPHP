@@ -1,4 +1,4 @@
-<?php include('swhlab_functions.php');?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/SWHLabPHP/src/swhlab.php"); ?>
 <?php timer(); ?>
 <?php $path="C:/Users/scott/Documents/Data/swhlab"; ?>
 <html>

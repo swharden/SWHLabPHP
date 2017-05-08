@@ -1,4 +1,4 @@
-<?php include('swhlab_functions.php');?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/SWHLabPHP/src/swhlab.php"); ?>
 <?php timer(); ?>
 <?php $path="C:/Users/scott/Documents/Data/swhlab"; ?>
 <html>
@@ -30,19 +30,36 @@
 	
 	// figure out our cell IDs (based on TIF file prefixes)
     foreach ($files as $file) {
+		$allIDs[]=explode("_",$file)[0];
         if (strpos($file, '_tif_')){
 			$cellIDs[]=explode("_",$file)[0];
 		}
     }
+	$allIDs=array_unique($allIDs);
 	$cellIDs=array_unique($cellIDs);
 	
-	foreach ($files as $file){
-		if (!endsWith($file, '.jpg')) continue;
-		if (startsWith($file,$cellIDs[0])){
-			echo("<h2>".$cellIDs[0]."</h2>");
-			array_shift($cellIDs);
+	foreach ($allIDs as $ID){		
+		// figure out all pics associated with this ID
+		$pics_tif=[];
+		$pics_jpg=[];
+		foreach ($files as $file){
+			if (!endsWith($file, '.jpg')) continue;
+			if (startsWith($file,$ID)){
+				if (strpos($file, '_tif_')){
+					$pics_tif[]="/data/swhlab/".$file;
+				} else {
+					$pics_jpg[]="/data/swhlab/".$file;
+				}
+			}
 		}
-		html_pic("/data/swhlab/".$file);
+		
+		// If TIF files exist, assume it's a new cell
+		if (sizeof($pics_tif)){
+			echo("<h2>$ID</h2>");
+			html_pics($pics_tif);
+			echo("<br>");
+		}
+		html_pics($pics_jpg);
 	}
 	
 ?>

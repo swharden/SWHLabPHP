@@ -1,7 +1,16 @@
 <?php 
-# SWHLab PHP functions
+# SWHLab PHP script(s)
 # This code should be available server-wide
 
+
+//======================================================================
+// VERSION AND SYSTEM INFO
+//======================================================================
+
+function version(){
+	echo("SWHLab V1<br>");
+	html_timestamp();
+}
 
 //======================================================================
 // STRING MANIPULATION
@@ -64,7 +73,13 @@ function abf_protocol($abfFile, $comment=False){
 
 function html_timestamp(){
     // display the timestamp in microseconds
-    echo("<i>automatically generated at ".microtime(True)."</i>");  
+    //echo(microtime(True));  
+
+    $t = microtime(true);
+    $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+    $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+    echo $d->format("Y-m-d H:i:s.u"); 
+
 } 
 
 function html_pic($fname, $height="200"){
@@ -78,6 +93,17 @@ function html_pics($fnames, $prepend="", $height="200"){
 	}
 }
 
+function html_top(){
+	// include html, head, and body
+	timer(0);
+	include(dirname(__FILE__).'/template/top.php');
+}
+
+function html_bot(){
+	// wrap up body and html
+	//timer(1);
+	include(dirname(__FILE__).'/template/bot.php');
+}
 
 
 //======================================================================
@@ -184,3 +210,5 @@ function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 }
 
 ?>
+
+<!-- swhlab_functions.php has been included -->
