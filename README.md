@@ -38,8 +38,8 @@ Listen 192.168.1.225:8080
 
 ## Developing with GitHub
 * Clone this package into `C:\wamp64\www\SWHLabPHP`
-* If serving off a network drive (SMB on Windows), add an alias virtual directory using FORWARD SLASHES (!!!!!) backslashes will cause a permissions error. My working X-Drive map is as follows:
-** /dataX/SCOTT/ pulls from X:/Data/SCOTT/
+* If serving off a network drive (SMB on Windows), add an alias virtual directory using FORWARD SLASHES (!!!!!) backslashes will cause a "Forbidden" error.
+* My working virtual network drive (so `/dataX/SCOTT/` pulls from `X:/Data/SCOTT/`) is as follows:
 
  ```
  Alias /dataX "//spike/X_Drive/Data/"
