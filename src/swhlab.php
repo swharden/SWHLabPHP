@@ -167,17 +167,17 @@ function cachedir($path){
     
     if (basename($path)=="swhlab") {
         if (sizeof($cache_swhlab)){
-            msg("swhlab cache");
+            //msg("swhlab cache");
         } else {
-            msg("*** SCANNING swhlab into cache");
+            msg("scanning $path into cache");
             $cache_swhlab=scandir($path);
         }
         return $cache_swhlab;
     } else {
         if (sizeof($cache_project)){
-            msg("project cache");
+            //msg("project cache");
         } else {
-            msg("*** SCANNING project into cache");
+            msg("scanning $path into cache");
             $cache_project=scandir($path);
         }
         return $cache_project;
