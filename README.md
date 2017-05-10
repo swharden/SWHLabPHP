@@ -60,3 +60,19 @@ Listen 192.168.1.225:8080
 	</ifDefine>
 </Directory>
  ```
+
+## Network Share Notes
+```
+Alias /xmirror "//192.168.1.100/X_Mirror/Data/"
+<Directory "//192.168.1.100/X_Mirror/Data/">
+  Options Indexes FollowSymLinks MultiViews
+  AllowOverride all
+  <ifDefine APACHE24>
+        Require all granted
+	</ifDefine>
+	<ifDefine !APACHE24>
+		Order Allow,Deny
+        Allow from all
+	</ifDefine>
+</Directory>
+```
