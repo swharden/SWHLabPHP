@@ -1,7 +1,7 @@
 <?php
 
 // customizable settings
-$template="01";
+$template="01_barebones";
 $defaultPath="\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS";
 
 // this is for rewriting \\network\paths\ to web-safe served with aliased virtual directories
