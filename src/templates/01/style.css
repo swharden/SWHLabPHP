@@ -1,0 +1,13 @@
+body {
+	margin:0px;
+	padding:20px;
+	font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;    
+}
