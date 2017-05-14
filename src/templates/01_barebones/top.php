@@ -6,5 +6,5 @@
 </head>
 <body>
 <!--<h1 style="color:#CCCCCC;">SWHLab</h1><hr>-->
-
+<?php include('colorcodes.php'); ?>
 <?php timer(0); // reset page generation timer ?>

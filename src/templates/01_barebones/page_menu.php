@@ -1,5 +1,39 @@
-<?php include('top.php');?>
+<?php include('top.php');
 
+function colorcode_lookup($s){
+    // for each of the color codes (in colorcodes.php) do a find/replace
+    // and return the actual color code to be used. If no match is found,
+    // return the original colorcode.
+    global $COLORCODES;
+    foreach ($COLORCODES as $colorcode){
+        if ($s==$colorcode[0]){
+            return $colorcode[1];
+        }
+    }
+    return $s;
+}
+
+function project_displayItems($items){
+    // after getting a list of items from project_getItems(), this function
+    // turns the list into beautifully formatted HTML.
+    foreach ($items as $line){
+        list($cellID,$color,$desc)=$line;
+        $color=colorcode_lookup($color);
+        if ($cellID=='---'){
+            // this is a group separator
+            echo "<div class='menu_category'>$desc</div>";
+        } else {
+            // this is a single cell
+            echo "<div class='menu_cell_ID' style='background-color: $color'>$cellID";
+            echo "<span class='menu_cell_description'>$desc</span></div>";
+        }
+    }
+}
+
+$items=project_getItems("\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-04-24 aging BLA");
+project_displayItems($items);
+
+/*
 <code>
 
 <h3>Cell ID</h3>
@@ -26,4 +60,6 @@
 	
 ?>
 </code>
-<?php include('bot.php');?>
+*/
+
+include('bot.php');?>

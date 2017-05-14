@@ -1,37 +1,75 @@
 <?php include("top.php"); ?>
-<b style="font-size: 300%">Barebones Template</b><br>
-<i>minimum functionality with minimum complexity</i><br><br>
 
-<h3>\\Spike\X_Drive</h3>
-<ul>
-<li><a href="?page=frames&project=\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS">demo (frames)</a>
-<li><a href="?page=menu&project=\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS">demo (menu)</a>
-<li><a href="?page=project&project=\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS">demo (project)</a>
-<li><a href="?page=cellID&project=\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS&cellID=17109004">demo (cellID)</a>
-<li><a href="?page=abfID&project=\\spike\X_Drive\Data\SCOTT\2017-01-09 AT1 NTS&abfID=17109004">demo (abfID)</a>
-</ul>
+<style>
+body {padding: 10px;}
+</style>
 
-<h3>\\192.168.1.100\X_Mirror</h3>
-<ul>
-<li><a href="?page=frames&project=\\192.168.1.100\X_Mirror\Data\SCOTT\2017-01-09 AT1 NTS">demo (frames)</a>
-<li><a href="?page=menu&project=\\192.168.1.100\X_Mirror\Data\SCOTT\2017-01-09 AT1 NTS">demo (menu)</a>
-<li><a href="?page=project&project=\\192.168.1.100\X_Mirror\Data\SCOTT\2017-01-09 AT1 NTS">demo (project)</a>
-<li><a href="?page=cellID&project=\\192.168.1.100\X_Mirror\Data\SCOTT\2017-01-09 AT1 NTS&cellID=17109004">demo (cellID)</a>
-<li><a href="?page=abfID&project=\\192.168.1.100\X_Mirror\Data\SCOTT\2017-01-09 AT1 NTS&abfID=17109004">demo (abfID)</a>
-</ul>
+<span style="font-size: 200%; font-weight: bold;">SWHLab</span><br>
+<i>realtime project data viewer</i>
 
-<h3>LOCAL DRIVE (D:\Data\)</h3>
-<ul>
-<li><a href="?page=frames&project=D:\Data\SCOTT\2017-01-09 AT1 NTS">demo (frames)</a>
-<li><a href="?page=menu&project=D:\Data\SCOTT\2017-01-09 AT1 NTS">demo (menu)</a>
-<li><a href="?page=project&project=D:\Data\SCOTT\2017-01-09 AT1 NTS">demo (project)</a>
-<li><a href="?page=cellID&project=D:\Data\SCOTT\2017-01-09 AT1 NTS&cellID=17109004">demo (cellID)</a>
-<li><a href="?page=abfID&project=D:\Data\SCOTT\2017-01-09 AT1 NTS&abfID=17109004">demo (abfID)</a>
-</ul>
+<?php
 
-<h3>SWHLabPHP is on GitHub:</h3>
-<ul>
-<li><a href="https://github.com/swharden/SWHLabPHP">https://github.com/swharden/SWHLabPHP</a>
-</ul>
+////////////////////////////////////////////////////////////////
+// read INI file and scan directories for ABF-containing folders
+////////////////////////////////////////////////////////////////
+
+function containsABFs($path){
+	// returns TRUE if the folder contains ABFs inside.
+	foreach (scandir($path) as $fname){
+		if (substr($fname,-4)=='.abf') return True;
+	}
+	return False;
+}
+
+$ini_array = parse_ini_file("projects.ini"); // relative to the calling file folder
+$projectFolders=[];
+
+// add each project manually defined
+foreach ($ini_array["projects"] as $path){
+	$path=str_replace("X:\\","\\\\Spike\\X_Drive\\",$path);
+	#if (!containsABFs($path)) continue;
+	$projectFolders[]=$path;
+}
+
+// add each project inside the project collection folders
+foreach ($ini_array["collections"] as $fldrParent){
+	$fldrParent=str_replace("X:\\","\\\\Spike\\X_Drive\\",$fldrParent);
+	#echo("<br><b>$fldrParent</b><br>");
+	foreach (scandir($fldrParent) as $fldrChild){
+		if ($fldrChild[0]=='.') continue;
+		$path=$fldrParent."\\".$fldrChild;
+		if (!is_dir($path)) continue;
+		#if (!containsABFs($path)) continue;
+		$projectFolders[]=$path;
+	}
+	
+}
+
+// clean up the paths and sort them as desired
+// maybe sort them by date?
+$projectFolders=array_unique($projectFolders);
+//sort($projectFolders);
+rsort($projectFolders);
+
+////////////////////////////////////////////////////////////////
+// now display what we have
+////////////////////////////////////////////////////////////////
+
+echo("<h3>FEATURED PROJECTS</h3>");
+foreach ($ini_array["featured"] as $path){
+	$path=str_replace("X:\\","\\\\Spike\\X_Drive\\",$path);	
+	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
+}
+
+echo("<h3>ADDITIONAL PROJECTS</h3>");
+foreach ($projectFolders as $path){
+	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
+}
+?>
+
+<h3>Miscellaneous</h3>
+<i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
+<i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
+
 
 <?php include("bot.php"); ?>

@@ -1,6 +1,6 @@
 body {
-	margin:0px;
-	padding:20px;
+	margin: 0px;
+    padding: 0px;
 	font-family: sans-serif;
 }
 
@@ -10,4 +10,24 @@ a {
 
 a:hover {
     text-decoration: underline;    
+}
+
+.menu_category{
+    padding-top: 10px;
+    
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.menu_cell_ID{
+    font-family: monospace;
+    padding: 0px 10px 0px 10px;
+}
+
+.menu_cell_description{
+    //color: #DDDDDD;
+    opacity: .5;
+    padding-left: 10px;
+    font-style: italic;
+    font-family: serif;
 }
