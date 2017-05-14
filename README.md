@@ -76,3 +76,16 @@ Alias /xmirror "//192.168.1.100/X_Mirror/Data/"
 	</ifDefine>
 </Directory>
 ```
+## System-wide import ability
+Inside the `/SWHLabPHP/` folder I try to exclusively use relative imports (with respect to `swhlab.php`). If you want to develop scripts outside `/SWHLabPHP/`, relative imports don't always make sense. Therefore, I establish an environment variable using `.htaccess` in the root web folder pointing to the location of the folder containing `swhlab.php` relative to `DOCUMENT_ROOT`.
+
+**```.htaccess```**
+```
+SetEnv SWHLABPHP_ROOT /SWHLabPHP/src/
+```
+
+**```anywhere.php```**
+```
+<?php include($_SERVER['DOCUMENT_ROOT'].getenv('SWHLABPHP_ROOT')."swhlab.php"); ?>
+<?php html_top();?><h1>THIS IS WORKING</h1><?php html_bot();?>
+```
