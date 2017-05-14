@@ -141,17 +141,35 @@ function html_pics($fnames, $prepend="", $height="200"){
 }
 
 function html_top(){
-    echo("DONT USE TOP OR BOT");
+    //echo("DONT USE TOP OR BOT");
     global $template;
     include("templates/$template/top.php");
 }
 
 function html_bot(){
-    echo("DONT USE TOP OR BOT");
+    //echo("DONT USE TOP OR BOT");
     global $template;
     include("templates/$template/bot.php");
 }
 
+function html_from_2d($data2d){
+    // given a 2d aray, display it as a HTML table
+    $rows=sizeof($data2d);
+    $cols=0;
+    foreach ($data2d as $line){
+        if (sizeof($line)>$cols) $cols=sizeof($line);
+    }
+    
+    echo "<table border='1' borderwidth='1'>";
+    foreach ($data2d as $line){
+        echo "<tr>";
+        foreach ($line as $cell){
+            echo "<td>$cell</td>";
+        }
+        echo "</tr>";
+    }
+    echo "</table>";
+}
 
 //======================================================================
 // DIRECTORY SCANNING / CELL ID GROUPING
@@ -288,6 +306,67 @@ function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 		}
 	}
 	return $dataFiles;
+}
+
+
+function project_getItems($projectPath){
+    // given a project path (containing a bunch of ABFs and TIFs) return a 2d array
+    // where each row is a cell ID with values [cellID, colorcode, description].
+    // This assums a valid "cells.txt" file exists (otherwise False is returned).
+    // In addition, "group separators" have cellID and colorcode as '---'.
+    // items are returned in the order that they exist inside cells.txt (a file which
+    // could be edited with software or manually)
+    
+    $experimentPath=$projectPath."/cells.txt";
+    file_exists($experimentPath) or die("Does not exist: [$experimentPath]");
+    $f = fopen($experimentPath, "r") or die("Unable to open: [$experimentPath]");
+    $raw=fread($f,filesize($experimentPath));
+    fclose($f);
+    $lines=[];
+    foreach (explode("\n",$raw) as $line){
+        $line=trim($line);
+        if (strlen($line)<3) continue;
+        if ($line[0]=='#') continue;
+        $lines[]=$line;
+    }
+                
+    $cellIDs=dirscan_cellIDs($projectPath);
+    $cellIDsDisplayed=[];
+    $items=[];
+    
+    foreach ($lines as $line){
+        $maybeCellID=explode(" ",$line)[0];
+        
+        if ($maybeCellID=='---'){ 
+            // this line is a new section
+            $items[]=['---','---',trim(substr($line,4))];
+            continue;
+        }
+        
+        foreach ($cellIDs as $cellID){
+            if ($maybeCellID==$cellID){
+                // this line is a cell ID
+                $line=$line."   ";
+                $maybeColor=trim(explode(" ",$line,3)[1]);
+                $maybeDesc=trim(explode(" ",$line,3)[2]);
+                $cellIDsDisplayed[]=$maybeCellID;
+                $items[]=[$maybeCellID,$maybeColor,$maybeDesc];
+                break;
+            }
+        }
+    }
+        
+    $items[]=['---','---','UNCATEGORIZED'];
+    foreach ($cellIDs as $cellID){
+        if (!in_array($cellID,$cellIDsDisplayed)){
+            // found a cell which hasn't been accounted for
+            $items[]=[$cellID,'?','?'];
+        }
+    }
+    
+    //html_from_2d($items);
+    return $items;
+    
 }
 
 ?>
