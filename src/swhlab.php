@@ -308,6 +308,18 @@ function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 	return $dataFiles;
 }
 
+function dirscan_cell_ABFsAndProtocols($project, $cellID){
+    // given a project folder and a cell ID, figure all its children ABF IDs
+    // and display them as a list of ABFs (html-formatted with links) and also
+    // display what protocol they use
+    foreach (dirscan_abfCluster($project, $cellID) as $abfID){
+        $path=realpath($project."/".$abfID);
+        $proto=abf_protocol($path);
+        $abfID=bn($abfID);
+        echo "<a href='?page=abfID&project=$project&abfID=$abfID'>$path</a> [$proto]<br>";
+        
+    }  
+}
 
 function project_getItems($projectPath){
     // given a project path (containing a bunch of ABFs and TIFs) return a 2d array
@@ -367,6 +379,45 @@ function project_getItems($projectPath){
     //html_from_2d($items);
     return $items;
     
+}
+
+function project_getCellColor($project,$cellID){
+    // given a project path and a cell ID, read cells.txt and return its color
+    $items=project_getItems($project);
+    foreach ($items as $item){
+        if ($item[0]==$cellID){
+            return colorcode_lookup($item[1]);
+        }
+    }
+    return colorcode_lookup("");
+}
+
+function project_getCellComment($project,$cellID){
+    // given a project path and a cell ID, read cells.txt and return its comment
+    $items=project_getItems($project);
+    foreach ($items as $item){
+        if ($item[0]==$cellID){
+            return $item[2];
+        }
+    }
+    return "";
+}
+
+//======================================================================
+// EXPERIMENT / CELL TEXT FILE INFORMATION
+//======================================================================
+
+function colorcode_lookup($s){
+    // for each of the color codes (in colorcodes.php) do a find/replace
+    // and return the actual color code to be used. If no match is found,
+    // return the original colorcode.
+    global $COLORCODES;
+    foreach ($COLORCODES as $colorcode){
+        if ($s==$colorcode[0]){
+            return $colorcode[1];
+        }
+    }
+    return $s;
 }
 
 ?>

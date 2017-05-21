@@ -4,4 +4,10 @@ $COLORCODES=[];
 $COLORCODES[]=['?','#EEEEEE'];
 $COLORCODES[]=['b','#AAAAFF'];
 
+$COLORCODES[]=['g','#AAFFAA'];
+$COLORCODES[]=['g1','#AAFFAA'];
+$COLORCODES[]=['g2','#66FF66'];
+
+$COLORCODES[]=['','#FFFFFF'];
+
 ?>

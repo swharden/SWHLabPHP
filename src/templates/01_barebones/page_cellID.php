@@ -1,16 +1,52 @@
 <?php include('top.php');?>
 
-<b style="font-size: 300%">Cell ID <?php echo bn(dirscan_parent($project,$cellID));?></b><br>
-<i>Showing all data and figures from a group of ABF files</i>
-<code>
+
 <?php
-    foreach (dirscan_abfCluster($project, $cellID) as $abfID){
-        $path=realpath($project."/".$abfID);
-        $proto=abf_protocol($path);
-        echo "<br>$path [$proto]";
-    }
+// show parent cell ID along with the appropraite color banner
+$cellName=bn(dirscan_parent($project,$cellID));
+$cellColor=project_getCellColor($project,$cellID);
+$cellComment=project_getCellComment($project,$cellID);
+echo "<div style='background-color: $cellColor; padding: 5px;'>";
+echo "<span style='font-size: 300%; font-weight: bold;'>Cell ID $cellName</span>";
+echo "<br><i>$cellComment</i>";
+echo "</div>";
 ?>
-</code><hr>
+
+
+<div style="background-color: #EEE;">
+    <form action="" method="get">
+    <input type="hidden" name="page" value="<?php echo $page;?>" />
+    <input type="hidden" name="project" value="<?php echo $project;?>" />
+    <input type="hidden" name="cellID" value="<?php echo $cellID;?>" />
+    <input type="hidden" name="action" value="cellSet" />
+    <table cellspacing=5>
+        <tr style="font-weight: bold">
+            <td>color:</td>
+            <td>comment:</td>
+            <td><a href="?page=menu&project=<?php echo($project);?>" target="menu">refresh menu</a></td>
+        </tr>
+            <td>
+            <?php
+                $colors=array('','g1','g2','g3','r','b');
+                foreach ($colors as $code){
+                    $color=colorcode_lookup($code);
+                    $checked = (colorcode_lookup($code)==$cellColor) ? 'checked' : '';
+                    echo "<span style='padding: 5px; margin: 5px;  border: solid 1px black; background-color: $color;'>";
+                    echo "<input type='radio' name='col' value='$code' $checked> $code </span>";
+                }
+            ?>
+            </td>
+            <td><input type="text" size="50" name="str" value="<?php echo($cellComment);?>"></td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+    </form>
+
+    <div style="background-color: #F6F6F6; padding: 5px;">
+    <code><?php dirscan_cell_ABFsAndProtocols($project, $cellID);?></code>
+    </div>
+
+</div>
 
 <?php
 

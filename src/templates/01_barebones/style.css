@@ -13,10 +13,13 @@ a:hover {
 }
 
 .menu_category{
-    padding-top: 10px;
-    
+    //padding-top: 10px;
+    padding: 3px;
+    margin-top: 10px;
+    white-space: nowrap;
     font-family: monospace;
     font-weight: bold;
+    background-color: #EEE;
 }
 
 .menu_cell_ID{
@@ -26,8 +29,32 @@ a:hover {
 
 .menu_cell_description{
     //color: #DDDDDD;
+    white-space: nowrap;
     opacity: .5;
     padding-left: 10px;
     font-style: italic;
     font-family: serif;
+}
+
+.debuglog{
+    color: CCCCCC;
+    white-space: nowrap;
+}
+
+.picframe_shadow{
+    margin: 10px;
+    border: 1px solid black;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .2);
+}
+
+button {
+    border: 0;
+    border-radius: 0;
+    background: none;
+    -webkit-appearance: none;
+    border: 1px solid black;
+    padding: 0px 2px 0px 2px;
+    margin: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .25);
+    background-color: #666;
 }
