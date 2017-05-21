@@ -88,3 +88,7 @@ SetEnv SWHLABPHP_ROOT /SWHLabPHP/src/
 <?php include($_SERVER['DOCUMENT_ROOT'].getenv('SWHLABPHP_ROOT')."swhlab.php"); ?>
 <?php html_top();?><h1>THIS IS WORKING</h1><?php html_bot();?>
 ```
+
+## Maximum Execution Time
+By default, PHP will kill pages which take more than 120s to load. If your page is doing complex things (like calling python to analyze dozens of ABFs), you may want to extend this time to 10m (600s). Edit php.ini to reflect:
+```max_execution_time = 600```
