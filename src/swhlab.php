@@ -321,6 +321,12 @@ function dirscan_cell_ABFsAndProtocols($project, $cellID){
     }  
 }
 
+
+//======================================================================
+// EXPERIMENT / CELL TEXT FILE INFORMATION
+//======================================================================
+
+
 function project_getItems($projectPath){
     // given a project path (containing a bunch of ABFs and TIFs) return a 2d array
     // where each row is a cell ID with values [cellID, colorcode, description].
@@ -403,9 +409,41 @@ function project_getCellComment($project,$cellID){
     return "";
 }
 
-//======================================================================
-// EXPERIMENT / CELL TEXT FILE INFORMATION
-//======================================================================
+function cell_edit($project, $cellID, $newColor, $newComment){
+    $cellFile=realpath($project."/cells.txt");
+    //echo "ACTION: COLOR [$newColor] TO [$project/$cellID] in [$cellFile].";
+    
+    // load the existing cells.txt content
+    if (file_exists($cellFile)){
+        $f = fopen($cellFile, "r");
+        $raw=fread($f,filesize($cellFile));
+        fclose($f);
+    } else {
+        $raw="";
+    }
+
+    // modify the line(s) which involve this cell ID
+    $raw=explode("\n",$raw);
+    for ($lineNum=0;$lineNum<sizeof($raw);$lineNum++){
+        $line=$raw[$lineNum]."      ";
+        if (startsWith($line,$cellID)){
+            if (sizeof(trim($newComment))){
+                // a message is given
+                $message=trim($newComment);
+            } else {
+                // no message given, use the old one
+                $message=trim(explode(" ",$line,3)[2]);
+            }
+            $raw[$lineNum]="$cellID $newColor $message";
+        }
+    }
+    $raw=implode("\n",$raw);
+    
+    // save the updated file to disk
+    $f = fopen($cellFile, "w");
+    fwrite($f, $raw);
+    fclose($f);    
+}
 
 function colorcode_lookup($s){
     // for each of the color codes (in colorcodes.php) do a find/replace
@@ -418,6 +456,110 @@ function colorcode_lookup($s){
         }
     }
     return $s;
+}
+
+/////////////////////////
+// needs sorting
+//////////////////////
+
+
+function rename_lowercase_extensions($folder){
+    // ensure every file in a folder with a 3 character extension has a lowercase extension
+    foreach (scandir($folder) as $fname) {
+        $fname=$folder."/".$fname;
+        $rev=explode(".",strrev($fname),2);
+        if (strlen($rev[0])!=3) continue;
+        $rev[0]=strtolower($rev[0]);
+        $rev=implode(".",$rev);
+        $fname2=strrev($rev);
+        if (!($fname==$fname2)){
+            echo "RENAMING (capitalization):<br>$fname<br>$fname2<br><br>";
+            rename($fname,$fname2);
+        }
+    }
+}
+
+
+
+function analyze_tifConvert($project){
+    // given a project folder, make all TIFs JPGs.
+    if (!is_dir($project."/swhlab/")) mkdir($project."/swhlab/");
+    $fnames1=scandir($project);
+    $fnames2=scandir($project."/swhlab/");
+    $needsConversion=[];
+    $flags="-contrast-stretch .05%"; // flags for ImageMagick conversion
+    
+    // make sure every TIF has a JPG
+    foreach ($fnames1 as $fname1){
+        if (endsWith($fname1,".tif")){
+            if (!in_array($fname1.".jpg",$fnames2)){
+                $needsConversion[]=$fname1;
+            }
+        }
+    }
+    
+    // for each TIF that needs conversion, convert it!
+    foreach ($needsConversion as $fname1){
+        $cmd="convert $flags \"$project/$fname1\" \"$project/swhlab/$fname1.jpg\"";
+        echo "CONVERTING TIF->JPG ($flags) [$fname1] ... ";
+        flush();ob_flush(); // update the browser
+        exec($cmd);
+        flush();ob_flush(); // update the browser
+        echo("DONE<br>");
+    }
+    
+    // correct an issue where stacks are saved, renaming the first slice as the abf.
+    $fnames2=scandir($project."/swhlab/");
+    foreach ($fnames2 as $fname1){
+        $fname2=str_replace(".tif-0.jpg",".tif.jpg",$fname1);
+        if (!in_array($fname2,$fnames2)){
+            echo "RENAMING STACK: [$fname1] -> [$fname2]<br>";
+            $fname1=$project."/swhlab/".$fname1;
+            $fname2=$project."/swhlab/".$fname2;
+            rename($fname1,$fname2);
+        }
+    }
+    
+}
+
+function analyze_delete_everything($project){
+    // erase EVERYTHING in the project SWHLab folder.
+    $folder=$project."\\swhlab\\";
+    if (!is_dir($folder)) mkdir($folder);
+    
+    foreach (glob($folder."/*.*") as $fname) {
+        if (is_file($fname)) {
+            echo("DELETING FILE: [$fname] ... ");
+            flush();ob_flush(); // update the browser
+            unlink($fname); // do the deletion
+            echo("DONE<br>"); // update the browser
+            
+        }
+    }
+}
+
+function analyze_abf_all($project){
+    // given a project folder, analyze data from every non-analyzed ABF
+    $fnames1=scandir($project);
+    $fnames2=scandir($project."/swhlab/");
+    foreach ($fnames1 as $fname1){
+        if (!endsWith($fname1,".abf")) continue;
+        $abfID=substr($fname1,0,-4);
+        $nFigures=0;
+        foreach ($fnames2 as $fname2){
+            if (startsWith($fname2,$abfID)){
+                if (endsWith($fname2,".tif.jpg")) continue; // ignore micrographs
+                $nFigures+=1;
+            }
+        }
+        if ($nFigures==0){
+            echo "ANALYZING $fname1 (".number_format(filesize($project."/".$fname1)/1024/1024,2)." MB) ... ";
+            $cmd="python \"C:\Users\swharden\Documents\GitHub\SWHLab\swhlab\analysis\protocols.py\" \"$project\\$fname1\"";
+            $output=exec($cmd);
+            flush();ob_flush(); // update the browser    
+            echo "DONE<br>";
+        }
+    }
 }
 
 ?>

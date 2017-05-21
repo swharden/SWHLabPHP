@@ -37,48 +37,12 @@ if (sizeof(explode("_",$action))>1){
     $action=explode("_",$action,2)[0];
 }
 
-function cell_edit($project, $cellID, $newColor, $newComment){
-    $cellFile=realpath($project."/cells.txt");
-    //echo "ACTION: COLOR [$newColor] TO [$project/$cellID] in [$cellFile].";
-    
-    // load the existing cells.txt content
-    if (file_exists($cellFile)){
-        $f = fopen($cellFile, "r");
-        $raw=fread($f,filesize($cellFile));
-        fclose($f);
-    } else {
-        $raw="";
-    }
-
-    // modify the line(s) which involve this cell ID
-    $raw=explode("\n",$raw);
-    for ($lineNum=0;$lineNum<sizeof($raw);$lineNum++){
-        $line=$raw[$lineNum]."      ";
-        if (startsWith($line,$cellID)){
-            if (sizeof(trim($newComment))){
-                // a message is given
-                $message=trim($newComment);
-            } else {
-                // no message given, use the old one
-                $message=trim(explode(" ",$line,3)[2]);
-            }
-            $raw[$lineNum]="$cellID $newColor $message";
-        }
-    }
-    $raw=implode("\n",$raw);
-    
-    // save the updated file to disk
-    $f = fopen($cellFile, "w");
-    fwrite($f, $raw);
-    fclose($f);    
-}
-
 switch ($action){
     
     case "cellSet":
         cell_edit($project,$cellID,$col,$str);
         break;
-    
+
     case "cell":
         echo "ACTION: DO [$actionValue] TO THIS CELL.";
         break;
@@ -96,39 +60,14 @@ switch ($action){
 // PAGE GENERATION
 //======================================================================
 
-switch ($page){
-    
-    case "menu":
-        msg("generating menu page...");
-        include("templates/$template/page_menu.php");
-        break;
-        
-    case "abfID":
-        msg("generating single ABF page...");
-        include("templates/$template/page_abfID.php");
-        break;
-        
-    case "cellID":
-        msg("generating page for all ABFs assocaited with a cell...");
-        include("templates/$template/page_cellID.php");
-        break;
-    
-    case "project":
-        include("templates/$template/page_project.php");
-        break;
-        
-    case "frames":
-        include("templates/$template/page_frames.php");
-        break;
-        
-    case "splash":
-        include("templates/$template/page_splash.php");
-        break;
-        
-    default:
-        msg("ERROR: page not recognized");
-        break;
-        
+if ($page){
+    $fname="templates/$template/page_$page.php";
+    if (file_exists($fname)){
+        msg("including content from [$fname]");
+        include($fname);
+    } else {
+        echo "ERROR: page [$page] not found ($fname)";
+    }
 }
 
 ?>
