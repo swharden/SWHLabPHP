@@ -14,10 +14,16 @@ if ($num=='') $num=$remainingABFs;
 if ($remainingABFs){
     echo "<meta http-equiv='refresh' content='0;url=?page=action_analyze&project=$project&num=$num' />";
 } else {
-    echo "ANALYSIS COMPLETE";
+    echo "<span style='font-size: 400%; font-weight: bold'>ANALYSIS COMPLETE</span>";
 }
-$fracDone=100*($num-$remainingABFs)/$num;
-$thisABF=$num-$remainingABFs;
+if ($num){
+    $fracDone=100*($num-$remainingABFs)/$num;
+    $thisABF=$num-$remainingABFs;
+} else {
+    $num=1;
+    $fracDone=100;
+    $thisABF=1;
+}
 ?>
 </code>
 

@@ -1,5 +1,19 @@
 <?php include('top.php');?>
 
+<?php
+
+$needAnalysisTIF=analyze_tifConvert($project,True);
+$needAnalysisABF=analyze_abf_commands($project);
+
+if (count($needAnalysisTIF)){
+    echo "<h1><a href='?page=action_tif&project=$project'>TIFs NEED CONVERTING</a></h1>";
+}
+
+if (count($needAnalysisABF)){
+    echo "<h1><a href='?page=action_analyze&project=$project'>ABFs NEED ANALYSIS</a></h1>";
+}
+
+?>
 
 <?php
 // show parent cell ID along with the appropraite color banner

@@ -490,7 +490,7 @@ function rename_lowercase_extensions($folder){
 
 
 
-function analyze_tifConvert($project){
+function analyze_tifConvert($project, $justGetABFsThatNeedConversion=False){
     // given a project folder, make all TIFs JPGs.
     if (!is_dir($project."/swhlab/")) mkdir($project."/swhlab/");
     $fnames1=scandir($project);
@@ -506,6 +506,8 @@ function analyze_tifConvert($project){
             }
         }
     }
+    
+    if ($justGetABFsThatNeedConversion) return $needsConversion;
     
     // for each TIF that needs conversion, convert it!
     foreach ($needsConversion as $fname1){
