@@ -14,8 +14,9 @@ $abfID = isset($_GET['abfID']) ? $_GET['abfID'] : '';
 $cellID = isset($_GET['cellID']) ? $_GET['cellID'] : '';
 $page = isset($_GET['page']) ? $_GET['page'] : '';
 $action = isset($_GET['action']) ? $_GET['action'] : '';
-$str = isset($_GET['str']) ? $_GET['str'] : '';
 $col = isset($_GET['col']) ? $_GET['col'] : '';
+$str = isset($_GET['str']) ? $_GET['str'] : ''; // can be used for generic string passing
+$num = isset($_GET['num']) ? $_GET['num'] : ''; // can be used for generic number passing
 if ($page=='') $page="splash";
 
 msg("request started ".timestamp());
@@ -26,6 +27,7 @@ msg("cellID: [$cellID]");
 msg("action: [$action]");
 msg("col: [$col]");
 msg("str: [$str]");
+msg("num: [$num]");
 
 
 //======================================================================
@@ -40,6 +42,7 @@ if (sizeof(explode("_",$action))>1){
 switch ($action){
     
     case "cellSet":
+        msg("editing $project,$cellID,$col,$str");
         cell_edit($project,$cellID,$col,$str);
         break;
 

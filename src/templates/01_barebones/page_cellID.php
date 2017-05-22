@@ -6,8 +6,14 @@
 $cellName=bn(dirscan_parent($project,$cellID));
 $cellColor=project_getCellColor($project,$cellID);
 $cellComment=project_getCellComment($project,$cellID);
+$cellIDprev=dirscan_parent_previous($project,$cellID);
+$cellIDnext=dirscan_parent_next($project,$cellID);
+
 echo "<div style='background-color: $cellColor; padding: 5px;'>";
-echo "<span style='font-size: 300%; font-weight: bold;'>Cell ID $cellName</span>";
+//echo "<span style='font-size: 300%; font-weight: bold;'>Cell ID $cellName</span><br>";
+if ($cellIDprev) echo "&laquo; <a href='?page=cellID&project=$project&cellID=$cellIDprev'>$cellIDprev</a> | ";
+echo "<span style='font-size: 200%; font-weight: bold;'>$cellName</span>";
+if ($cellIDnext) echo " | <a href='?page=cellID&project=$project&cellID=$cellIDnext'>$cellIDnext</a> &raquo;";
 echo "<br><i>$cellComment</i>";
 echo "</div>";
 ?>
@@ -19,7 +25,7 @@ echo "</div>";
     <input type="hidden" name="project" value="<?php echo $project;?>" />
     <input type="hidden" name="cellID" value="<?php echo $cellID;?>" />
     <input type="hidden" name="action" value="cellSet" />
-    <table cellspacing=5>
+    <table border=0 style="border-collapse: collapse;">
         <tr style="font-weight: bold">
             <td>color:</td>
             <td>comment:</td>
@@ -27,14 +33,17 @@ echo "</div>";
         </tr>
             <td>
             <?php
-                $colors=array('','g1','g2','g3','r','b');
+                //$colors=array('','g1','g2','g3','r','b');
+                foreach ($COLORCODES as $colorcode){
+                    $colors[]=$colorcode[0];
+                }
                 foreach ($colors as $code){
                     $color=colorcode_lookup($code);
                     $checked = (colorcode_lookup($code)==$cellColor) ? 'checked' : '';
-                    echo "<span style='padding: 5px; margin: 5px;  border: solid 1px black; background-color: $color;'>";
-                    echo "<input type='radio' name='col' value='$code' $checked> $code </span>";
+                    echo "<span style='margin: 2px; padding: 2px;  border: solid 1px black; background-color: $color;'>";
+                    echo "<input type='radio' name='col' value='$code' $checked></span>";
                 }
-            ?>
+            ?>&nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td><input type="text" size="50" name="str" value="<?php echo($cellComment);?>"></td>
             <td><input type="submit" value="Submit"></td>

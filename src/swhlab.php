@@ -51,9 +51,9 @@ function bn($str){
 
 function timer($display=0){
     global $timer_start;
-    if ($display>0){
+    if ($display){
         $took=(microtime(True)-$timer_start)*1000;
-        echo(sprintf("%.02f ms", $took));
+        return sprintf("%.02f ms", $took);
     } else {
         $timer_start=microtime(True);
     }
@@ -72,19 +72,10 @@ function msg($message){
     $log_messages[]=$message;
 }
 
-function msg_html(){
-    // render log to HTML text (echo)
+function html_msg(){
+    // render log to HTML comment text
     global $log_messages;
-    echo("<code>");
-    echo("<b><u>DEBUG LOG:</u></b><br>");
-    foreach($log_messages as $line){
-        $style="";
-        if (startsWith($line,"ERROR:")){
-            $style.="background: #FFCCCC;";
-        }
-        echo("<span style='$style'>$line</span><br>");
-    }
-    echo("</code>");
+    echo "\n\n".implode("\n",$log_messages)."\npage loaded in ".timer(1)."\n";
 }
 
 
@@ -105,7 +96,11 @@ function abf_protocol($abfFile, $comment=False){
 	$abfData=explode("Clampex",$abfData)[1];
 	$abfData=explode("IN ",$abfData)[0];
 	$protoFile=explode(".pro",basename($abfData))[0];
-	$protoComment=explode(".pro",$abfData)[1];
+    if (strpos($abfData, '.pro') !== false){
+        $protoComment=explode(".pro",$abfData)[1];
+    } else {
+        $protoComment="NOPROTO";
+    }
 	if ($comment) return $protoComment;
 	return $protoFile;
 }
@@ -283,8 +278,8 @@ function dirscan_abfPics($abfProjectPath, $abfID, $tif=False){
     foreach (cachedir($abfDataPath) as $fname){
 		if (!startsWith($fname,$abfID)) continue;
 		if (!endsWith($fname,".jpg")) continue;
-		if ($tif and substr_count($fname,"_tif_")) $dataFiles[]=$fname;
-		if (!$tif and !substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+		if ($tif and substr_count($fname,".tif.jpg")) $dataFiles[]=$fname;
+		if (!$tif and !substr_count($fname,".tif.jpg")) $dataFiles[]=$fname;
 	}
 	return $dataFiles;
 }
@@ -301,8 +296,8 @@ function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 		foreach ($validABFs as $abf){
 			if (!startsWith($fname,bn($abf))) continue;
 			if (!endsWith($fname,".jpg")) continue;
-			if ($tif and substr_count($fname,"_tif_")) $dataFiles[]=$fname;
-			if (!$tif and !substr_count($fname,"_tif_")) $dataFiles[]=$fname;
+			if ($tif and substr_count($fname,".tif.jpg")) $dataFiles[]=$fname;
+			if (!$tif and !substr_count($fname,".tif.jpg")) $dataFiles[]=$fname;
 		}
 	}
 	return $dataFiles;
@@ -336,8 +331,8 @@ function project_getItems($projectPath){
     // could be edited with software or manually)
     
     $experimentPath=$projectPath."/cells.txt";
-    file_exists($experimentPath) or die("Does not exist: [$experimentPath]");
-    $f = fopen($experimentPath, "r") or die("Unable to open: [$experimentPath]");
+    if (!file_exists($experimentPath)) file_put_contents($experimentPath,"# automatically created cells.txt\n");
+    $f = fopen($experimentPath, "r");
     $raw=fread($f,filesize($experimentPath));
     fclose($f);
     $lines=[];
@@ -378,7 +373,7 @@ function project_getItems($projectPath){
     foreach ($cellIDs as $cellID){
         if (!in_array($cellID,$cellIDsDisplayed)){
             // found a cell which hasn't been accounted for
-            $items[]=[$cellID,'?','?'];
+            $items[]=[$cellID,'',''];
         }
     }
     
@@ -423,6 +418,7 @@ function cell_edit($project, $cellID, $newColor, $newComment){
     }
 
     // modify the line(s) which involve this cell ID
+    $lineFound=False;
     $raw=explode("\n",$raw);
     for ($lineNum=0;$lineNum<sizeof($raw);$lineNum++){
         $line=$raw[$lineNum]."      ";
@@ -434,8 +430,21 @@ function cell_edit($project, $cellID, $newColor, $newComment){
                 // no message given, use the old one
                 $message=trim(explode(" ",$line,3)[2]);
             }
+            msg("that cell ID is already in the log, so I'm modifying that line...");
             $raw[$lineNum]="$cellID $newColor $message";
+            // actually, if both are blank, let's delete the line like it never was there
+            if ($newColor=="" and $message==""){
+                msg("actually, since color and message is blank, let's delete that line...");
+                $raw[$lineNum]="";
+            }
+            $lineFound=True;
         }
+    }
+    if (!$lineFound){
+        // this line doesn't exist in the log, so add it.
+        msg("that cell ID isn't found in the log, so I'm adding a line for it...");
+        $message=trim($newComment);
+        $raw[]="$cellID $newColor $message";
     }
     $raw=implode("\n",$raw);
     
@@ -473,7 +482,7 @@ function rename_lowercase_extensions($folder){
         $rev=implode(".",$rev);
         $fname2=strrev($rev);
         if (!($fname==$fname2)){
-            echo "RENAMING (capitalization):<br>$fname<br>$fname2<br><br>";
+            echo "RENAMING (capitalization):<br>";
             rename($fname,$fname2);
         }
     }
@@ -527,21 +536,26 @@ function analyze_delete_everything($project){
     $folder=$project."\\swhlab\\";
     if (!is_dir($folder)) mkdir($folder);
     
+    echo("DELETING FILES: ");
     foreach (glob($folder."/*.*") as $fname) {
         if (is_file($fname)) {
-            echo("DELETING FILE: [$fname] ... ");
+            echo(basename($fname)." ");
             flush();ob_flush(); // update the browser
-            unlink($fname); // do the deletion
-            echo("DONE<br>"); // update the browser
-            
+            unlink($fname); // do the deletion    
+            flush();ob_flush(); // update the browser        
         }
     }
 }
 
-function analyze_abf_all($project){
-    // given a project folder, analyze data from every non-analyzed ABF
+/////////////////////////////////////
+// CODE RELATED TO ABF FILE ANALYSIS
+/////////////////////////////////////
+
+function analyze_abf_commands($project){
+    // given a project folder, return a list of commands to analyze EVERY abf in that folder.
     $fnames1=scandir($project);
     $fnames2=scandir($project."/swhlab/");
+    $commands=[];
     foreach ($fnames1 as $fname1){
         if (!endsWith($fname1,".abf")) continue;
         $abfID=substr($fname1,0,-4);
@@ -553,14 +567,65 @@ function analyze_abf_all($project){
             }
         }
         if ($nFigures==0){
-            echo "ANALYZING $fname1 (".number_format(filesize($project."/".$fname1)/1024/1024,2)." MB) ... ";
             $cmd="python \"C:\Users\swharden\Documents\GitHub\SWHLab\swhlab\analysis\protocols.py\" \"$project\\$fname1\"";
-            $output=exec($cmd);
-            flush();ob_flush(); // update the browser    
-            echo "DONE<br>";
+            $commands[]=$cmd;
         }
     }
+    return $commands;
 }
+
+function execute_cmd($cmd,$message=""){
+    // given a system command and an optional message, run it while also displaying it
+    // to the browser using buffering so it shows up in real time. Also add a "DONE" message.
+    global $project;
+    $clean=str_replace($project,".",$cmd);
+    echo "EXECUTING [$clean] ... ";
+    flush();ob_flush(); // update the browser    
+    $output=exec($cmd);
+    flush();ob_flush(); // update the browser    
+    echo "$output<br>";
+    
+    if ($output=="ERROR"){
+        $abfID=explode(".abf",explode($project,$cmd)[1])[0];
+        $theTouch=$project."/swhlab/".$abfID.".ERROR";
+        touch($theTouch);
+        echo(" --> CREATING ERROR FILE: $theTouch<br>");
+    }
+    
+}
+
+function analyze_abf_next($project){
+    // given a project folder, analyze data from every non-analyzed ABF (returns array of remaining commands)
+    $cmd=analyze_abf_commands($project);
+    execute_cmd($cmd[0]);
+    return count($cmd)-1;
+}
+
+function analyze_abf_all($project){
+    // given a project folder, analyze data from every non-analyzed ABF
+    foreach (analyze_abf_commands($project) as $cmd){execute_cmd($cmd);}
+}
+
+function dirscan_parent_previous($project,$cellID){
+    // return the cell ID of the PREVIOUS parent in a project. Returns "" if none.
+    $cellIDs=dirscan_cellIDs($project);
+    if ($cellIDs[0]==$cellID) return "";
+    for ($i=0;$i<count($cellIDs);$i++){
+        if ($cellIDs[$i]==$cellID) return $cellIDs[$i-1];
+    }
+    return "???";
+}
+
+function dirscan_parent_next($project,$cellID){
+    // return the cell ID of the NEXT parent in a project. Returns "" if none.
+    $cellIDs=dirscan_cellIDs($project);
+    if ($cellIDs[count($cellIDs)-1]==$cellID) return "";
+    for ($i=0;$i<count($cellIDs);$i++){
+        if ($cellIDs[$i]==$cellID) return $cellIDs[$i+1];
+    }
+    return "???";
+}
+
 
 ?>
 

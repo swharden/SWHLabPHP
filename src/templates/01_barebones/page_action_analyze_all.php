@@ -2,16 +2,15 @@
 
 <div style="background-color: red; color: white;">
 <code>
-<span style="font-size: 200%; font-weight: bold;">TIF -> JPG CONVERSION</span><br>
+<span style="font-size: 200%; font-weight: bold;">ABF FILE ANALYSIS</span><br>
 <?php echo $project;?>
 </code>
 </div>
 
 <code style="background-color: #FFEEEE;">
-<?php rename_lowercase_extensions($project); ?>
-<?php analyze_tifConvert($project); ?>
+<?php analyze_abf_all($project); ?>
 <br>
-<b>TIF-TO-JPG CONVERSION COMPLETE.</b>
+<b>ABF FILE ANALYSIS COMPLETE.</b>
 </code>
 
 <?php include('bot.php'); ?>

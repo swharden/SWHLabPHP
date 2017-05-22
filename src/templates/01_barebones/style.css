@@ -37,6 +37,7 @@ a:hover {
 }
 
 .debuglog{
+    font-size: 75%;
     color: CCCCCC;
     white-space: nowrap;
 }
@@ -57,4 +58,11 @@ button {
     margin: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .25);
     background-color: #666;
+}
+
+.adminbar{
+    font-size: 75%;
+    font-family: monospace;
+    padding: 5px;
+    background-color: #FFCCCC;
 }
