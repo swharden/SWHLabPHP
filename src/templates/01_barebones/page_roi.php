@@ -37,6 +37,16 @@ foreach (["RoiSet.zip","experiment.txt","Results.xls"] as $fname){
     }
 }
 
+if (file_exists($project."/messages.Rout")) {    
+    $myfile = fopen($project."/messages.Rout", "r");
+    $raw=fread($myfile,filesize($project."/messages.Rout"));
+    fclose($myfile);
+    $raw=str_replace("\n","<br>",$raw);
+    
+    echo "<br><br><br><blockquote style='font-size: 70%; color: #CCC;'>";
+    echo "<b><u>messages.Rout</u></b><br>$raw</blockquote>";
+}
+
 ?>
 
 <br><br>
