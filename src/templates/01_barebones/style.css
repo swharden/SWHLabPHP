@@ -29,11 +29,12 @@ a:hover {
 
 .menu_cell_description{
     //color: #DDDDDD;
+    font-size: 75%;
     white-space: nowrap;
     opacity: .5;
-    padding-left: 10px;
-    font-style: italic;
-    font-family: serif;
+    padding-left: 7px;
+    //font-style: italic;
+    //font-family: serif;
 }
 
 .debuglog{

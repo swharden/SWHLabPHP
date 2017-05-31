@@ -14,7 +14,7 @@ $COLORCODES[]=['g1','#00CC00'];
 $COLORCODES[]=['g2','#009900'];
 
 // b for "bad" or "error" or "problem" [RED]
-$COLORCODES[]=['b','#FF0000'];
+$COLORCODES[]=['b','#FF9999'];
 
 // i for "ignore" or "disregard" or "hide" [GRAY]
 $COLORCODES[]=['i','#CCCCCC'];

@@ -376,10 +376,33 @@ function project_getItems($projectPath){
             $items[]=[$cellID,'',''];
         }
     }
+    if (end($items)[0]=='---'){
+        // no uncategorized items exist
+        array_pop($items);
+    }
     
     //html_from_2d($items);
     return $items;
     
+}
+
+function project_displayItems($items){
+    // after getting a list of items from project_getItems(), this function
+    // turns the list into beautifully formatted HTML.
+    global $project;
+    foreach ($items as $line){
+        list($cellID,$color,$desc)=$line;
+        $color=colorcode_lookup($color);
+        if ($cellID=='---'){
+            // this is a group separator
+            echo "<div class='menu_category'>$desc</div>";
+        } else {
+            // this is a single cell
+            echo "<div class='menu_cell_ID' style='background-color: $color'>";
+            echo "<a href='?page=cellID&project=$project&cellID=$cellID' target='content'>$cellID</a>";
+            echo "<span class='menu_cell_description'>$desc</span></div>";
+        }
+    }
 }
 
 function project_getCellColor($project,$cellID){
@@ -560,6 +583,7 @@ function analyze_abf_commands($project){
     $commands=[];
     foreach ($fnames1 as $fname1){
         if (!endsWith($fname1,".abf")) continue;
+        if (file_exists(str_replace(".abf",".rsv",$fname1))) continue;
         $abfID=substr($fname1,0,-4);
         $nFigures=0;
         foreach ($fnames2 as $fname2){

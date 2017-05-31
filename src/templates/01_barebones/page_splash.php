@@ -55,6 +55,8 @@ rsort($projectFolders);
 // now display what we have
 ////////////////////////////////////////////////////////////////
 
+echo("<h2>ABF DATA</h2>");
+
 echo("<h3>FEATURED PROJECTS</h3>");
 foreach ($ini_array["featured"] as $path){
 	$path=str_replace("X:\\","\\\\Spike\\X_Drive\\",$path);	
@@ -65,9 +67,20 @@ echo("<h3>ADDITIONAL PROJECTS</h3>");
 foreach ($projectFolders as $path){
 	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
 }
+
+echo("<h2>IMAGING DATA</h2>");
+foreach ($ini_array["collectionsCa"] as $fldrParent){
+	$fldrParent=str_replace("X:\\","\\\\Spike\\X_Drive\\",$fldrParent);
+	foreach (scandir($fldrParent) as $fldrChild){
+		if ($fldrChild[0]=='.') continue;
+		$path=$fldrParent."\\".$fldrChild;
+        echo("<a href='/SWHLabPHP/src/?page=roi&project=$path'>$path</a><br>");
+    }
+}
+
 ?>
 
-<h3>Miscellaneous</h3>
+<h2>Miscellaneous</h2>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
 <i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
 

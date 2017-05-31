@@ -1,5 +1,5 @@
 
-<?php if(!($page=="menu")) : ?>
+<?php if(($page=="cellID")) : ?>
 <div class="adminbar">
     ADMIN MENU: | 
     <span TITLE="page generated in <?php echo timer(1); ?> at <?php html_timestamp();?>">hover</span> | 
