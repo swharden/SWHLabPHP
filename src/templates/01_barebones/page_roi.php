@@ -31,6 +31,11 @@ if (file_exists($project."/experiment.txt")) {
 
 html_pics($figures, $prepend="$project/", $height="400");
 
+if (file_exists($project."/render.mp4")){
+    $webPath=webpath($project."/render.mp4");
+    echo "<br><video class='picframe_shadow' controls autoplay loop><source src='$webPath' type='video/mp4'></video>";
+}
+
 foreach (["RoiSet.zip","experiment.txt","Results.xls"] as $fname){
     if (!file_exists($project."/".$fname)) {
         echo "<br><span style='background-color: yellow;'>WARNING: $fname does not exist!</span><br>";

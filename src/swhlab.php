@@ -183,6 +183,9 @@ function cachedir($path){
             //msg("swhlab cache");
         } else {
             msg("scanning $path into cache");
+            if (!file_exists($path)){
+                mkdir($path);
+            }
             $cache_swhlab=scandir($path);
         }
         return $cache_swhlab;

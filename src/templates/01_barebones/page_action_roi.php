@@ -7,6 +7,27 @@
 </code>
 </div>
 
+<?php
+
+function fancy_execution($title,$command){
+    flush();ob_flush(); // update the browser  
+    echo "<h1>$title</h1>";
+    echo "<pre><b>command:</b>$command</pre>";
+    flush();ob_flush(); // update the browser    
+    $pCom = new COM("WScript.Shell");
+    $pShell = $pCom->Exec($command);
+    $sStdOut = $pShell->StdOut->ReadAll;    # Standard output
+    $sStdErr = $pShell->StdErr->ReadAll;    # Error
+    flush();ob_flush(); // update the browser  
+    echo "<pre><b>OTUPUT:</b>$sStdOut</pre>";
+    if (strlen($sStdErr)){
+        echo "<pre><b>ERROR:</b>$sStdErr</pre><hr>";
+    }
+    flush();ob_flush(); // update the browser  
+}
+
+?>
+
 <code style="background-color: #FFEEEE;">
 <?php
 
@@ -17,33 +38,25 @@ foreach (scandir($project) as $fname){
     }
 }
 
+// PYTHON
+$pyscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\Python\ROI_video_graph.py";
+$command = "python \"$pyscript\" \"$project\"";
+fancy_execution("Python Execution",$command);
+
+// R
 $rpath="C:\Program Files\R\R-3.4.0\bin\Rscript.exe";
 $rscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\R\updated.R";
-//$rproject="\\\\spike\\X_Drive\\Data\\SCOTT\\2017-05-10 GCaMP6f\\2017-05-10 GCaMP6f PFC OXTR cre\\2017-05-31 cell1";
-$rproject=$project;
-
-$command = "\"$rpath\" --vanilla \"$rscript\" \"$rproject\"";
-
-echo "<pre><b>command:</b>$command</pre>";
-
-flush();ob_flush(); // update the browser    
-$pCom = new COM("WScript.Shell");
-$pShell = $pCom->Exec($command);
-$sStdOut = $pShell->StdOut->ReadAll;    # Standard output
-$sStdErr = $pShell->StdErr->ReadAll;    # Error
-flush();ob_flush(); // update the browser    
-
-echo "<hr><pre><b>OTUPUT:</b>$sStdOut</pre>";
-echo "<hr><pre><b>ERROR:</b>$sStdErr</pre><hr>";
-
-echo("<h2 style='background-color: yellow;'>[<a href='/SWHLabPHP/src/?page=roi&project=$project'>VIEW RESULTS</a>]</h2>");
-
+$command2 = "\"$rpath\" --vanilla \"$rscript\" \"$project\"";
+fancy_execution("R Execution",$command2);
 
 
 ?>
 
 <br>
 <b>ROI ANALYSIS COMPLETE.</b>
+<?php
+echo("<h2 style='background-color: yellow;'>[<a href='/SWHLabPHP/src/?page=roi&project=$project'>VIEW RESULTS</a>]</h2>");
+?>
 </code>
 
 <?php include('bot.php'); ?>
