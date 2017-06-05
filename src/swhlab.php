@@ -559,6 +559,24 @@ function analyze_tifConvert($project, $justGetABFsThatNeedConversion=False){
     
 }
 
+function analyze_delete_cell($project,$cellID){
+    $cellGroups=dirscan_cellIDs($project,True);
+    foreach ($cellGroups as $cellIDs){
+        if (startsWith($cellIDs[0],$cellID)){
+            foreach ($cellIDs as $deleteCellID){
+                $deleteCellID=basename($deleteCellID, '.abf');
+                foreach (glob($project."/swhlab/$deleteCellID*") as $fname){
+                    if (endsWith($fname,".tif.jpg")) continue;
+                    echo "DELETING ".basename($fname)."<br>";
+                    flush();ob_flush(); // update the browser
+                    unlink($fname); // do the deletion    
+                    flush();ob_flush(); // update the browser 
+                }
+            }
+        }
+    }
+}
+
 function analyze_delete_everything($project){
     // erase EVERYTHING in the project SWHLab folder.
     $folder=$project."\\swhlab\\";
@@ -567,6 +585,7 @@ function analyze_delete_everything($project){
     echo("DELETING FILES: ");
     foreach (glob($folder."/*.*") as $fname) {
         if (is_file($fname)) {
+            if (endsWith($fname,".tif.jpg")) continue;
             echo(basename($fname)." ");
             flush();ob_flush(); // update the browser
             unlink($fname); // do the deletion    
