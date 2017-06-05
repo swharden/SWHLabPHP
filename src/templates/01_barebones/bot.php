@@ -8,6 +8,7 @@
     <a href="?page=action_analyze_all&project=<?php echo $project;?>" target="_blank">analyze ABFs page</a> | 
     <a href="?page=action_analyze&project=<?php echo $project;?>" target="_blank">analyze ABFs graph</a> | 
     <a href="?page=action_caps&project=<?php echo $project;?>">ext case fix</a> | 
+    <a href="?page=action_deleteCell&project=<?php echo $project;?>&cellID=<?php echo $cellID; ?>">delete cell</a> | 
     <a href="?page=action_delete&project=<?php echo $project;?>">delete ALL</a> | 
     <a href="../../../../../../../../">HOME</a> | 
 </div>
