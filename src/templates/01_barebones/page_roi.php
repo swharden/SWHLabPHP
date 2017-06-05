@@ -33,6 +33,7 @@ html_pics($figures, $prepend="$project/", $height="400");
 
 if (file_exists($project."/render.mp4")){
     $webPath=webpath($project."/render.mp4");
+    echo("<h1>Video Animation</h1>");
     echo "<br><video class='picframe_shadow' controls autoplay loop><source src='$webPath' type='video/mp4'></video>";
 }
 
@@ -42,6 +43,17 @@ foreach (["RoiSet.zip","experiment.txt","Results.xls"] as $fname){
     }
 }
 
+if (file_exists($project."/ephys/swhlab/")) {
+    echo("<h1>Electrophysiology</h1>");
+    foreach (scandir($project."/ephys/swhlab/") as $fname){
+        if (endsWith($fname,".jpg")){
+            $ephysFigures[]=$fname;
+        }
+    }
+    html_pics($ephysFigures, $prepend="$project/ephys/swhlab/", $height="400");
+}
+
+/*
 if (file_exists($project."/messages.Rout")) {    
     $myfile = fopen($project."/messages.Rout", "r");
     $raw=fread($myfile,filesize($project."/messages.Rout"));
@@ -51,6 +63,7 @@ if (file_exists($project."/messages.Rout")) {
     echo "<br><br><br><blockquote style='font-size: 70%; color: #CCC;'>";
     echo "<b><u>messages.Rout</u></b><br>$raw</blockquote>";
 }
+*/
 
 ?>
 
