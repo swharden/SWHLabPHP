@@ -1,7 +1,7 @@
 <?php include('top.php');?>
 
 
-<span style="font-size: 200%; font-weight: bold;">ROI Image Analysis</span><br>
+<span style="font-size: 200%; font-weight: bold;">ROI Analysis Page for <?php echo basename($project);?></span><br>
 <code>
 <?php echo($project);?>
 <br>
@@ -19,6 +19,10 @@ foreach (scandir($project) as $fname){
 }
 echo("<hr>");
 
+?>
+
+<?php
+
 if (file_exists($project."/experiment.txt")) {    
     $myfile = fopen($project."/experiment.txt", "r");
     $raw=fread($myfile,filesize($project."/experiment.txt"));
@@ -28,6 +32,12 @@ if (file_exists($project."/experiment.txt")) {
     echo "<blockquote style='border: 1px solid #CCC; background-color: #EEE; padding: 5px;'>";
     echo "<b><u>EXPERIMENT.TXT</u></b><br>$raw</blockquote>";
 }
+?>
+
+
+<div style="padding: 20px;">
+
+<?php
 
 html_pics($figures, $prepend="$project/", $height="400");
 
@@ -44,13 +54,24 @@ foreach (["RoiSet.zip","experiment.txt","Results.xls"] as $fname){
 }
 
 if (file_exists($project."/ephys/swhlab/")) {
-    echo("<h1>Electrophysiology</h1>");
+    $micrographFigures=[];
+    $ephysFigures=[];
     foreach (scandir($project."/ephys/swhlab/") as $fname){
-        if (endsWith($fname,".jpg")){
+        if (endsWith($fname,".tif.jpg")){
+            $micrographFigures[]=$fname;
+        } else if (endsWith($fname,".jpg")){
             $ephysFigures[]=$fname;
         }
     }
-    html_pics($ephysFigures, $prepend="$project/ephys/swhlab/", $height="400");
+    
+    if (sizeof($micrographFigures)){
+        echo("<h1>Micrographs</h1>");
+        html_pics($micrographFigures, $prepend="$project/ephys/swhlab/", $height="400");
+    }
+    if (sizeof($ephysFigures)){
+        echo("<h1>Electrophysiology</h1>");
+        html_pics($ephysFigures, $prepend="$project/ephys/swhlab/", $height="400");
+    }
 }
 
 /*
@@ -66,6 +87,8 @@ if (file_exists($project."/messages.Rout")) {
 */
 
 ?>
+
+</div>
 
 <br><br>
 <?php include('bot.php');?>
