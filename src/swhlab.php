@@ -241,6 +241,7 @@ function dirscan_cellIDs($abfProjectPath, $abfGroups=False) {
     $groups=[];
     foreach ($files as $file){
         if (substr(strtolower($file), -4)==".abf"){
+            if (in_array(str_replace(".abf",".rsv",$file),$files)) continue;
             $cellID=substr(strtolower($file), 0, -4);
             if (substr_count($filesMashed, ','.$cellID)>1){
                 $ids[] = $cellID;
@@ -306,6 +307,12 @@ function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 	return $dataFiles;
 }
 
+function human_filesize($bytes, $decimals = 2) {
+    $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . " " . @$size[$factor];
+}
+
 function dirscan_cell_ABFsAndProtocols($project, $cellID){
     // given a project folder and a cell ID, figure all its children ABF IDs
     // and display them as a list of ABFs (html-formatted with links) and also
@@ -314,7 +321,8 @@ function dirscan_cell_ABFsAndProtocols($project, $cellID){
         $path=realpath($project."/".$abfID);
         $proto=abf_protocol($path);
         $abfID=bn($abfID);
-        echo "<a href='?page=abfID&project=$project&abfID=$abfID'>$path</a> [$proto]<br>";
+        $sizemsg=human_filesize(filesize($path));
+        echo "<a href='?page=abfID&project=$project&abfID=$abfID'>$path</a> [$proto] $sizemsg<br>";
         
     }  
 }

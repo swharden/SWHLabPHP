@@ -30,7 +30,7 @@ function fancy_execution($title,$command){
 
 <code style="background-color: #FFEEEE;">
 <?php
-
+echo "<h3>Deleting old image files...</h3>";
 foreach (scandir($project) as $fname){
     if (startsWith($fname,"fig_")){
         echo "DELETING: $fname<br>";   
@@ -39,13 +39,15 @@ foreach (scandir($project) as $fname){
 }
 
 // PYTHON
-$pyscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\Python\ROI_video_graph.py";
-$command = "python \"$pyscript\" \"$project\"";
-fancy_execution("Python Execution",$command);
+#$pyscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\pyROI\ROI_video_graph.py";
+#$command = "python \"$pyscript\" \"$project\"";
+#fancy_execution("Python Execution",$command);
+echo "<h3>skipping python video analysis...</h3>";
 
 // R
+echo "<h3>starting R analysis...</h3>";
 $rpath="C:\Program Files\R\R-3.4.0\bin\Rscript.exe";
-$rscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\R\updated.R";
+$rscript="C:\Users\swharden\Documents\GitHub\ROI-Analysis-Pipeline\sandbox\beronica\updated.R";
 $command2 = "\"$rpath\" --vanilla \"$rscript\" \"$project\"";
 fancy_execution("R Execution",$command2);
 
