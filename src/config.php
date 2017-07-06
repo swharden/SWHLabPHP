@@ -13,6 +13,7 @@ $fileReplacements[]=["\\\\Spike\\","\\\\spike\\"]; // caps matter in apache, not
 
 // then remap network paths to apache virtual directories
 $fileReplacements[]=["\\\\spike\\X_Drive\\Data\\","/dataX/"];
+$fileReplacements[]=["\\\\SPIKE\\X_DRIVE\\Data\\","/dataX/"];
 $fileReplacements[]=["D:\\Data\\","/data/"];
 $fileReplacements[]=["\\\\192.168.1.100\\X_Mirror\\Data\\","/xmirror/"];
 
