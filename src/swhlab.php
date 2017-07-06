@@ -123,15 +123,15 @@ function timestamp(){
     return $d->format("Y-m-d H:i:s.u"); 
 } 
 
-function html_pic($fname, $height="200"){
+function html_pic($fname, $height="200", $width=""){
     $fname=webpath($fname);
-	echo("\n<a href='$fname'><img src='$fname' height='$height' class='picframe_shadow'></a>");
+	echo("\n<a href='$fname'><img src='$fname' height='$height' width='$width' class='picframe_shadow'></a>");
 }
 
-function html_pics($fnames, $prepend="", $height="200"){
+function html_pics($fnames, $prepend="", $height="200", $width=""){
 	// given an array of picture URLs, run html_pic() on each of them.
 	foreach ($fnames as $fname){
-		html_pic($prepend.$fname, $height);
+		html_pic($prepend.$fname, $height, $width);
 	}
 }
 
@@ -287,7 +287,6 @@ function dirscan_abfPics($abfProjectPath, $abfID, $tif=False){
 	}
 	return $dataFiles;
 }
-
 
 function dirscan_cellPics($abfProjectPath, $abfID, $tif=False){
 	// given an ABF ID, return all data figure filenames associated with the entire CELL
@@ -623,7 +622,8 @@ function analyze_abf_commands($project){
             }
         }
         if ($nFigures==0){
-            $cmd="python \"C:\Users\swharden\Documents\GitHub\SWHLab\swhlab\analysis\protocols.py\" \"$project\\$fname1\"";
+            $cmd="C:\Users\swharden\AppData\Local\Continuum\Anaconda3\python.exe";
+            $cmd.=" \"C:\Users\swharden\Documents\GitHub\SWHLab\swhlab\analysis\protocols.py\" \"$project\\$fname1\"";
             $commands[]=$cmd;
         }
     }
@@ -634,8 +634,8 @@ function execute_cmd($cmd,$message=""){
     // given a system command and an optional message, run it while also displaying it
     // to the browser using buffering so it shows up in real time. Also add a "DONE" message.
     global $project;
-    $clean=str_replace($project,".",$cmd);
-    echo "EXECUTING [$clean] ... ";
+    $cmd=str_replace("%20"," ",$cmd);    
+    echo "EXECUTING COMMAND:<br>$cmd<br>";
     flush();ob_flush(); // update the browser    
     $output=exec($cmd);
     flush();ob_flush(); // update the browser    
@@ -646,6 +646,8 @@ function execute_cmd($cmd,$message=""){
         $theTouch=$project."/swhlab/".$abfID.".ERROR";
         touch($theTouch);
         echo(" --> CREATING ERROR FILE: $theTouch<br>");
+    } else {
+        echo "COMPLETE";
     }
     
 }
