@@ -53,6 +53,7 @@ foreach ($folders as $fname){
     // SHOW NOTES
     $note = GetNoteFor($notes,$fname);
     $note = str_replace($fname,"",$note);
+    $note = str_replace("µ","&mu;",$note);
     if (strlen($note)>3){
         echo "<span style='background-color: #faffe8;'>";
         echo "<b>NOTES: </b>$note<br>";
