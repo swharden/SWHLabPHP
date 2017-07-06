@@ -60,7 +60,7 @@ rsort($projectFolders);
 ?>
 
 <div style="background-color: #EEEEFF; padding: 5px;">
-<span style="font-weight: bold; font-size: 150%;">ABF DATA</span>
+<span style="font-weight: bold; font-size: 150%;">ABF FILE ANALYSIS</span>
 <br>
 
 <?php 
@@ -79,13 +79,46 @@ foreach ($projectFolders as $path){
 </div>
 
 <br>
+<div style="background-color: #d0efe1; padding: 5px;">
+<span style="font-weight: bold; font-size: 150%;">TWO-PHOTON LINESCAN ANALYSIS</span>
+<br>
 
+<?php 
+
+$projectLS = '\\\\Spike\X_Drive\Data\SCOTT\2017-06-16 OXT-Tom\2p';
+
+// PUT THIS IN A LOOP OVER THE FOLDERS
+$projectLSpretty = basename(dirname($projectLS));
+echo "<a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS'>$projectLSpretty</a>";
+echo "&nbsp;&nbsp;&nbsp;";
+echo "[<a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>notes only</a>]";
+echo "[<a href='?page=action_analyzeLS'>analyze new</a>]";
+echo "[re-analyze all<a href='?page=action_analyzeLS&all=True'>*</a>]";
+echo "<br>";
+
+$lineScanFolders=scandir($projectLS);
+sort($lineScanFolders);
+$datecodes=[];
+foreach ($lineScanFolders as $folder){
+    if (!startsWith($folder,"LineScan-")) {continue;}
+    $datecodes[]=explode("-",$folder)[1];
+}
+$datecodes=array_unique($datecodes);
+sort($datecodes);
+foreach ($datecodes as $datecode){
+    echo "&nbsp;&nbsp; <a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS&datecode=$datecode'>$datecode</a><br>";
+}
+
+?>
+</div>
+
+
+<br>
 <div style="background-color: #EEEEEE; padding: 5px;">
-<span style="font-weight: bold; font-size: 150%;">IMAGING DATA</span>
+<span style="font-weight: bold; font-size: 150%;">GCAMP IMAGING VIDEO ANALYSIS</span>
 <br>
 <i>from newest to oldest</i>
 <br>
-
 <?php 
 foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
     echo "<a href='/SWHLabPHP/src/?page=framesRoi&project=$fldrParent'>$fldrParent</a><br>";
@@ -115,6 +148,13 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 </div>
 
 <h2>Miscellaneous</h2>
+
+<b>Reporter validation:</b><br>
+<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/out_merge">merged</a><br>
+<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated.gif">animated (grayscale)</a><br>
+<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated2.gif">animated (color)</a><br>
+
+<br>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
 <i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
 
