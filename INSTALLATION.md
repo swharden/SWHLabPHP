@@ -1,6 +1,7 @@
 # Installation (#2)
 Rather than using WAMP server, this install guide focuses on installing [Apache from Apache Lounge](https://www.apachelounge.com/download/)
 
+## Install Apache
 * Install the [latest Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * download latest [Apache Lounge Distro](https://www.apachelounge.com/download/)
 * move the correct folder to `C:\Apache24\`
@@ -9,4 +10,22 @@ Rather than using WAMP server, this install guide focuses on installing [Apache 
 * install the server as a service
   * open a command prompt as administrator
   * `C:\Apache24\bin\httpd.exe -k install`
-  * use the apache service monitor (as administrator) to control it (`C:\Apache24\bin\ApacheMonitor.exe`)
+  * control it with windows services
+  * alternatively use the service monitor (as administrator) `C:\Apache24\bin\ApacheMonitor.exe`
+
+## Limit HTTP Access to the LAN Only
+Configure Apache to only to respond to requests from `192.168.1.x` and not `10.x.x.x` IP addresses. Edit `C:\Apache24\conf\httpd.conf` to reflect the following:
+
+```
+Listen 192.168.1.109:80
+#Listen 80
+```
+
+## Install PHP
+Download [64-bit thread-safe PHP](http://windows.php.net/download) and extract it to `C:\php\`. Edit `C:\Apache24\conf\httpd.conf` and add these lines at the bottom (you may have to change the .dll filename):
+  
+```
+LoadModule php7_module "C:/php/php7apache2_4.dll"
+AddHandler application/x-httpd-php .php
+PHPIniDir "C:/php"
+```
