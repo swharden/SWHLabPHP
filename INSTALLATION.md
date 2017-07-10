@@ -9,4 +9,4 @@ Rather than using WAMP server, this install guide focuses on installing [Apache 
 * install the server as a service
   * open a command prompt as administrator
   * `C:\Apache24\bin\httpd.exe -k install`
-  * use the apache service monitor to control it (`C:\Apache24\bin\ApacheMonitor.exe`)
+  * use the apache service monitor (as administrator) to control it (`C:\Apache24\bin\ApacheMonitor.exe`)
