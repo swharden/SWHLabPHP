@@ -6,12 +6,26 @@
 * move the correct folder to `C:\Apache24\`
 * test the server with `C:\Apache24\bin\httpd.exe`
   * this only runs the server while this command window is open
-* install the server as a service
-  * open a command prompt as administrator
-  * `C:\Apache24\bin\httpd.exe -k install`
-  * control it with windows services
-  * right-click the service, properties, Log On (tab), and make the account `.\LabAdmin`
-  * alternatively use the service monitor (as administrator) `C:\Apache24\bin\ApacheMonitor.exe`
+
+### Configure Apache as a Service
+* open a command prompt as administrator
+* `C:\Apache24\bin\httpd.exe -k install`
+* open windows services and ensure it is set to start automatically
+* right-click the service, properties, Log On (tab), and make the account `.\LabAdmin`
+
+### Map `\\Spike\X_Data\Data\` to `/dataX/`
+We don't want clients to manually fetch individual files (i.e., images) from the X-Drive because the SMB protocol is painfully slow. Instead, let Apache load these files and serve them over HTTP. This gets performance benefits of server-side caching. Edit `C:\Apache24\conf\httpd.conf` to add an alias and virtual directory:
+```
+Alias /dataX "//spike/X_Drive/Data/"	
+<Directory "//spike/X_Drive/Data/">
+   Options Indexes FollowSymLinks MultiViews
+   AllowOverride all
+   Require all granted
+   Order Allow,Deny
+   Allow from all
+</Directory>
+```
+
 
 ## Limit HTTP Access to the LAN Only
 Configure Apache to only to respond to requests from `192.168.1.x` and not `10.x.x.x` IP addresses. Edit `C:\Apache24\conf\httpd.conf` to reflect the following:
