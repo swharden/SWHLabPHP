@@ -10,6 +10,7 @@
   * open a command prompt as administrator
   * `C:\Apache24\bin\httpd.exe -k install`
   * control it with windows services
+  * right-click the service, properties, Log On (tab), and make the account `.\LabAdmin`
   * alternatively use the service monitor (as administrator) `C:\Apache24\bin\ApacheMonitor.exe`
 
 ## Limit HTTP Access to the LAN Only
