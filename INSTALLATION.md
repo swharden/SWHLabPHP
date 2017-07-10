@@ -28,3 +28,12 @@ LoadModule php7_module "C:/php/php7apache2_4.dll"
 AddHandler application/x-httpd-php .php
 PHPIniDir "C:/php"
 ```
+
+Also in the same file, modify it so that `index.php` is seen as a directory index:
+
+```
+<IfModule dir_module>
+    DirectoryIndex index.php
+    DirectoryIndex index.html
+</IfModule>
+```
