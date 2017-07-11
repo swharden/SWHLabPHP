@@ -3,6 +3,7 @@
 <div class="adminbar">
     ADMIN MENU: | 
     <span TITLE="page generated in <?php echo timer(1); ?> at <?php html_timestamp();?>">hover</span> | 
+    <a href="?page=log">command history</a> | 
     <a href="?page=action&project=<?php echo $project;?>">actions</a> |    
     <a href="?page=action_tif&project=<?php echo $project;?>">TIF->JPG conv</a> | 
     <a href="?page=action_analyze_all&project=<?php echo $project;?>" target="_blank">analyze ABFs page</a> | 

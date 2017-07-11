@@ -1,3 +1,11 @@
+<html>
+<body>
+
+<h1>Server Variables</h1>
+<?php
+echo getenv('SWHLABPHP_ROOT');
+?>
+
 <?php
 
 function showFunctions($fname){
@@ -33,3 +41,6 @@ function showFunctions($fname){
 showFunctions("swhlab.php");
 
 ?>
+
+</body>
+</html>

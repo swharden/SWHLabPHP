@@ -605,8 +605,17 @@ function analyze_delete_everything($project){
 // CODE RELATED TO ABF FILE ANALYSIS
 /////////////////////////////////////
 
+function execute_cmd($cmd){
+    global $project;
+    $cmd=str_replace("%20"," ",$cmd);    
+    global $PATH_COMMAND_LIST;
+    file_put_contents($PATH_COMMAND_LIST,"\n".$cmd, FILE_APPEND | LOCK_EX);    
+}
+
 function analyze_abf_commands($project){
     // given a project folder, return a list of commands to analyze EVERY abf in that folder.
+    global $PATH_PYTHON;
+    global $PATH_SWHLAB_PROTOCOLS;
     $fnames1=scandir($project);
     $fnames2=scandir($project."/swhlab/");
     $commands=[];
@@ -622,41 +631,14 @@ function analyze_abf_commands($project){
             }
         }
         if ($nFigures==0){
-            $cmd="C:\Users\swharden\AppData\Local\Continuum\Anaconda3\python.exe";
-            $cmd.=" \"C:\Users\swharden\Documents\GitHub\SWHLab\swhlab\analysis\protocols.py\" \"$project\\$fname1\"";
+            $cmd='';
+            $cmd.="\"$PATH_PYTHON\" ";
+            $cmd.="\"$PATH_SWHLAB_PROTOCOLS\" ";
+            $cmd.="\"$project\\$fname1\" ";
             $commands[]=$cmd;
         }
     }
     return $commands;
-}
-
-function execute_cmd($cmd,$message=""){
-    // given a system command and an optional message, run it while also displaying it
-    // to the browser using buffering so it shows up in real time. Also add a "DONE" message.
-    global $project;
-    $cmd=str_replace("%20"," ",$cmd);    
-    echo "EXECUTING COMMAND:<br>$cmd<br>";
-    flush();ob_flush(); // update the browser    
-    $output=exec($cmd);
-    flush();ob_flush(); // update the browser    
-    echo "$output<br>";
-    
-    if ($output=="ERROR"){
-        $abfID=explode(".abf",explode($project,$cmd)[1])[0];
-        $theTouch=$project."/swhlab/".$abfID.".ERROR";
-        touch($theTouch);
-        echo(" --> CREATING ERROR FILE: $theTouch<br>");
-    } else {
-        echo "COMPLETE";
-    }
-    
-}
-
-function analyze_abf_next($project){
-    // given a project folder, analyze data from every non-analyzed ABF (returns array of remaining commands)
-    $cmd=analyze_abf_commands($project);
-    execute_cmd($cmd[0]);
-    return count($cmd)-1;
 }
 
 function analyze_abf_all($project){

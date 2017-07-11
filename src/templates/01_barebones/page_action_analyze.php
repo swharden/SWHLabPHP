@@ -1,44 +1,7 @@
 <?php include('top.php'); ?>
 
-<div style="background-color: red; color: white;">
-<code>
-<span style="font-size: 200%; font-weight: bold;">ABF FILE ANALYSIS</span><br>
-<?php echo $project;?>
-</code>
-</div>
+<?php analyze_abf_all($project); ?>
 
-<code style="font-size: 75%">
-<?php 
-$remainingABFs=analyze_abf_next($project); 
-if ($num=='') $num=$remainingABFs;
-if ($remainingABFs){
-    echo "<meta http-equiv='refresh' content='0;url=?page=action_analyze&project=$project&num=$num' />";
-} else {
-    echo "<span style='font-size: 400%; font-weight: bold'>ANALYSIS COMPLETE</span>";
-}
-if ($num){
-    $fracDone=100*($num-$remainingABFs)/$num;
-    $thisABF=$num-$remainingABFs;
-} else {
-    $num=1;
-    $fracDone=100;
-    $thisABF=1;
-}
-?>
-</code>
-
-<br><br><br>
-<div align="center">
-<?php echo "Analyzing ABF $thisABF/$num ..."; ?>
-<table width="80%" cellpadding=0 cellspacing=0 style="border: 1px solid black; border-collapse: collapse;">
-<tr>
-<td style="background-color: #6666FF;" width="<?php echo $fracDone; ?>%" height="20px">&nbsp</td>
-<td style="background-color: #DDD;" width="100%">&nbsp</td>
-</tr>
-</table>
-</div>
-<br><br><br>
-
-
+<meta http-equiv="refresh" content="0;url=/SWHLabPHP/src/?page=commands">
 
 <?php include('bot.php'); ?>

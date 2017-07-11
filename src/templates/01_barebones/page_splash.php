@@ -89,11 +89,11 @@ $projectLS = '\\\\Spike\X_Drive\Data\SCOTT\2017-06-16 OXT-Tom\2p';
 
 // PUT THIS IN A LOOP OVER THE FOLDERS
 $projectLSpretty = basename(dirname($projectLS));
-echo "<a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS'>$projectLSpretty</a>";
+echo "<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS'>$projectLSpretty</a>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo "[<a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>notes only</a>]";
-echo "[<a href='?page=action_analyzeLS'>analyze new</a>]";
-echo "[re-analyze all<a href='?page=action_analyzeLS&all=True'>*</a>]";
+echo "[<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>notes only</a>]";
+echo "[<a href='?page=action_analyzeLS&project=$projectLS' target='_blank'>analyze new</a>]";
+echo "[re-analyze all<a href='?page=action_analyzeLS&project=$projectLS&all=True' target='_blank'>*</a>]";
 echo "<br>";
 
 $lineScanFolders=scandir($projectLS);
@@ -106,7 +106,7 @@ foreach ($lineScanFolders as $folder){
 $datecodes=array_unique($datecodes);
 sort($datecodes);
 foreach ($datecodes as $datecode){
-    echo "&nbsp;&nbsp; <a href='http://192.168.1.225:8080/SWHLabPHP/src/?page=linescans&project=$projectLS&datecode=$datecode'>$datecode</a><br>";
+    echo "&nbsp;&nbsp; <a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&datecode=$datecode'>$datecode</a><br>";
 }
 
 ?>
@@ -122,26 +122,6 @@ foreach ($datecodes as $datecode){
 <?php 
 foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
     echo "<a href='/SWHLabPHP/src/?page=framesRoi&project=$fldrParent'>$fldrParent</a><br>";
-    /*
-	$fldrParent=str_replace("X:\\","\\\\Spike\\X_Drive\\",$fldrParent);
-    $lastPrefix="";
-    $fldrChildren=scandir($fldrParent);
-	foreach (array_reverse($fldrChildren) as $fldrChild){
-		if ($fldrChild[0]=='.') continue;
-        $prefix = explode(" ",$fldrChild)[0];
-        if ($lastPrefix=="") $lastPrefix=$prefix;
-        if ($prefix!=$lastPrefix) {
-            $lastPrefix=$prefix;
-            $sep="&nbsp;";
-            #$sep=str_repeat("-",50);
-            echo "<span style='color: #CCC; font-size: 50%;'>$sep</span><br>";
-        }
-        $path=$fldrParent."\\".$fldrChild;
-        $abbrev=basename($path);
-        echo("<a href='/SWHLabPHP/src/?page=roi&project=$path'>$abbrev</a><br>");
-    }
-    echo "</ul>";
-    */
 }
 
 ?>
@@ -149,10 +129,20 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 
 <h2>Miscellaneous</h2>
 
+<b>Internal Software</b>
+<li>commands: 
+    [<a href="/SWHLabPHP/src/?page=log">log</a>]
+    [<a href="/SWHLabPHP/src/?page=log&clear">clear</a>]
+<li>errors: 
+    [<a href="/SWHLabPHP/src/?page=log&error&test">log</a>]
+    [<a href="/SWHLabPHP/src/?page=log&error&clear">clear</a>]
+    
+<br><br>
+
 <b>Reporter validation:</b><br>
-<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/out_merge">merged</a><br>
-<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated.gif">animated (grayscale)</a><br>
-<li><a href="http://192.168.1.225:8080/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated2.gif">animated (color)</a><br>
+<li><a href="/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/out_merge">merged</a><br>
+<li><a href="/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated.gif">animated (grayscale)</a><br>
+<li><a href="/dataX/SCOTT/2017-06-16%20OXT-Tom/2p/ZSeries-06302017-1049-699/MIP/animated2.gif">animated (color)</a><br>
 
 <br>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>

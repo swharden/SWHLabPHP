@@ -1,35 +1,72 @@
+
 {
-    "1499381318.3742497": {
-        "command": "python demoGood.py",
-        "timeEpoch": 1499381318.3742497,
-        "timeStamp": "170706 18:48:38",
-        "msElapsed": 2193.9847469329834,
+    "1499814954.0105662": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627000.abf\" ",
+        "timeEpoch": 1499814954.0105662,
+        "timeStamp": "170711 16:15:54",
+        "msElapsed": 7312.459707260132,
         "returnCode": 0,
-        "stdout": "-10 1e-10\r\n-9 -2.581174791713197e-09\r\n-8 5.960464477539063e-08\r\n-7 -1.2142656789020123e-06\r\n-6 2.143347050754458e-05\r\n-5 -0.00032\r\n-4 0.00390625\r\n-3 -0.037037037037037035\r\n-2 0.25\r\n-1 -1.0\r\n0 1\r\n1 1\r\n2 4\r\n3 27\r\n4 256\r\n5 3125\r\n6 46656\r\n7 823543\r\n8 16777216\r\n9 387420489\r\nDONE\r\n",
-        "stderr": ""
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0111\r\n",
+        "stderr": "07/11/2017 04:15:58 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627000.abf]\r\n07/11/2017 04:15:58 PM\tINFO\tanalyzing as an IC ramp\r\n07/11/2017 04:15:58 PM\tINFO\tinitializing AP detection on all sweeps...\r\n07/11/2017 04:15:59 PM\tINFO\tAP analysis of 10 sweeps found 44 APs (completed in 31.24 ms)\r\n07/11/2017 04:15:59 PM\tINFO\tsaving [plot_ap_shape.jpg]\r\n07/11/2017 04:15:59 PM\tINFO\tanalyzing as an IC ramp\r\n07/11/2017 04:15:59 PM\tINFO\tinitializing AP detection on all sweeps...\r\n07/11/2017 04:16:00 PM\tINFO\tAP analysis of 10 sweeps found 44 APs (completed in 31.25 ms)\r\n07/11/2017 04:16:00 PM\tINFO\tsaving [plot_ap_shape.jpg]\r\n"
     }
 }
 
 {
-    "1499381320.5782495": {
-        "command": "python demoCrash.py",
-        "timeEpoch": 1499381320.5782495,
-        "timeStamp": "170706 18:48:40",
-        "msElapsed": 1150.7644653320312,
-        "returnCode": 1,
-        "stdout": "-10 -0.1\r\n-9 -0.1111111111111111\r\n-8 -0.125\r\n-7 -0.14285714285714285\r\n-6 -0.16666666666666666\r\n-5 -0.2\r\n-4 -0.25\r\n-3 -0.3333333333333333\r\n-2 -0.5\r\n-1 -1.0\r\n",
-        "stderr": "Traceback (most recent call last):\r\n  File \"demoCrash.py\", line 4, in <module>\r\n    print(i,1/i)\r\nZeroDivisionError: division by zero\r\n"
+    "1499814961.4637218": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627001.abf\" ",
+        "timeEpoch": 1499814961.4637218,
+        "timeStamp": "170711 16:16:01",
+        "msElapsed": 8124.9847412109375,
+        "returnCode": 0,
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0113\r\n",
+        "stderr": "07/11/2017 04:16:06 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627001.abf]\r\n07/11/2017 04:16:06 PM\tINFO\tanalyzing as an IC ramp\r\n07/11/2017 04:16:06 PM\tINFO\tinitializing AP detection on all sweeps...\r\n07/11/2017 04:16:06 PM\tINFO\tAP analysis of 17 sweeps found 46 APs (completed in 62.51 ms)\r\n07/11/2017 04:16:07 PM\tINFO\tsaving [plot_ap_gain_-100_25.jpg]\r\n07/11/2017 04:16:07 PM\tINFO\tanalyzing as an IC ramp\r\n07/11/2017 04:16:07 PM\tINFO\tinitializing AP detection on all sweeps...\r\n07/11/2017 04:16:08 PM\tINFO\tAP analysis of 17 sweeps found 46 APs (completed in 62.50 ms)\r\n07/11/2017 04:16:08 PM\tINFO\tsaving [plot_ap_gain_-100_25.jpg]\r\n"
     }
 }
 
 {
-    "1499381321.7355237": {
-        "command": "python demoGood.py",
-        "timeEpoch": 1499381321.7355237,
-        "timeStamp": "170706 18:48:41",
-        "msElapsed": 2134.8607540130615,
+    "1499814969.713665": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627002.abf\" ",
+        "timeEpoch": 1499814969.713665,
+        "timeStamp": "170711 16:16:09",
+        "msElapsed": 6093.779563903809,
         "returnCode": 0,
-        "stdout": "-10 1e-10\r\n-9 -2.581174791713197e-09\r\n-8 5.960464477539063e-08\r\n-7 -1.2142656789020123e-06\r\n-6 2.143347050754458e-05\r\n-5 -0.00032\r\n-4 0.00390625\r\n-3 -0.037037037037037035\r\n-2 0.25\r\n-1 -1.0\r\n0 1\r\n1 1\r\n2 4\r\n3 27\r\n4 256\r\n5 3125\r\n6 46656\r\n7 823543\r\n8 16777216\r\n9 387420489\r\nDONE\r\n",
-        "stderr": ""
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0201\r\n",
+        "stderr": "07/11/2017 04:16:14 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627002.abf]\r\n07/11/2017 04:16:14 PM\tINFO\tanalyzing as a membrane test\r\n07/11/2017 04:16:14 PM\tINFO\tsaving [plot_membrane_test.jpg]\r\n07/11/2017 04:16:15 PM\tINFO\tanalyzing as a membrane test\r\n07/11/2017 04:16:15 PM\tINFO\tsaving [plot_membrane_test.jpg]\r\n"
+    }
+}
+
+{
+    "1499814975.9168458": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627003.abf\" ",
+        "timeEpoch": 1499814975.9168458,
+        "timeStamp": "170711 16:16:15",
+        "msElapsed": 6499.964475631714,
+        "returnCode": 0,
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0203\r\n",
+        "stderr": "07/11/2017 04:16:20 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627003.abf]\r\n07/11/2017 04:16:20 PM\tINFO\tanalyzing as a fast IV\r\n07/11/2017 04:16:21 PM\tINFO\tsaving [plot_fast_iv.jpg]\r\n07/11/2017 04:16:21 PM\tINFO\tanalyzing as a fast IV\r\n07/11/2017 04:16:21 PM\tINFO\tsaving [plot_fast_iv.jpg]\r\n"
+    }
+}
+
+{
+    "1499814982.5262368": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627004.abf\" ",
+        "timeEpoch": 1499814982.5262368,
+        "timeStamp": "170711 16:16:22",
+        "msElapsed": 7110.480546951294,
+        "returnCode": 0,
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0202\r\n",
+        "stderr": "07/11/2017 04:16:27 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627004.abf]\r\n07/11/2017 04:16:27 PM\tINFO\tanalyzing as MTIV\r\n07/11/2017 04:16:28 PM\tINFO\tsaving [plot_mtiv.jpg]\r\n07/11/2017 04:16:28 PM\tINFO\tanalyzing as MTIV\r\n07/11/2017 04:16:28 PM\tINFO\tsaving [plot_mtiv.jpg]\r\n"
+    }
+}
+
+{
+    "1499814989.7772913": {
+        "command": "\"C:\\ProgramData\\Anaconda3\\python.exe\" \"C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\\analysis\\protocols.py\" \"\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627005.abf\"",
+        "timeEpoch": 1499814989.7772913,
+        "timeStamp": "170711 16:16:29",
+        "msElapsed": 7953.16743850708,
+        "returnCode": 0,
+        "stdout": "loaded custom swhlab module from C:\\Users\\LabAdmin\\Documents\\GitHub\\SWHLab\\swhlab\r\nprotocols.py is getting a path...\r\n>>>>> PROTOCOL >>>>> 0401\r\n",
+        "stderr": "07/11/2017 04:16:34 PM\tINFO\tSWHLab (0.1.159) loading ABF [\\\\Spike\\X_Drive\\Data\\SCOTT\\2017-05-15 LHA TGOT\\17627005.abf]\r\n07/11/2017 04:16:35 PM\tINFO\tanalyzing as a fast IV\r\n07/11/2017 04:16:36 PM\tINFO\tsaving [experiment_sweep_vs_average.jpg]\r\n07/11/2017 04:16:36 PM\tINFO\tanalyzing as a fast IV\r\n07/11/2017 04:16:37 PM\tINFO\tsaving [experiment_sweep_vs_average.jpg]\r\n"
     }
 }

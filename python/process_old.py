@@ -14,7 +14,22 @@ import os
 
 COMMANDS_TXT=os.path.abspath(os.path.join(os.path.dirname(__file__),"./COMMAND_LIST.txt"))
 COMMANDS_LOG=os.path.abspath(os.path.join(os.path.dirname(__file__),"./COMMAND_LOG.json"))
-COMMANDS_ERR=os.path.abspath(os.path.join(os.path.dirname(__file__),"./COMMAND_ERROR.json"))
+
+def logClear():
+    print("clearing log entirely")
+    with open(COMMANDS_LOG,'w') as f:
+        f.write(" ")
+    return
+
+def logClean(keep=3):
+    with open(COMMANDS_LOG) as f:
+        raw=f.read().split("}\n\n{")
+    if len(raw)<=keep:
+        print("nothing to clean")
+        return
+    print("keeping only %d most recent logs..."%keep)
+    with open(COMMANDS_LOG,'w') as f:
+        f.write("{"+"}\n\n{".join(raw[-keep:]))
 
 def runCommand(cmd,logFile=COMMANDS_LOG):
     print("executing:",cmd)
@@ -27,12 +42,10 @@ def runCommand(cmd,logFile=COMMANDS_LOG):
     log["returnCode"]=p.returncode
     log["stdout"]=p.stdout.decode("utf-8")
     log["stderr"]=p.stderr.decode("utf-8")
+    #j={"ID":log["timeEpoch"],"guts":log}
     j={str(log["timeEpoch"]):log}
     with open(COMMANDS_LOG,'a') as f:
         f.write("\n"+json.dumps(j,indent=4)+"\n")
-    if (log["returnCode"]):
-            with open(COMMANDS_ERR,'a') as f:
-                f.write("\n"+json.dumps(j,indent=4)+"\n")
     print("completed (return code %d) in %.02f ms\n"%(log["returnCode"],log["msElapsed"]))
 
 def runNextCommand(cmdFile=COMMANDS_TXT):
@@ -55,5 +68,9 @@ if __name__=="__main__":
     elif sys.argv[1]=="runAll":
         while runNextCommand():
             pass
+    elif sys.argv[1]=="logClear":
+        logClear()
+    elif sys.argv[1]=="logClean":
+        logClean(50)
     else:
         print("ERROR: I need a correct argument!")
