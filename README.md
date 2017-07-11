@@ -3,3 +3,6 @@ SWHLabPHP is a cross-platform PHP-centric scientific project browser, providing 
 
 ## Installation
 Installation instructions have been moved into [INSTALLATION.md](INSTALLATION.md)
+
+## Configuration
+Modify varibles in [config.php](src/config.php) to reflect system paths.
