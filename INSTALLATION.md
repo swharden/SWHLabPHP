@@ -60,5 +60,5 @@ By default, PHP will kill pages which take more than 120s to load. If your page 
 ```max_execution_time = 600```
 
 ## Install Imagemagik
-This is required for TIF -> JPG conversion
-[download](https://www.imagemagick.org/script/download.php#windows)
+* This is required for TIF -> JPG conversion
+* [download](https://www.imagemagick.org/script/download.php#windows)
