@@ -69,7 +69,7 @@ The goal is to allow continuous deployment without ever needing to remote in to 
 * install [command line git](https://help.github.com/articles/set-up-git/#setting-up-git) on the server (default settings OK)
 * create a batch script to pull the latest code
 
-```batch
+```dox
 cd "C:\Users\LabAdmin\Documents\GitHub\SWHLab"
-git.exe pull
+git pull
 ```
