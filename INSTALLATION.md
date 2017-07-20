@@ -76,4 +76,4 @@ git pull
 pause
 ```
 
-_note: This may be useful to call from the command prompt._
+_note: This can be called from the web server with php exec()_
