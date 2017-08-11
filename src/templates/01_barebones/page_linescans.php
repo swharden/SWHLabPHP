@@ -42,10 +42,14 @@ foreach ($folders as $fname){
     $pathAnalysis=realpath($path."/analysis/");
     if (isset($_GET['notes']) and !strpos($notesStr, $fname)){continue;}
     if (isset($_GET['datecode']) and !strpos($fname, $_GET['datecode'])){continue;}
+    $identifier = str_replace("LineScan-","",$fname);
+    $idLink = "?page=linescans&project=$project&datecode=$identifier";
     
     // NEW LINESCAN
     echo "<div style='background-color: #336699; color: white;'>";
-    echo "<span style='font-size: 200%; padding-left: 5px;'>$fname</span>";
+    echo "<span style='font-size: 200%; padding-left: 5px;'><a style='color: white;' href='$idLink'>$fname</a></span>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+    //echo "<span style='color: #AAA;'>[<a href='' style='color: #AAA;'>link</a>]</span>";
     echo "<br><code class='menu_cell_description'>$path</code>";
     echo "</div>";
     echo "<blockquote style='font-family: courier;'>";
@@ -65,7 +69,9 @@ foreach ($folders as $fname){
     foreach (scandir($pathAnalysis) as $picFname){
         if (endsWith($picFname,'.csv')){
             $picLink = webpath($pathAnalysis.'/'.$picFname);
-            echo "<a href='$picLink'>$picFname</a> ";
+            echo "<br><a href='$picLink'>$picFname</a> ";
+            if ($picFname=="data_dGoR_byframe_peak.csv") csv_avg_stderr($pathAnalysis."/".$picFname);
+            if ($picFname=="data_dGoR_byframe_area.csv") csv_avg_stderr($pathAnalysis."/".$picFname);
         }
     }
     echo "<br>";

@@ -547,6 +547,7 @@ function analyze_tifConvert($project, $justGetABFsThatNeedConversion=False){
         $cmd="convert $flags \"$project/$fname1\" \"$project/swhlab/$fname1.jpg\"";
         echo "CONVERTING TIF->JPG ($flags) [$fname1] ... ";
         flush();ob_flush(); // update the browser
+        //echo "<br>EXECUTING [$cmd]<br>";
         exec($cmd);
         flush();ob_flush(); // update the browser
         echo("DONE<br>");
@@ -666,6 +667,50 @@ function dirscan_parent_next($project,$cellID){
     return "???";
 }
 
+function stdev($x) {
+    // return the standard deviation of an array
+    $summation = 0;
+    $values = 0;
+    foreach ($x as $value) {
+        if (is_numeric($value)) {
+            $summation = $summation + $value;
+            $values++;
+        }
+    }
+    $mean = $summation/$values;
+    foreach ($x as $value) {
+        if (is_numeric($value)) {
+            $ex2 = $ex2 + ($value*$value);
+        }
+    }
+    $rawsd = ($ex2/$values) - ($mean * $mean);
+    $sd = sqrt($rawsd);
+    return $sd;
+}
+
+function stderr($x){
+    // return the standard error of an array
+    return stdev($x)/sqrt(count($x));
+}
+
+function csv_avg_stderr($fname){
+    // assuming a one-column list of values, print the average and standard error
+    
+    //$fname = "\\\\spike/X_Drive/Data/SCOTT/2017-06-16 OXT-Tom/2p/LineScan-08092017-1422-871/analysis/data_dGoR_byframe_peak.csv";
+
+    //$experimentPath=$projectPath."/cells.txt";
+    $f = fopen($fname, "r");
+    $raw=fread($f,filesize($fname));
+    $numbers=[];
+    foreach (explode("\n",$raw) as $line){
+        if (!strlen($line)) continue;
+        $numbers[]=(float)$line;
+    }
+    $avg = array_sum($numbers)/count($numbers);
+    $std = stderr($numbers);
+    echo sprintf("[%.03f &plusmn; %.03f, n=%d]", $avg, $std, count($numbers));
+
+}
 
 ?>
 
