@@ -58,3 +58,22 @@ Also in the same file, modify it so that `index.php` is seen as a directory inde
 By default, PHP will kill pages which take more than 120s to load. If your page is doing complex things (like calling python to analyze dozens of ABFs), you may want to extend this time to 10m (600s). Edit php.ini to reflect:
 
 ```max_execution_time = 600```
+_note: I haven't actually done this yet so it may not be required_
+
+## Install Imagemagik
+* This is required for TIF -> JPG conversion
+* [download](https://www.imagemagick.org/script/download.php#windows)
+
+## Configure Git for Continuous Deployment
+The goal is to allow continuous deployment without ever needing to remote in to the server computer (or type a password).
+* install [github desktop client](https://desktop.github.com/) on the server 
+* install [command line git](https://help.github.com/articles/set-up-git/#setting-up-git) on the server (default settings OK)
+* create a batch script to pull the latest code
+
+```dox
+cd "C:\Users\LabAdmin\Documents\GitHub\SWHLab"
+git pull
+pause
+```
+
+_note: This can be called from the web server with php exec()_
