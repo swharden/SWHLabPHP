@@ -5,12 +5,15 @@ body {
 }
 
 a {
+    color: blue;
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;    
+a:hover {  
+    color: blue;
+    text-decoration: underline;  
 }
+
 
 .menu_category{
     //padding-top: 10px;
