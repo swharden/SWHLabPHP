@@ -77,3 +77,8 @@ pause
 ```
 
 _note: This can be called from the web server with php exec()_
+
+## Changing Server Name of X-Drive
+On 2017-08-07 `\\Spike\X_Drive\` went offline and I had to rig SWHLabPHP to serve from a mirrored drive on another computer. These were the changes I made to get it up again: 
+* change `C:\Apache24\conf\httpd.conf` to alias `/dataX` with the new server path (see above)
+* edit /src/config.php and change SPIKE references as needed
