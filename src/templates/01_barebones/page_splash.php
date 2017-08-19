@@ -28,14 +28,14 @@ $projectFolders=[];
 
 // add each project manually defined
 foreach ($ini_array["projects"] as $path){
-	$path=str_replace("X:\\","\\\\Spike\\X_Drive\\",$path);
+	$path=str_replace("X:\\",$PATH_XDRIVE_ROOT,$path);
 	#if (!containsABFs($path)) continue;
 	$projectFolders[]=$path;
 }
 
 // add each project inside the project collection folders
 foreach ($ini_array["collections"] as $fldrParent){
-	$fldrParent=str_replace("X:\\","\\\\Spike\\X_Drive\\",$fldrParent);
+	$fldrParent=str_replace("X:\\",$PATH_XDRIVE_ROOT,$fldrParent);
 	#echo("<br><b>$fldrParent</b><br>");
 	foreach (scandir($fldrParent) as $fldrChild){
 		if ($fldrChild[0]=='.') continue;
@@ -67,7 +67,7 @@ rsort($projectFolders);
 
 echo("<br><b>Pinned Projects</b><br>");
 foreach ($ini_array["featured"] as $path){
-	$path=str_replace("X:\\","\\\\Spike\\X_Drive\\",$path);	
+	$path=str_replace("X:\\",$PATH_XDRIVE_ROOT,$path);	
 	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
 }
 
@@ -85,7 +85,7 @@ foreach ($projectFolders as $path){
 
 <?php 
 
-$projectLS = '\\\\Spike\X_Drive\Data\SCOTT\2017-06-16 OXT-Tom\2p';
+$projectLS = $PATH_XDRIVE_ROOT.'Data\SCOTT\2017-06-16 OXT-Tom\2p';
 
 // PUT THIS IN A LOOP OVER THE FOLDERS
 $projectLSpretty = basename(dirname($projectLS));

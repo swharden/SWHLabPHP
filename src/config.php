@@ -27,7 +27,12 @@ $fileReplacements[]=["\\\\Spike\\","\\\\spike\\"]; // caps matter in apache, not
 $fileReplacements[]=["\\\\spike\\X_Drive\\Data\\","/dataX/"];
 $fileReplacements[]=["\\\\SPIKE\\X_DRIVE\\Data\\","/dataX/"];
 $fileReplacements[]=["D:\\Data\\","/data/"];
-$fileReplacements[]=["\\\\192.168.1.100\\X_Mirror\\Data\\","/xmirror/"];
+$fileReplacements[]=["\\\\192.168.1.100\\X_Mirror\\Data\\","/dataX/"];
+$fileReplacements[]=["\\\\192.168.1.100\\X_MIRROR\\Data\\","/dataX/"];
+
+// network path of active X-Drive folder
+//$PATH_XDRIVE_ROOT="\\\\Spike\\X_Drive\\";
+$PATH_XDRIVE_ROOT="\\\\192.168.1.100\\X_Mirror\\";
 
 
 /* ########## AUTOMATIC VARIABLE CREATION ###############################
