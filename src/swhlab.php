@@ -708,8 +708,23 @@ function csv_avg_stderr($fname){
     }
     $avg = array_sum($numbers)/count($numbers);
     $std = stderr($numbers);
-    echo sprintf("[%.03f &plusmn; %.03f, n=%d]", $avg, $std, count($numbers));
+    echo sprintf("all sweeps average: [%.03f &plusmn; %.03f] (n=%d)", $avg, $std, count($numbers));
 
+}
+
+function csv_peak($fname){   
+    // given a CSV file, echo the peak value of the second column
+    //$fname = "\\\\spike/X_Drive/Data/SCOTT/2017-06-16 OXT-Tom/2p/LineScan-08152017-1217-888/analysis/data_dGoR.csv";
+
+    $f = fopen($fname, "r");
+    $raw=fread($f,filesize($fname));
+    $numbers=[];
+    foreach (explode("\n",$raw) as $line){
+        $line = explode(",",$line);
+        if (!(sizeof($line)>1)) continue;
+        $numbers[]=(float)$line[1];
+    }
+    echo sprintf("first sweep peak: [%.03f]", max($numbers));
 }
 
 ?>

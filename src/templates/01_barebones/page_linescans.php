@@ -67,9 +67,11 @@ foreach ($folders as $fname){
     // SHOW DATA FILES
     echo "<b>DATA FILES:</b> ";
     foreach (scandir($pathAnalysis) as $picFname){
+        flush();ob_flush(); // update the browser
         if (endsWith($picFname,'.csv')){
             $picLink = webpath($pathAnalysis.'/'.$picFname);
             echo "<br><a href='$picLink'>$picFname</a> ";
+            if ($picFname=="data_dGoR.csv") csv_peak($pathAnalysis."/".$picFname);
             if ($picFname=="data_dGoR_byframe_peak.csv") csv_avg_stderr($pathAnalysis."/".$picFname);
             if ($picFname=="data_dGoR_byframe_area.csv") csv_avg_stderr($pathAnalysis."/".$picFname);
         }
