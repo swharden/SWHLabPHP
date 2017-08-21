@@ -31,8 +31,8 @@ $fileReplacements[]=["\\\\192.168.1.100\\X_Mirror\\Data\\","/dataX/"];
 $fileReplacements[]=["\\\\192.168.1.100\\X_MIRROR\\Data\\","/dataX/"];
 
 // network path of active X-Drive folder
-//$PATH_XDRIVE_ROOT="\\\\Spike\\X_Drive\\";
-$PATH_XDRIVE_ROOT="\\\\192.168.1.100\\X_Mirror\\";
+$PATH_XDRIVE_ROOT="\\\\Spike\\X_Drive\\";
+//$PATH_XDRIVE_ROOT="\\\\192.168.1.100\\X_Mirror\\";
 
 
 /* ########## AUTOMATIC VARIABLE CREATION ###############################
