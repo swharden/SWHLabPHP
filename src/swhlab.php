@@ -693,6 +693,41 @@ function stderr($x){
     return stdev($x)/sqrt(count($x));
 }
 
+function csv_baseline($fname, $baselineRows=150){   
+    // given a CSV file, return the average value of the first n rows (per column)
+    // start and end are the baseline duration in number of rows
+    
+    //$fname = "\\\\spike/X_Drive/Data/SCOTT/2017-06-16 OXT-Tom/2p/LineScan-08232017-1224-984/analysis/data_GoR.csv";
+
+    $f = fopen($fname, "r");
+    $raw=fread($f,filesize($fname));
+    $sums=[];
+    $rows=0;
+    foreach (explode("\n",$raw) as $line){
+        
+        $line = explode(",",$line);
+        
+        if (!(sizeof($line)>1)) continue;
+        if (sizeof($sums)==0){
+            // first row with data, let's make sums to be the number of columns
+            foreach ($line as $item) $sums[]=(float)$item;
+        } else {
+            // data is already in an array (1 value per column), so add to it
+            for ($i=0; $i<sizeof($line); $i++){
+                $sums[$i]=$sums[$i]+(float)$line[$i];
+            };
+        }
+        $rows+=1; // keep track of how many rows we added
+        if ($rows>=$baselineRows) break;
+    }
+    
+    echo "baselines by column: ";    
+    for ($i=1; $i<sizeof($sums); $i++){
+        echo sprintf("%.04f ", $sums[$i]/$baselineRows);
+    }
+    
+}
+
 function csv_avg_stderr($fname){
     // assuming a one-column list of values, print the average and standard error
     
@@ -724,7 +759,7 @@ function csv_peak($fname){
         if (!(sizeof($line)>1)) continue;
         $numbers[]=(float)$line[1];
     }
-    echo sprintf("first sweep peak: [%.03f]", max($numbers));
+    echo sprintf("first sweep peak: [%.03f %%]", max($numbers)*100);
 }
 
 ?>
