@@ -36,6 +36,8 @@ Listen 192.168.1.109:80
 #Listen 80
 ```
 
+In Windows Firewall, ensure all 4 Apache HTTP Server entries are green-checked (allowed)
+
 ## Install PHP
 Download [64-bit thread-safe PHP](http://windows.php.net/download) and extract it to `C:\php\`. Edit `C:\Apache24\conf\httpd.conf` and add these lines at the bottom (you may have to change the .dll filename):
   
