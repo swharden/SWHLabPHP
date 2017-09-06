@@ -35,8 +35,19 @@ Configure Apache to only to respond to requests from `192.168.1.x` and not `10.x
 Listen 192.168.1.109:80
 #Listen 80
 ```
-
+## Windows Firewall (allow incoming port 80)
 In Windows Firewall, ensure all 4 Apache HTTP Server entries are green-checked (allowed)
+
+## Change DocumentRoot
+```
+DocumentRoot "c:/Apache24/htdocs"
+<Directory "c:/Apache24/htdocs">
+```
+becomes...
+```
+DocumentRoot "D:/X_Drive/Lab Documents/network/htdocs"
+<Directory "D:/X_Drive/Lab Documents/network/htdocs">
+```
 
 ## Install PHP
 Download [64-bit thread-safe PHP](http://windows.php.net/download) and extract it to `C:\php\`. Edit `C:\Apache24\conf\httpd.conf` and add these lines at the bottom (you may have to change the .dll filename):
