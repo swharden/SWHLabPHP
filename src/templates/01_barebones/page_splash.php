@@ -65,11 +65,13 @@ rsort($projectFolders);
 
 <?php 
 
+/*
 echo("<br><b>Pinned Projects</b><br>");
 foreach ($ini_array["featured"] as $path){
 	$path=str_replace("X:\\",$PATH_XDRIVE_ROOT,$path);	
 	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
 }
+*/
 
 echo("<br><b>Additional Projects</b><br>");
 foreach ($projectFolders as $path){
@@ -79,21 +81,41 @@ foreach ($projectFolders as $path){
 </div>
 
 <br>
-<div style="background-color: #d0efe1; padding: 5px;">
-<span style="font-weight: bold; font-size: 150%;">TWO-PHOTON LINESCAN ANALYSIS</span>
+<div style="background-color: #b5e0cd; padding: 5px;">
+<span style="font-weight: bold; font-size: 150%;">TWO-PHOTON PROJECTS</span>
 <br>
+<?php 
+function page_list_twoPhotonProject($folderParent){
+    echo "<br>".$folderParent."<br>";
+    $projectFolders=scandir($folderParent);
+    sort($projectFolders);
+    foreach ($projectFolders as $projectFolder){
+        if (!is_dir($folderParent.'/'.$projectFolder.'/linescans/')) continue;
+        echo "&nbsp;&nbsp;&nbsp;";
+        $url="?page=linescans2&project=$folderParent\\$projectFolder";
+        echo "<a href='$url'>$projectFolder</a><br>";
+    }
+}
+echo page_list_twoPhotonProject('X:\Data\SCOTT\2017-08-28 Mannital 2P');
+?>
+</div>
 
+<br>
+<div style="background-color: #d0efe1; padding: 5px;">
+<span style="font-weight: bold; font-size: 150%;">TWO-PHOTON LINESCANS</span>
+<br>
 <?php 
 
 $projectLS = $PATH_XDRIVE_ROOT.'Data\SCOTT\2017-06-16 OXT-Tom\2p';
 
 // PUT THIS IN A LOOP OVER THE FOLDERS
 $projectLSpretty = basename(dirname($projectLS));
-echo "<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS'>$projectLSpretty</a>";
-echo "&nbsp;&nbsp;&nbsp;";
-echo "[<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>notes only</a>]";
+echo "<br><u>$projectLSpretty</u> ";
 echo "[<a href='?page=action_analyzeLS&project=$projectLS' target='_blank'>analyze new</a>]";
-echo "[re-analyze all<a href='?page=action_analyzeLS&project=$projectLS&all=True' target='_blank'>*</a>]";
+echo "<br>";
+//echo "View: <a href='/SWHLabPHP/src/?page=linescans&project=$projectLS'>all scans</a>, ";
+//echo "<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>scans with notes</a>, ";
+//echo "[re-analyze all<a href='?page=action_analyzeLS&project=$projectLS&all=True' target='_blank'>*</a>]";
 echo "<br>";
 
 $lineScanFolders=scandir($projectLS);
@@ -105,10 +127,10 @@ foreach ($lineScanFolders as $folder){
 }
 $datecodes=array_unique($datecodes);
 sort($datecodes);
-foreach ($datecodes as $datecode){
-    echo "&nbsp;&nbsp; <a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&datecode=$datecode'>$datecode</a><br>";
+foreach (array_reverse($datecodes) as $datecode){
+    echo "&nbsp;&nbsp;<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&datecode=$datecode'>$datecode</a> ";
 }
-
+echo "<br>&nbsp;";
 ?>
 </div>
 
@@ -127,6 +149,7 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 ?>
 </div>
 
+<!--
 <h2>Miscellaneous</h2>
 
 <b>Internal Software</b>
@@ -147,6 +170,6 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 <br>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
 <i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
-
+-->
 
 <?php include("bot.php"); ?>

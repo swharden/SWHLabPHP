@@ -11,10 +11,10 @@ $WEBPATH_SWHLABPHP = "/SWHLabPHP";
 $PATH_SWHLABPHP = 'C:\Apache24\htdocs\SWHLabPHP';
 
 // GitHub project: SWHarden / swharden/SWHLab
-$PATH_SWHLAB_ROOT = 'D:\X_Drive\Lab Documents\network\repos\swhlab';
+$PATH_SWHLAB_ROOT = 'X:\Lab Documents\network\repos\swhlab';
 
 // GitHub project: swharden/ROI-Analysis-Pipeline
-$PATH_ROI_ROOT = 'D:\X_Drive\Lab Documents\network\repos\ROI-Analysis-Pipeline';
+$PATH_ROI_ROOT = 'X:\Lab Documents\network\repos\ROI-Analysis-Pipeline';
 
 // path to python
 $PATH_PYTHON = 'C:\ProgramData\Anaconda3\python.exe';
@@ -23,11 +23,11 @@ $PATH_PYTHON = 'C:\ProgramData\Anaconda3\python.exe';
 $template="01_barebones";
 
 // this is for rewriting \\network\paths\ to web-safe served with aliased virtual directories
-$fileReplacements[]=["D:\\X_Drive\\Data\\","/dataX/"];
+$fileReplacements[]=["X:\\Data\\","/dataX/"];
 $fileReplacements[]=["\\\\Spike\X_Drive\\Data\\","/dataX/"];
 
 // network path of active X-Drive folder
-$PATH_XDRIVE_ROOT="D:\\X_Drive\\";
+$PATH_XDRIVE_ROOT="X:\\";
 //$PATH_XDRIVE_ROOT="\\\\192.168.1.100\\X_Mirror\\";
 
 

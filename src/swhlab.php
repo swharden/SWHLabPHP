@@ -545,7 +545,8 @@ function analyze_tifConvert($project, $justGetABFsThatNeedConversion=False){
     // for each TIF that needs conversion, convert it!
     foreach ($needsConversion as $fname1){
         $cmd="convert $flags \"$project/$fname1\" \"$project/swhlab/$fname1.jpg\"";
-        echo "CONVERTING TIF->JPG ($flags) [$fname1] ... ";
+        //echo "CONVERTING TIF->JPG ($flags) [$fname1] ... ";
+        echo $cmd."<br>";
         flush();ob_flush(); // update the browser
         //echo "<br>EXECUTING [$cmd]<br>";
         exec($cmd);
