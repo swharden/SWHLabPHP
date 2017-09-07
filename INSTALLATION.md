@@ -95,3 +95,8 @@ _note: This can be called from the web server with php exec()_
 On 2017-08-07 `\\Spike\X_Drive\` went offline and I had to rig SWHLabPHP to serve from a mirrored drive on another computer. These were the changes I made to get it up again: 
 * change `C:\Apache24\conf\httpd.conf` to alias `/dataX` with the new server path (see above)
 * edit /src/config.php and change SPIKE references as needed
+
+## Install Other Stuff
+* ImageMagick `ImageMagick-6.9.8-10-Q8-x64-dll.exe` (this version)
+* Anaconda
+* `pip install neo`
