@@ -1,10 +1,10 @@
 <html>
 <body>
 
-<h1>Server Variables</h1>
-<?php
-echo getenv('SWHLABPHP_ROOT');
-?>
+<span style="font-size: 200%; font-weight: bold;">SWHLabPHP Functions</span><br>
+<i>read in real time from the source files</i>
+<hr>
+
 
 <?php
 

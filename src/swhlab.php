@@ -763,6 +763,34 @@ function csv_peak($fname){
     echo sprintf("first sweep peak: [%.03f %%]", max($numbers)*100);
 }
 
+function file_to_html($fname){
+    // return contents of a text file as an HTML-safe string
+    $f = fopen($fname, "r");
+    $raw=fread($f,filesize($fname));
+    $raw=str_replace("<","&lt;",$raw);
+    $raw=str_replace(">","&gt;",$raw);
+    $raw=str_replace("\n","<br>",$raw);
+    return $raw;
+}
+
+function random_string($length, $charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',$str='') {
+    // return a random string of a certain length
+    $count = strlen($charset);
+    while ($length--) {
+        $str .= $charset[mt_rand(0, $count-1)];
+    }
+    return $str;
+}
+
+function copy_button_write($text, $invisible=False){
+    // display a string and add a button to copy to clipboard
+    $uniqueID=random_string(10);
+    $style="";
+    if ($invisible) {$style="display: none;";}
+    echo "<span style=\"$style\" id=\"$uniqueID\">$text</span> ";
+    echo "<button onclick=\"copyToClipboard('$uniqueID')\">copy</button>";
+}
+
 ?>
 
 <!-- swhlab_functions.php has been included -->

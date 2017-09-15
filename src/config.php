@@ -28,6 +28,7 @@ $fileReplacements[]=["\\\\Spike\X_Drive\\Data\\","/dataX/"];
 
 // network path of active X-Drive folder
 $PATH_XDRIVE_ROOT="X:\\";
+//$PATH_XDRIVE_ROOT="D:\\X_Drive\\";
 //$PATH_XDRIVE_ROOT="\\\\192.168.1.100\\X_Mirror\\";
 
 
