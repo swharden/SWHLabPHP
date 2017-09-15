@@ -53,15 +53,15 @@ a:hover {
 }
 
 button {
-    border: 0;
-    border-radius: 0;
-    background: none;
-    -webkit-appearance: none;
-    border: 1px solid black;
-    padding: 0px 2px 0px 2px;
-    margin: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .25);
-    background-color: #666;
+    //border: 0;
+    //border-radius: 0;
+    //background: none;
+    //-webkit-appearance: none;
+    //border: 1px solid black;
+    //padding: 0px 2px 0px 2px;
+    //margin: 5px;
+    //box-shadow: 2px 2px 5px rgba(0, 0, 0, .25);
+    //background-color: #666;
 }
 
 .adminbar{

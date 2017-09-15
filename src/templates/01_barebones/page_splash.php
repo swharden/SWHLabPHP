@@ -5,7 +5,7 @@ body {padding: 10px;}
 </style>
 
 <p style="background-color: #EEEEEE; padding: 5px;">
-<span style="font-size: 200%; font-weight: bold;">SWHLabPHP</span><br>
+<span style="font-size: 200%; font-weight: bold;">Frazier Laboratory: Live Data</span><br>
 <i>master project index</i>
 </p>
 
@@ -64,15 +64,6 @@ rsort($projectFolders);
 <br>
 
 <?php 
-
-/*
-echo("<br><b>Pinned Projects</b><br>");
-foreach ($ini_array["featured"] as $path){
-	$path=str_replace("X:\\",$PATH_XDRIVE_ROOT,$path);	
-	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
-}
-*/
-
 echo("<br><b>Additional Projects</b><br>");
 foreach ($projectFolders as $path){
 	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");

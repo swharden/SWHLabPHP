@@ -1,9 +1,52 @@
-<?php include('top.php');?>
+<?php include('top.php');?><div style="padding: 10px;">
 
 <span style='font-size: 200%'><b>Linescan Project Index</b></span><br>
-<code><?php echo $project;?></code><br><br><br>
 
-<h1>Imaging</h1>
+<code><?php copy_button_write($project); ?></code>
+
+
+
+
+
+
+
+
+
+<hr><h1>Experiment Notes</h1>
+<table style="padding-left: 20px;"><tr><td style="background-color: #EEE; padding: 10px; border: 1px solid #CCC; border-left: 5px solid #CCC;"><code>
+<?php echo file_to_html($project.'/experiment.txt'); ?>
+</code></td></tr></table>
+
+
+<?php
+
+function folder_list_ABFs($folder){
+    $files = scandir($folder);
+    foreach ($files as $fname){
+        if (!endsWith($fname,'.abf')) continue;
+        $fname2=realpath($folder.'/'.$fname);
+        echo "<code>$fname2</code>";
+        copy_button_write($fname2,True);
+        echo "<br>";
+    }
+}
+
+echo "<hr><h1>e-phys: images</h1>";
+display_all_pics($project."/ephys/");
+echo "<hr><h1>e-phys: ABFs</h1>";
+folder_list_ABFs($project."/ephys/");
+
+?>
+
+
+
+
+
+
+
+
+
+<hr><h1>Misc Imaging</h1>
 <?php
 
 
@@ -54,10 +97,12 @@ function tiff_to_png_folder($folder){
     $files = scandir($folder);
     foreach ($files as $fname){
         if (!endsWith($fname,".tif")) continue;
-        if (is_file($fname.".png")) return;
+        $fname2=$folder."/".$fname;
+        if (is_file($fname2.".png")) return;
         //echo "converting $fname ... ";
         $flags="-contrast-stretch .05%";
-        $cmd="convert $flags \"$fname\" \"$fname.png\"";
+        $cmd="convert $flags \"$fname2\" \"$fname2.png\"";
+        //echo "<br><code>$cmd</code><br>";
         exec($cmd);
         //echo "DONE<br>";
     }
@@ -82,13 +127,23 @@ function display_all_pics($folder){
 display_all_pics($project."/imaging/");
 ?>
 
-<h1>Maximum Intensity Projections</h1>
+
+
+
+
+
+
+
+
+
+<hr><h1>Z-Series</h1>
 <?php
 $files=scandir($project.'/2P/');
 sort($files);
 foreach ($files as $fname){
     if (startsWith($fname,"ZSeries")){
         $mipFolder=$project.'/2P/'.$fname.'/MIP';
+        echo "<br><code>$mipFolder</code><br>";
         display_all_pics($mipFolder);
     }
 }
@@ -102,7 +157,10 @@ foreach ($files as $fname){
     if (endsWith($fname,".csv")){
         $url=$project."/analysis/".$fname;
         $url=str_replace("X:\\Data\\","/dataX/",$url);
-        echo "<hr><a href='$url'><h2>$fname</h2></a>";
+        echo "<br><br><br><hr>";
+        echo "<span style='font-size: 120%; font-weight: bold;'><a href='$url'>$fname</a></span>";
+        echo copy_button_write($project."/analysis/".$fname,True);
+        echo "<br>";
         
         if ((endsWith($fname,"z_peaks.csv"))||(endsWith($fname,"z_peaksNormed.csv"))){
             $thisFile=$project."/analysis/".$fname;
@@ -126,4 +184,4 @@ foreach ($files as $fname){
 }
 ?>
 
-<?php include('bot.php');?>
+</div><?php include('bot.php');?>
