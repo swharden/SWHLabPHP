@@ -184,4 +184,19 @@ foreach ($files as $fname){
 }
 ?>
 
+
+<h1>Reference Images</h1>
+<?php
+$files=scandir($project."/linescans/");
+sort($files);
+foreach ($files as $fname){
+    $folder=$project."/linescans/".$fname;
+    if (!is_file($folder."/analysis/data_dataG.csv")) continue;
+    echo "<hr><h3>$fname</h3>";
+    display_all_pics($folder."/References/");
+    echo "<br>";
+    display_all_pics($folder."/analysis/");
+}
+?>
+
 </div><?php include('bot.php');?>
