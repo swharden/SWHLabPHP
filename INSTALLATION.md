@@ -49,6 +49,21 @@ DocumentRoot "D:/X_Drive/Lab Documents/network/htdocs"
 <Directory "D:/X_Drive/Lab Documents/network/htdocs">
 ```
 
+## HTTP Search/Replace
+in `httpd.conf` uncomment the lines
+
+```LoadModule substitute_module modules/mod_substitute.so```
+
+```LoadModule filter_module modules/mod_filter.so```
+
+Then add this to the bottom:
+
+```
+# HTML search replace
+AddOutputFilterByType SUBSTITUTE text/html
+Substitute s/D/X/ni
+```
+
 ## Install PHP
 Download [64-bit thread-safe PHP](http://windows.php.net/download) and extract it to `C:\php\`. Edit `C:\Apache24\conf\httpd.conf` and add these lines at the bottom (you may have to change the .dll filename):
   
