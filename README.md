@@ -6,3 +6,6 @@ Installation instructions have been moved into [INSTALLATION.md](INSTALLATION.md
 
 ## Configuration
 Modify varibles in [config.php](src/config.php) to reflect system paths.
+
+## Improvements
+A from-scratch re-code is planned one day. Work in this direction is in the [recode](recode) folder
