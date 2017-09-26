@@ -66,7 +66,8 @@ rsort($projectFolders);
 <?php 
 echo("<br><b>Additional Projects</b><br>");
 foreach ($projectFolders as $path){
-	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path</a><br>");
+    $path2=network_path($path);
+	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path2</a><br>");
 }
 ?>
 </div>
@@ -77,7 +78,7 @@ foreach ($projectFolders as $path){
 <br>
 <?php 
 function page_list_twoPhotonProject($folderParent){
-    echo "<br>".$folderParent."<br>";
+    echo "<br>".network_path($folderParent)."<br>";
     $projectFolders=scandir($folderParent);
     sort($projectFolders);
     foreach ($projectFolders as $projectFolder){
@@ -87,7 +88,7 @@ function page_list_twoPhotonProject($folderParent){
         echo "<a href='$url'>$projectFolder</a><br>";
     }
 }
-echo page_list_twoPhotonProject('X:\Data\SCOTT\2017-08-28 Mannital 2P');
+echo page_list_twoPhotonProject($PATH_XDRIVE_ROOT.'Data\SCOTT\2017-08-28 Mannital 2P');
 ?>
 </div>
 

@@ -25,8 +25,9 @@ function folder_list_ABFs($folder){
     foreach ($files as $fname){
         if (!endsWith($fname,'.abf')) continue;
         $fname2=realpath($folder.'/'.$fname);
-        echo "<code>$fname2</code>";
-        copy_button_write($fname2,True);
+        echo "<code>";
+        copy_button_write($fname2,False);
+        echo "</code>";
         echo "<br>";
     }
 }
@@ -115,7 +116,7 @@ function display_all_pics($folder){
     foreach ($files as $fname){
         $fname=$folder.'/'.$fname;
         if (endsWith($fname,".png") || endsWith($fname,".jpg")){
-            $url=str_replace("X:\\Data\\","/dataX/",$fname);
+            $url=str_replace("D:\\X_Drive\\Data\\","/dataX/",$fname);
             echo "<a href='$url'><img src='$url' height='300'></a> ";
         }
     }
@@ -175,7 +176,8 @@ foreach ($files as $fname){
             if (!endsWith($fname2,".png")) continue;
             if (startsWith($fname2,$fname)){
                 $url=$project."/analysis/".$fname2;
-                $url=str_replace("X:\\Data\\","/dataX/",$url);
+                //$url=str_replace("X:\\Data\\","/dataX/",$url);
+                $url=str_replace("D:\\X_Drive\\Data\\","/dataX/",$url);
                 echo "<a href='$url'><img src='$url' width='300'></a>";
             }
         }

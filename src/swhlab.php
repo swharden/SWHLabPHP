@@ -312,6 +312,12 @@ function human_filesize($bytes, $decimals = 2) {
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . " " . @$size[$factor];
 }
 
+function network_path($path){
+    // given a path to D:\ modify it so it works on network drives
+    $path = str_replace("D:\\X_Drive\\","X:\\",$path);
+    return $path;
+}
+
 function dirscan_cell_ABFsAndProtocols($project, $cellID){
     // given a project folder and a cell ID, figure all its children ABF IDs
     // and display them as a list of ABFs (html-formatted with links) and also
@@ -321,7 +327,8 @@ function dirscan_cell_ABFsAndProtocols($project, $cellID){
         $proto=abf_protocol($path);
         $abfID=bn($abfID);
         $sizemsg=human_filesize(filesize($path));
-        echo "<a href='?page=abfID&project=$project&abfID=$abfID'>$path</a> [$proto] $sizemsg<br>";
+        $path2=network_path($path);
+        echo "<a href='?page=abfID&project=$project&abfID=$abfID'>$path2</a> [$proto] $sizemsg<br>";
         
     }  
 }
@@ -784,6 +791,7 @@ function random_string($length, $charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl
 
 function copy_button_write($text, $invisible=False){
     // display a string and add a button to copy to clipboard
+    $text=str_replace("D:\\X_Drive\\","X:\\",$text);
     $uniqueID=random_string(10);
     $style="";
     if ($invisible) {$style="display: none;";}
