@@ -1,0 +1,135 @@
+[2017-10-15 01:22:39] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:22:40] completed [0.620 s]
+
+[2017-10-15 01:22:41] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:22:42] completed [0.652 s]
+
+[2017-10-15 01:22:43] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:22:44] completed [0.931 s]
+
+[2017-10-15 01:22:45] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:22:46] completed [1.730 s]
+
+[2017-10-15 01:22:47] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:22:49] completed [1.588 s]
+
+[2017-10-15 01:23:02] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:23:03] completed [0.620 s]
+
+[2017-10-15 01:23:04] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:23:04] completed [0.660 s]
+
+[2017-10-15 01:23:05] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:23:06] completed [0.934 s]
+
+[2017-10-15 01:23:07] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:23:09] completed [1.709 s]
+
+[2017-10-15 01:23:10] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:23:11] completed [1.580 s]
+
+[2017-10-15 01:24:47] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_11_2008.abf
+[2017-10-15 01:24:48] completed [0.622 s]
+
+[2017-10-15 01:24:49] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_11_2009.abf
+[2017-10-15 01:24:50] completed [1.207 s]
+
+[2017-10-15 01:24:51] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_11_2010.abf
+[2017-10-15 01:24:53] completed [1.884 s]
+
+[2017-10-15 01:24:54] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_11_2011.abf
+[2017-10-15 01:24:56] completed [1.607 s]
+
+[2017-10-15 01:25:20] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:25:20] completed [0.616 s]
+
+[2017-10-15 01:25:21] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:25:22] completed [0.651 s]
+
+[2017-10-15 01:25:23] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:25:24] completed [0.934 s]
+
+[2017-10-15 01:25:25] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:25:27] completed [1.742 s]
+
+[2017-10-15 01:25:28] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:25:29] completed [1.587 s]
+
+[2017-10-15 01:27:33] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:27:34] completed [0.620 s]
+
+[2017-10-15 01:27:35] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:27:36] completed [0.652 s]
+
+[2017-10-15 01:27:37] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:27:38] completed [0.935 s]
+
+[2017-10-15 01:27:39] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:27:40] completed [1.707 s]
+
+[2017-10-15 01:27:41] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:27:43] completed [1.582 s]
+
+[2017-10-15 01:29:15] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:29:15] completed [0.619 s]
+
+[2017-10-15 01:29:16] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:29:17] completed [0.652 s]
+
+[2017-10-15 01:29:18] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:29:19] completed [0.968 s]
+
+[2017-10-15 01:29:20] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:29:22] completed [1.712 s]
+
+[2017-10-15 01:29:23] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:29:24] completed [1.629 s]
+
+[2017-10-15 01:30:33] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2008.abf
+[2017-10-15 01:30:34] completed [0.620 s]
+
+[2017-10-15 01:30:35] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2009.abf
+[2017-10-15 01:30:36] completed [0.655 s]
+
+[2017-10-15 01:30:37] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2010.abf
+[2017-10-15 01:30:38] completed [0.933 s]
+
+[2017-10-15 01:30:39] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2011.abf
+[2017-10-15 01:30:40] completed [1.723 s]
+
+[2017-10-15 01:30:41] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2012.abf
+[2017-10-15 01:30:43] completed [1.592 s]
+
+[2017-10-15 01:32:15] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2000.abf
+[2017-10-15 01:32:16] completed [0.687 s]
+
+[2017-10-15 01:32:17] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2001.abf
+[2017-10-15 01:32:18] completed [0.908 s]
+
+[2017-10-15 01:32:19] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2002.abf
+[2017-10-15 01:32:20] completed [1.667 s]
+
+[2017-10-15 01:32:21] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2003.abf
+[2017-10-15 01:32:23] completed [1.571 s]
+
+[2017-10-15 01:43:15] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2005.abf
+[2017-10-15 01:43:16] completed [1.195 s]
+
+[2017-10-15 01:43:17] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2006.abf
+[2017-10-15 01:43:19] completed [1.839 s]
+
+[2017-10-15 01:43:20] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2007.abf
+[2017-10-15 01:43:22] completed [1.595 s]
+
+[2017-10-15 01:44:20] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2004.abf
+[2017-10-15 01:44:20] completed [0.660 s]
+
+[2017-10-15 01:44:21] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2005.abf
+[2017-10-15 01:44:22] completed [1.179 s]
+
+[2017-10-15 01:44:23] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2006.abf
+[2017-10-15 01:44:25] completed [1.863 s]
+
+[2017-10-15 01:44:26] analyze D:\X_Drive\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_2007.abf
+[2017-10-15 01:44:28] completed [1.580 s]
+

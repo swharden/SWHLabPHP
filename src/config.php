@@ -26,7 +26,9 @@ $template="01_barebones";
 $fileReplacements[]=["D:\\X_Drive\\Data\\","/dataX/"];
 //$fileReplacements[]=["D:\\Data\\","/dataX/"];
 //$fileReplacements[]=["X:\\Data\\","/dataX/"];
-//$fileReplacements[]=["\\\\Spike\X_Drive\\Data\\","/dataX/"];
+//$fileReplacements[]=["\\\\SPIKE\\X_Drive\\Data\\","/dataX/"];
+$fileReplacements[]=["//Spike/X_Drive/Data","/dataX/"];
+$fileReplacements[]=["\\\\Spike\\X_Drive\\Data\\","/dataX/"];
 
 // network path of active X-Drive folder
 //$PATH_XDRIVE_ROOT="X:\\";

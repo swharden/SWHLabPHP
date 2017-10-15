@@ -1,0 +1,2 @@
+python ./commands.py
+pause

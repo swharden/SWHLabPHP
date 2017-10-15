@@ -1,0 +1,2 @@
+clear X:\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_1007.abf
+analyze X:\Data\SCOTT\2017-10-10 aging BLA round2\2017_10_10_1007.abf

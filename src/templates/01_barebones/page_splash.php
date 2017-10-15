@@ -36,6 +36,7 @@ foreach ($ini_array["projects"] as $path){
 // add each project inside the project collection folders
 foreach ($ini_array["collections"] as $fldrParent){
 	$fldrParent=str_replace("X:\\",$PATH_XDRIVE_ROOT,$fldrParent);
+    if (!file_exists($fldrParent)) continue;
 	#echo("<br><b>$fldrParent</b><br>");
 	foreach (scandir($fldrParent) as $fldrChild){
 		if ($fldrChild[0]=='.') continue;
@@ -141,7 +142,6 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 ?>
 </div>
 
-<!--
 <h2>Miscellaneous</h2>
 
 <b>Internal Software</b>
@@ -162,6 +162,5 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 <br>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
 <i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
--->
 
 <?php include("bot.php"); ?>

@@ -1,0 +1,64 @@
+body {
+	font-family: sans-serif;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {  
+    color: blue;
+    text-decoration: underline;  
+}
+
+.error {
+    padding: 10px;
+    background-color: red;
+    color: yellow;
+}
+
+.block_blue{
+    background-color: #e8edf7;
+    margin: 10 0 10 0;
+    padding: 5 10 5 10;
+}
+
+.block_aqua{
+    background-color: #e8f7f4;
+    margin: 10 0 10 0;
+    padding: 5 10 5 10;
+}
+
+.block_green{
+    background-color: #e8f7e8;
+    margin: 10 0 10 0;
+    padding: 5 10 5 10;
+}
+
+.block_red{
+    background-color: #f7e8e8;
+    margin: 10 0 10 0;
+    padding: 5 10 5 10;
+}
+
+.block_topMenu{
+    font-family: monospace;
+    background-color: #EEEEEE;
+    padding: 5px;
+    border: 1px solid #CCCCCC;
+    color: #CCCCCC;
+}
+
+.cellID{
+    background-color: #EEEEEE;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid black;
+}
+
+.picframe_shadow{
+    margin: 10px;
+    border: 1px solid black;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .3);
+}
