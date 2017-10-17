@@ -34,6 +34,10 @@ class ABFfolder
         $this->fldr_local = path_local($fldr);
         $this->fldr_network = path_network($fldr);
         $this->fldr_web = path_web($this->fldr_local);
+        if (!isset($_GET['fldr'])){
+            // if no folder is given, default to this path
+            redirect("?view=abf&fldr=X:/Data&frames");
+        }
         if (!file_exists($this->fldr_local)) {
             display_error("FOLDER DOES NOT EXIST:<br>$this->fldr_local");
             return;
@@ -303,7 +307,9 @@ class ABFfolder
                 $protocol = abf_protocol(path_local($fname));
                 $filesize = filesize_formatted(path_local($fname));
                 $btn = html_button_copy($fname, True, "copy path");
-                echo "<code>$bn $btn $protocol ($filesize)</code><br>";
+                $setpath='setpath "'.$fname.'"';
+                $btn2 = html_button_copy($setpath, True, "setpath");
+                echo "<code>$bn $btn $btn2 $protocol ($filesize)</code><br>";
             }
             foreach ($files_unknown as $fname){
                 $fname=path_network($fname);
@@ -339,18 +345,25 @@ class ABFfolder
         $cellID=$_GET['match'];
         $color=$_GET['color'];
         $comment=strip_tags($_GET['comment']);
-        $changedLine="$cellID $color $comment<br>";
+        $changedLine="$cellID $color $comment";
                
         // load content of text file and turn it into an array of lines
         $f = fopen($this->file_cells, "r");
         $raw=fread($f,filesize($this->file_cells));
         fclose($f);
         $raw=explode("\n",$raw);
+        $changeMade=False;
         for ($i=0;$i<count($raw);$i++){
             $line=explode(" ",$raw[$i]);
             if ($line[0]==$cellID){
+                // we found the line to be replaced
                 $raw[$i]=$changedLine;
+                $changeMade=True;
             }
+        }
+        if (!$changeMade){
+            // add the line to the bottom of the file
+            $raw[]=$changedLine;
         }
         $raw=implode("\n",$raw);
         $f = fopen($this->file_cells, "w");
@@ -400,6 +413,7 @@ class ABFfolder
             // DISPLAY MENU USING CELLS.TXT
             foreach (array_keys($this->cellGroups) as $group){
                 $c = count($this->cellGroups[$group]);
+                if (!$c) continue;
                 echo "<br><div style='font-weight: bold; text-decoration: underline;'>$group</div>";
                 foreach ($this->cellGroups[$group] as $cellID){
                     $comment = $this->cellComments[$cellID];
@@ -423,12 +437,15 @@ class ABFfolder
         $urlBrowse="?view=abf&fldr=$fldrParent&browse";
         $urlFrame='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
         $urlFrame.="?view=abf&fldr=$this->fldr&frames";
-        $urlFrame=str_replace(" ","%20",$urlFrame);
+        $btnFldr = html_button_copy($this->fldr_network,True,"copy path");
+        $btnPage = html_button_copy($urlFrame,True,"copy link");
         
         echo "<div style='font-family: monospace;'>";
         
         // DISPLAY THE NESTED PATH
-        echo "<div>";
+        //echo "<div>";
+        //echo "<div class='menu_box_browse'>";
+        echo"<form class='menu_box_browse' action='$urlFrame' method='post' target='_top'>";
         echo "<b>Project Browser</b><br>";
         $pathTestFull = path_network($this->fldr);
         $parts = explode("\\",$pathTestFull);
@@ -438,22 +455,32 @@ class ABFfolder
             $url="?view=abf&fldr=$thisPath&menu";
             echo "<a target='menu' href='$url'>$parts[$indents]</a><br>";
         }   
-        echo "</div><br>";
+        
+        
+        
+        echo "<hr>$btnFldr $btnPage ";        
+        echo "<input class='button_copy' type='submit' value='refresh here' />";
+        echo "</form>";
         
         // DISPLAY ABF PROJECT INFORMATION IF THIS IS AN ABF FOLDER
         echo "<div>";
         if (count($this->IDs)){
+            echo "<div class='menu_box_abf'>";
             echo "<b>Electrophysiology Project</b><br>";
             echo "<a target='content' href='$urlSplash'>experiment summary</a><br>";
-            echo "<a target='content' href='$urlSplash'>analyze new data</a><br>";
+            //echo "<a target='content' href='$urlSplash'>analyze new data</a><br>";
+            echo "</div>";
             $this->_display_menu_abfs();
         } else {
+            echo "<div class='menu_box_abf'>";
             echo "this folder does not contain ABFs";
+            echo "</div>";
         }
         echo "</div><br>";
         
         // DISPLAY ALL FILES IN THIS PATH
-        echo "<div>";
+        //echo "<div>";
+        echo "<div class='menu_box_browse'>";
         echo "<b>Folder Contents</b><br>";
         $folder = realpath($this->fldr);
         foreach (scandir($folder) as $path){
@@ -475,8 +502,7 @@ class ABFfolder
         }
         echo "</div><br>";
         
-        $btn = html_button_copy($urlFrame);
-        echo "<br><br><hr>link to this page: $urlFrame $btn";        
+        
         echo "</div>";
 
     }
@@ -498,20 +524,27 @@ class ABFfolder
             $btn = html_button_copy(path_network($this->fldr));
             echo "<code>$this->fldr $btn </code><hr>";      
 
+            // show information about processing/analyzing ABFs
             $neededABF=count($this->abfsNeedingAnalysis());
             if ($neededABF){
                 $urlAnlFldr = "?".$_SERVER['QUERY_STRING']."&analyzeFolder";
-                
                 echo "ABFs files require analysis:<br>";
                 echo "<span style='background-color: yellow;'>";
                 echo "<a href='$urlAnlFldr'>process unanalyzed ABFs ($neededABF)</a>";
                 echo "</span>";
             } else {
-                echo "All ABFs have been analyzed.";
+                display_message("All ABFs have been analyzed.");
             }
             
+            // show cells.txt
+            display_file($this->file_cells);
+            display_file($this->fldr."/experiment.txt");
+            
+            
         } else {
-            echo "<br><br><br>use the left menu to select a folder containing ABFs...";
+            echo "<br>";
+            $msg="Use the left menu to navigate to a folder containing ABFs<br>";
+            display_message($msg);
         }        
     }
 

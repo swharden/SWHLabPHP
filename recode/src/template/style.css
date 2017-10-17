@@ -16,6 +16,15 @@ a:hover {
     padding: 10px;
     background-color: red;
     color: yellow;
+    font-weight: bold;
+}
+
+.message {
+    padding: 10px;
+    background-color: #CCFFCC;
+    border: 1px solid #66AA66;
+    color: black;
+    font-weight: bold;
 }
 
 .block_blue{
@@ -61,4 +70,31 @@ a:hover {
     margin: 10px;
     border: 1px solid black;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, .3);
+}
+
+.button_copy{
+    font-family: monospace;
+    font-size: 80%; 
+    border-style:none;
+    border: 1px solid #CCC;
+    background-color: white;
+    color: black;
+}
+.button_copy:hover{
+    background-color: #CCCCFF;
+}
+.button_copy:active{
+    background-color: #FFFFCC;
+}
+
+.menu_box_browse{
+    background-color: #EEEEEE; 
+    border: 1px solid #AAAAAA;
+    padding: 5px;
+}
+
+.menu_box_abf{
+    background-color: #FFFFAA; 
+    border: 1px solid #CCCC66;
+    padding: 5px;
 }
