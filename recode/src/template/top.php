@@ -18,6 +18,25 @@ function copyToClipboard(elementId) {
 }
 </script>
 
+<script>
+	function setClicked(id) {
+		elems = document.getElementsByClassName('abflink');
+		for (i = 0; i < elems.length; i++) {
+			elems[i].style.fontWeight="normal";
+			if (elems[i].id==id) {
+				elems[i].style.fontWeight="bold";
+			}
+		}
+		elems = document.getElementsByClassName('abftick');
+		for (i = 0; i < elems.length; i++) {
+			elems[i].style.visibility="hidden";
+			if (elems[i].id==id) {
+				elems[i].style.visibility="visible";
+			}
+		}
+	}
+</script>
+
 </head>
 
 <?php
@@ -40,7 +59,7 @@ if (isset($_GET['menu'])) $showTopAndBot = FALSE;
     <div class="block_topMenu">
         <b style="color: black;">Frazier Laboratory</b> |
         <a target="_top" href="/">home</a> |
-        <a target="_top" href="/SWHLabPHP/recode/src/">data index</a> |
+        <a target="_top" href="http://192.168.1.9/SWHLabPHP/recode/src/?view=abf">data index</a> |
         <?php echo "view: $view"; ?>
     </div>
     <?php endif; ?>

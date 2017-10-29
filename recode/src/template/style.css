@@ -97,4 +97,14 @@ a:hover {
     background-color: #FFFFAA; 
     border: 1px solid #CCCC66;
     padding: 5px;
+    
+}
+
+.menu_title{
+    font-weight: bold; 
+    font-family: "Arial Narrow", Arial, sans-serif;
+}
+
+.abftick{
+    font-weight: bold; 
 }
