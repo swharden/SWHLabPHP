@@ -23,6 +23,14 @@ function display_message($msg){
     echo "<br><div class=\"message\">$msg</div></br>";
 }
 
+function display_warning($msg){
+    // display a message in a div block
+    // accepts string or array
+    if (gettype($msg)=='array') $msg = implode("<br>",$msg);
+    $msg=html_safe_text($msg);
+    echo "<br><div class=\"wrng\">$msg</div></br>";
+}
+
 function glob_count($folder,$glob="/*.abf"){
     // return the number of files in a folder matching a glob function
     return sizeof(glob($folder.$glob));
@@ -125,17 +133,19 @@ function redirect($url){
 function display_file($fname,$title=False){
     // render a HTML box around the contents of a text file
     if (!is_file($fname)) {
-        //$raw="file does not exist";
+        $fname=basename($fname);
+        echo "<br><div style='color: #CCCCCC;'><i><code>$fname does not exist</code></i></div><br>";
         return;
     } else {
         $f = fopen($fname, "r");
         $raw=fread($f,filesize($fname));
         fclose($f);        
     }
+    $raw=html_safe_text($raw);
     if (!$title) $title=path_network($fname);
     echo "<br><div style='background-color: #CCC; padding: 3px;'><b><code>$title</code></b></div>";
     echo "<div style='background-color: #EEE; padding: 3px 10px; border-left: 5px solid #CCC;'>";
-    echo "<pre>$raw</pre></div></br>";
+    echo "<code>$raw</code></div></br>";
 }
 
 ?>

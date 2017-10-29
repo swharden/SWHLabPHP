@@ -18,7 +18,9 @@ class ABFfolder
     var $files2; // list of files in SWHLab folder
     var $cells; // list of parents
     var $IDs; // keyed array where keys are parents and children are ABFs (all IDs)
-    var $file_cells; // path to cell.txt (or FALSE if it doesn't exist)
+    //var $file_cells; // "$this->fldr/cells.txt"
+    // TODO: make "cells.txt" a $this variable
+    // TODO: make cells.txt a CSV
     
     // these are populated from cells.txt
     var $cellColors; // keyed by cell ID, contains colorcode of each cell
@@ -52,7 +54,10 @@ class ABFfolder
         // automatically turn all x.tif files into ./swhlab/x.tif.JPG files
         $tifFiles=$this->tifsNeedingAnalysis();
         if (!count($tifFiles)) return;
-        if (!is_dir("$this->fldr_local/swhlab/")) mkdir("$this->fldr_local/swhlab/");
+        if (!is_dir("$this->fldr_local/swhlab/")) {
+            echo "<code><b>CREATING:</b> $this->fldr_local\\swhlab\\</code><br>";
+            mkdir("$this->fldr_local/swhlab/");
+        }
         echo "<code><b>CONVERTING TIFS:</b> ";
         foreach ($tifFiles as $fname){
             $fname1="$this->fldr_local\\$fname";
@@ -63,13 +68,17 @@ class ABFfolder
             exec($cmd);
         }
         echo "<b>DONE!</b></code><hr>";
-        $this->scanFiles(); // update folder scans
+        $this->scanFiles(); // update after making tifs
+        $this->scanCellsFile();  // update after making tifs
     }
     
     function abfNeedsAnalysis($cellID){
         // check if an ABF needs analysis (based on lack of files in ./swhlab/)
         if (!count($this->files2)) return True;
-        foreach ($this->files2 as $fname2) if (startsWith($fname2,$cellID)) return False;
+        foreach ($this->files2 as $fname2) {
+            if (endsWith(strtolower($fname2),".tif.jpg")) continue;
+            if (startsWith($fname2,$cellID)) return False;
+        }
         return True;
     }
 
@@ -78,7 +87,10 @@ class ABFfolder
         $needAnalysis=[];
         foreach (array_keys($this->IDs) as $parentID){
             foreach ($this->IDs[$parentID] as $cellID){
-                if($this->abfNeedsAnalysis($cellID)) $needAnalysis[]=$cellID;
+                if($this->abfNeedsAnalysis($cellID)) {
+                    if (!is_file("$this->fldr/$cellID.rsv"))
+                        $needAnalysis[]=$cellID;
+                }
             }
         }
         return $needAnalysis;
@@ -88,8 +100,11 @@ class ABFfolder
         // return a list of TIF files needing conversion
         $needAnalysis=[];
         foreach ($this->files as $fname1){
-            if (!endsWith(strtolower($fname1),".tif")) continue;
+            if (endsWith($fname1,".tif")||endsWith($fname1,".TIF")) {
+                $fname1=str_replace(".TIF",".tif",$fname1);
                 if (!in_array("$fname1.jpg",$this->files2)) $needAnalysis[]=$fname1;
+            }
+            
         }
         return $needAnalysis;
     }
@@ -126,6 +141,7 @@ class ABFfolder
             
             foreach ($this->abfsNeedingAnalysis() as $cellID){
                 //$path=realpath("$this->fldr_network/$cellID.abf"); // best for network PC
+                if (is_file($path=realpath("$this->fldr_local/$cellID.rsv"))) continue;
                 $path=realpath("$this->fldr_local/$cellID.abf"); // best for server PC
                 $commands.="analyze $path\n";
             }
@@ -143,7 +159,7 @@ class ABFfolder
     {
         // populate our list of files
         $this->files = scandir2($this->fldr_local);
-        $this->file_cells = (in_array("cells.txt",$this->files) ? $this->fldr_local."/cells.txt" : False);
+
         //if (file_exists($this->fldr2)) $this->files2 = scandir2($this->fldr2);
         $this->files2 = (file_exists($this->fldr2) ? scandir2($this->fldr2) : []);
 
@@ -163,7 +179,6 @@ class ABFfolder
         foreach ($files_ABF as $fname){
             $ABF_basename = str_replace(".abf", "", $fname);
             if (in_array($ABF_basename,$this->cells)) $parent = $ABF_basename;
-            //echo "$parent $fname<br>";
             $this->IDs[$parent][]=$ABF_basename;
         }
     }
@@ -185,17 +200,19 @@ class ABFfolder
            
     function scanCellsFile(){
         // scan cells.txt and populate cell colors, comments, and groups.
-        if (!$this->file_cells) return; // only proceed if cells.txt exists        
+       
+        $fnameCellsFile="$this->fldr_local"."/cells.txt"; 
+        if (!is_file($fnameCellsFile)) return; // only proceed if cells.txt exists  
+        
         $this->cellColors=[]; // keyed by cell ID, contains colorcode of each cell
         $this->cellComments=[]; // keyed by cell ID, contains comment of each cell
         $this->cellGroups=[]; // key is group name, contents are cell IDs
-        
+
         $lastCategory = "ungrouped";
         $cellsAccountedFor=[];
-        
-        // load content of text file and turn it into an array of lines
-        $f = fopen($this->file_cells, "r");
-        $raw=fread($f,filesize($this->file_cells));
+
+        $f = fopen($fnameCellsFile, "r");
+        $raw=fread($f,filesize($fnameCellsFile));
         fclose($f);
         foreach (explode("\n",$raw) as $line){
             $line=trim($line);
@@ -206,11 +223,15 @@ class ABFfolder
                 continue;
             }
             $line = explode(" ",$line,3);            
-            if (count($line)<3) continue; // ignore lines which don't have 3 parts
+            #if (count($line)<3) continue; // ignore lines which don't have 3 parts
+            while (count($line)<3) $line[]=' ';
+            
             $cellID = $line[0];   
             $cellsAccountedFor[]=trim($cellID);
             $this->cellColors[$cellID]=trim($line[1]);
+            if ($this->cellColors[$cellID]=='?') $this->cellColors[$cellID]='';
             $this->cellComments[$cellID]=trim($line[2]);
+            if ($this->cellComments[$cellID]=='?') $this->cellComments[$cellID]='';
             
             // update groups keyed array
             if (gettype($this->cellGroups[$lastCategory])=="NULL"){
@@ -232,9 +253,6 @@ class ABFfolder
         // given an array of arrays, display all relevant cell data.
         // the first item of each array is the ABF id, everuthing else is an associated file
         foreach ($filesByCell as $cellFiles){
-            
-            // silently convert TIFs
-            $this->convertAllTiffs();
 
             // sort each file by its type based on some simple rules
             $files_abf=[];
@@ -254,6 +272,13 @@ class ABFfolder
                     $files_unknown[] = "$this->fldr_web/$fname";
                 }
             }
+            if (array_keys($this->IDs)==['ORPHAN']){
+                foreach ($this->files2 as $fname){
+                    if (endsWith(strtolower($fname),".tif.jpg")) {
+                        $files_pics[]="$this->fldr_web/swhlab/$fname";
+                    }
+                }
+            }
 
             // display all the files associated with this cell ID
             $ID = str_replace(".abf",'',$cellFiles[0]);
@@ -266,9 +291,7 @@ class ABFfolder
 
             // HEADER: CELL ID AND COMMENT
             $color = $this->colorcodes[$this->cellColors[$ID]];
-            $comment = strip_tags($this->cellComments[$ID]);
-            //$comment = (strlen($comment) ? $comment : "[none]");
-            
+            $comment = strip_tags($this->cellComments[$ID]);            
             echo "<div style='background-color: $color; padding: 10px;'>";
             echo "<b>CELL ID: <a href='$url'>$ID</a></b> $btn<br>";
             echo "<code>$this->fldr_network</code> $btnFldr<br>";
@@ -278,7 +301,7 @@ class ABFfolder
             // CELL COMMENT AND COLOR ASSIGNMENT
             echo "<div style='background-color: #DDD; padding: 10px;'>";
             echo "<div style='line-height: 150%;'><b>Cell Notes:</b></div>";
-            echo "<form action='' method='get'>";
+            echo "<form action='$url' method='get'>";
             echo "<input type='hidden' name='view' value='abf' />";
             echo "<input type='hidden' name='fldr' value='$this->fldr' />";
             echo "<input type='hidden' name='match' value='$ID' />";
@@ -293,9 +316,7 @@ class ABFfolder
             echo "<br><input style='margin-top: 8px;' type='text' size='35' name='comment' value='$comment' />";
             echo " <input type='submit' value='Submit'>";
             echo " <a href='$urlMenu' target='menu'>refresh menu</a>";
-            echo "</form>";
-            
-            
+            echo "</form>";       
             echo "</div>";
 
             // LIST OF ASSOCIATED ABF FILES
@@ -344,12 +365,19 @@ class ABFfolder
         if (!isset($_GET['comment'])) return;
         $cellID=$_GET['match'];
         $color=$_GET['color'];
+        if ($color=='') $color='?';
         $comment=strip_tags($_GET['comment']);
+        if ($comment=='') $comment='?';
+        
         $changedLine="$cellID $color $comment";
                
         // load content of text file and turn it into an array of lines
-        $f = fopen($this->file_cells, "r");
-        $raw=fread($f,filesize($this->file_cells));
+        if (!is_file("$this->fldr_local/cells.txt")) {
+            $content="# automatically created cells.txt\n";
+            file_put_contents("$this->fldr_local/cells.txt",$content);
+        }
+        $f = fopen("$this->fldr_local/cells.txt", "r");
+        $raw=fread($f,filesize("$this->fldr_local/cells.txt"));
         fclose($f);
         $raw=explode("\n",$raw);
         $changeMade=False;
@@ -366,7 +394,7 @@ class ABFfolder
             $raw[]=$changedLine;
         }
         $raw=implode("\n",$raw);
-        $f = fopen($this->file_cells, "w");
+        $f = fopen("$this->fldr_local/cells.txt", "w");
         fwrite($f, $raw);
         fclose($f);
     }
@@ -378,6 +406,11 @@ class ABFfolder
         // group all cell IDs matching our criteria with the files they go with
         $filesByCell=[];
         $lastParent="";
+        $files=[];
+        
+        // silently convert TIFs
+        $this->convertAllTiffs();
+        
         foreach (array_keys($this->IDs) as $parent){
             if ((!$parentMatching=="") && (!strstr($parent,$parentMatching))) continue;
             if ($parent!=$lastParent && count($files)){
@@ -411,18 +444,27 @@ class ABFfolder
             }
         } else {
             // DISPLAY MENU USING CELLS.TXT
+            $nSelected=0;
             foreach (array_keys($this->cellGroups) as $group){
                 $c = count($this->cellGroups[$group]);
-                if (!$c) continue;
-                echo "<br><div style='font-weight: bold; text-decoration: underline;'>$group</div>";
+                if (!$c) continue; // no cells in this group
+                $nGroupCells=0; // number of non-ignored cells in this group
+                foreach ($this->cellGroups[$group] as $cellID){
+                    if (count($this->IDs[$cellID])) $nGroupCells+=1;
+                }
+                echo "<br><div class='menu_title' style='padding: 10 5 5 0px;'>$group (n=$nGroupCells)</div>";
                 foreach ($this->cellGroups[$group] as $cellID){
                     $comment = $this->cellComments[$cellID];
                     $colorcode = $this->cellColors[$cellID];
                     $color = $this->colorcodes[$colorcode];
                     $color = ($color ? $color : 'black'); // color to use if colorcode isn't found
                     $url="?view=abf&fldr=$this->fldr&match=$cellID&data";
+                    $nABFs = count($this->IDs[$cellID]);
+                    if ($nABFs==0) continue; // skip ABFs seen in cells.txt without their data in this folder
+                    $nSelected+=1;
                     echo "<div style='white-space: nowrap;'>";
-                    echo "<a target='content' href='$url' style='background-color: $color;'>$cellID</a> ";
+                    echo "<span class='abftick' id='$nSelected' style='visibility: hidden;'>&raquo;</span>";
+                    echo "<a target='content' href='$url' onclick='setClicked($nSelected)' style='background-color: $color;'>$cellID</a> ($nABFs) ";
                     echo "<i style='color: #CCC;'>$comment</i></div>";
                 }
             }
@@ -439,6 +481,7 @@ class ABFfolder
         $urlFrame.="?view=abf&fldr=$this->fldr&frames";
         $btnFldr = html_button_copy($this->fldr_network,True,"copy path");
         $btnPage = html_button_copy($urlFrame,True,"copy link");
+        $neededABF=count($this->abfsNeedingAnalysis());
         
         echo "<div style='font-family: monospace;'>";
         
@@ -446,7 +489,7 @@ class ABFfolder
         //echo "<div>";
         //echo "<div class='menu_box_browse'>";
         echo"<form class='menu_box_browse' action='$urlFrame' method='post' target='_top'>";
-        echo "<b>Project Browser</b><br>";
+        echo "<div class='menu_title'>Project Browser</div>";
         $pathTestFull = path_network($this->fldr);
         $parts = explode("\\",$pathTestFull);
         for ($indents=0; $indents<count($parts); $indents++){
@@ -463,41 +506,61 @@ class ABFfolder
         echo "</form>";
         
         // DISPLAY ABF PROJECT INFORMATION IF THIS IS AN ABF FOLDER
+        $nCells=count($this->IDs);
+        $nABFs=0;
+        foreach ($this->IDs as $IDs) $nABFs+=count($IDs);
         echo "<div>";
-        if (count($this->IDs)){
+        if ($nCells){
             echo "<div class='menu_box_abf'>";
-            echo "<b>Electrophysiology Project</b><br>";
+            echo "<div class='menu_title'>Electrophysiology Project</div>";
+            echo "$nCells cells ($nABFs ABFs)<br>";
+            if ($neededABF) echo "($neededABF ABFs need analysis)<br>";
             echo "<a target='content' href='$urlSplash'>experiment summary</a><br>";
-            //echo "<a target='content' href='$urlSplash'>analyze new data</a><br>";
             echo "</div>";
             $this->_display_menu_abfs();
+            echo "<br><br>";
         } else {
-            echo "<div class='menu_box_abf'>";
-            echo "this folder does not contain ABFs";
-            echo "</div>";
+            //echo "<div class='menu_box_abf'>";
+            //echo "this folder does not contain ABFs";
+            //echo "</div>";
         }
         echo "</div><br>";
         
         // DISPLAY ALL FILES IN THIS PATH
         //echo "<div>";
         echo "<div class='menu_box_browse'>";
-        echo "<b>Folder Contents</b><br>";
+        echo "<div class='menu_title'>Folder Contents</div>";
         $folder = realpath($this->fldr);
         foreach (scandir($folder) as $path){
             if ($path == "." || $path == "..") continue;
             $path2 = realpath($folder.'/'.$path);
+            $webPath=path_web($path2);
             if (count($this->IDs) and endsWith(strtolower($path2),".abf")) continue;
             if (count($this->IDs) and endsWith(strtolower($path2),".tif")) continue;
             $urlMenu="?view=abf&fldr=$path2&menu";               
-            if (glob_count($path2)){
-                // folder contains ABFs
-                echo "<a href='$urlMenu' target = 'menu'>";
-                echo "<span style='background-color: #FFFFAA;'>$path</span>";
-                echo "</a><br>";
+
+            if (is_dir($path2)) {
+                // IT'S A DIRECTORY - always link to it, optionally highlight it
+                if (strstr($path,"progress")||strstr($path,"notes")) {       
+                    echo "<a href='$urlMenu' style='background-color: #FFCCCC;'>$path</a><br>";  
+                } else if (strstr($path,"data") || glob_count($path2)) {
+                    echo "<a href='$urlMenu' style='background-color: #FFFFAA;'>$path</a><br>";  
+                } else {
+                    echo "<a href='$urlMenu'>$path</a><br>";
+                }
             } else {
-                // folder not containing ABFs
-                if (is_dir($path2)) echo "<a href='$urlMenu'>$path</a><br>";
-                else echo "$path<br>";
+                // IT'S A FILE - only link to it if it can be displayed in the content window
+                if (endsWith($path2,".txt")) {       
+                    echo "<a href='$webPath' target='content' style='background-color: #CCCCFF;'>$path</a><br>";   
+                } else if (endsWith($path2,".jpg")||endsWith($path2,".png")) {       
+                    echo "<a href='$webPath' target='content' style='background-color: #FFCCFF;'>$path</a><br>";   
+                } else if (endsWith($path2,".pdf")) {       
+                    echo "<a href='$webPath' target='content' style='background-color: #FFCCCC;'>$path</a><br>";    
+                } else if (endsWith($path2,".url")||endsWith($path2,".html")||endsWith($path2,".php")) {       
+                    echo "<a href='$webPath' target='content' style='background-color: #CCCCFF;'>$path</a><br>";    
+                } else {                    
+                    echo "$path<br>";
+                }
             }
         }
         echo "</div><br>";
@@ -516,6 +579,123 @@ class ABFfolder
         echo "<frame name='content' src='?$url&splash' />";
         echo "</frameset>";
     }
+    
+    function abf_parent($abfIDseek){
+        // return the ABF ID of the parent
+        foreach (array_keys($this->IDs) as $parent){
+            $children=$this->IDs[$parent];
+            foreach ($children as $abfID){
+                if ($abfID==$abfIDseek){
+                    return $parent;
+                }
+            }
+        }
+        return "ORPHAN";
+    }
+    
+    function display_origin_commands(){
+        $abfProtos=[];
+        $abfsByProtocol=[];
+        foreach (array_keys($this->IDs) as $parent){
+            $children=$this->IDs[$parent];
+            foreach ($children as $abfID){
+                $fname=path_local("$this->fldr/$abfID.abf");
+                $protocol = abf_protocol($fname);
+                if (!in_array($protocol,array_keys($abfsByProtocol))) $abfsByProtocol[$protocol]=[];
+                $abfsByProtocol[$protocol]=array_merge($abfsByProtocol[$protocol],[$abfID]);
+                $abfProtos[$abfID]=$protocol;
+            }
+        }
+        
+        
+        
+        echo "<h1>Origin Analysis Commands</h1>";
+        
+        /*
+        echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";       
+        echo "<b>Run this between groups:</b><br>%A=groupName; tagAll %A;<br>";
+        echo "</div><br><br>";
+        */
+        
+        
+        $protocol="0203 IV fast";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<b># Voltage-Clamp IV Curve ($protocol)</b><br>";
+            echo "# enable lowpass filter<br>";
+            ECHO "<br>modifyTags GROUPNAME;<br>m1 500; m2 1000;<br><br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                echo "getstats;<br>";
+            }
+            echo "<br>RunOnBooks UpdateSummarySheets;";
+            echo "</div><br><br>";
+        }
+        
+        $protocol="0911 VC 15s stim PPR varied";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<b># ISI assessment ($protocol)</b><br>";
+            echo "# use same settings as protocol 0912<br>";
+            echo "# set evoked markers for sweep 2 (always discard sweep 1)<br>";
+            ECHO "<br>modifyTags GROUPNAME;<br>m1 500; m2 1000;<br><br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                echo "getevoked;<br>";
+            }
+            echo "<br>RunOnBooks UpdateSummarySheets;";
+            echo "</div><br><br>";
+        }
+        
+        
+        $protocol="0912 VC 20s stim PPR 40ms";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<b># Paired Pulse Analysis ($protocol)</b><br>";
+            echo "# enable lowpass filter<br>";
+            echo "# enable Cm in membrane test<br>";
+            echo "# enable evoked stats (channel 0, min and mean) and manually place evoked markers<br>";
+            echo "# enable phasic analysis<br>";
+            echo "# configure event detection<br>";
+            echo "<br>modifyTags GROUPNAME;<br>m1 5000; m2 20000;<br><br>";
+            
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                echo "memtest; getevoked; getstats; cjfmini;<br>";
+            }
+            echo "<br>RunOnBooks UpdateSummarySheets;";
+            echo "</div><br><br>";
+        }
+
+        
+        echo "<h2>PROTOCOLS (by ABF)</h2>";
+        echo "<code>";
+        foreach (array_keys($abfProtos) as $abfID){
+            $protocol=$abfProtos[$abfID];
+            if (in_array($abfID,array_keys($this->IDs))){
+                echo "<br><b>$abfID</b><br>";
+            }
+            echo "$abfID.abf ($protocol)<br>";
+        }
+        echo "</code>";
+        
+        
+        echo "<h2>ABFs (by protocol)</h2>";
+        echo "<code>";
+        foreach (array_keys($abfsByProtocol) as $protocol){
+            echo "<br><b>$protocol</b><br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "[$parent] $abfID.abf<br>";
+            }
+        }
+        echo "</code>";
+        
+        
+    }
 
     function display_splash(){
         // shows experiment info
@@ -528,18 +708,19 @@ class ABFfolder
             $neededABF=count($this->abfsNeedingAnalysis());
             if ($neededABF){
                 $urlAnlFldr = "?".$_SERVER['QUERY_STRING']."&analyzeFolder";
-                echo "ABFs files require analysis:<br>";
-                echo "<span style='background-color: yellow;'>";
-                echo "<a href='$urlAnlFldr'>process unanalyzed ABFs ($neededABF)</a>";
-                echo "</span>";
+                echo "<div class='menu_box_abf' style='font-size: 150%; font-weight: bold; padding: 20px;'>";
+                echo "ABFs files require analysis!<br>";
+                echo "<a href='$urlAnlFldr'>Click here to analyze $neededABF ABFs</a>";
+                echo "</div>";
+                
             } else {
                 display_message("All ABFs have been analyzed.");
             }
             
             // show cells.txt
-            display_file($this->file_cells);
-            display_file($this->fldr."/experiment.txt");
-            
+            display_file($this->fldr."\\experiment.txt");
+            display_file($this->fldr."\\cells.txt");
+            $this->display_origin_commands();
             
         } else {
             echo "<br>";
