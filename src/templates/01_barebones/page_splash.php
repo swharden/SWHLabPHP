@@ -4,10 +4,12 @@
 body {padding: 10px;}
 </style>
 
+<!--
 <p style="background-color: #EEEEEE; padding: 5px;">
 <span style="font-size: 200%; font-weight: bold;">Frazier Laboratory: Live Data</span><br>
 <i>master project index</i>
 </p>
+-->
 
 <?php
 
@@ -60,10 +62,15 @@ rsort($projectFolders);
 
 ?>
 
+<!--
 <div style="background-color: #EEEEFF; padding: 5px;">
 <span style="font-weight: bold; font-size: 150%;">ABF FILE ANALYSIS</span>
 <br>
+<i>use the new ABF browser seen on the home page</i>
+-->
 
+
+<!--
 <?php 
 echo("<br><b>Additional Projects</b><br>");
 foreach ($projectFolders as $path){
@@ -71,6 +78,7 @@ foreach ($projectFolders as $path){
 	echo("<a href='/SWHLabPHP/src/?page=frames&project=$path'>$path2</a><br>");
 }
 ?>
+-->
 </div>
 
 <br>
@@ -89,7 +97,7 @@ function page_list_twoPhotonProject($folderParent){
         echo "<a href='$url'>$projectFolder</a><br>";
     }
 }
-echo page_list_twoPhotonProject($PATH_XDRIVE_ROOT.'Data\SCOTT\2017-08-28 Mannital 2P');
+echo page_list_twoPhotonProject($PATH_XDRIVE_ROOT.'Data\projects\2017-06-16 OT-Cre mice\data\2017-08-28 Mannitol 2P');
 ?>
 </div>
 
@@ -99,12 +107,13 @@ echo page_list_twoPhotonProject($PATH_XDRIVE_ROOT.'Data\SCOTT\2017-08-28 Mannita
 <br>
 <?php 
 
-$projectLS = $PATH_XDRIVE_ROOT.'Data\SCOTT\2017-06-16 OXT-Tom\2p';
+$projectLS = $PATH_XDRIVE_ROOT.'Data\projects\2017-06-16 OT-Cre mice\data\fishing\2017-06-16 mannitol linescans\data\linescans\2p';
 
 // PUT THIS IN A LOOP OVER THE FOLDERS
-$projectLSpretty = basename(dirname($projectLS));
-echo "<br><u>$projectLSpretty</u> ";
-echo "[<a href='?page=action_analyzeLS&project=$projectLS' target='_blank'>analyze new</a>]";
+$projectLSpretty = str_replace("D:\\X_Drive","X:",$projectLS);
+
+echo "<br>$projectLSpretty ";
+//echo "[<a href='?page=action_analyzeLS&project=$projectLS' target='_blank'>analyze new</a>]";
 echo "<br>";
 //echo "View: <a href='/SWHLabPHP/src/?page=linescans&project=$projectLS'>all scans</a>, ";
 //echo "<a href='/SWHLabPHP/src/?page=linescans&project=$projectLS&notes'>scans with notes</a>, ";
@@ -128,6 +137,7 @@ echo "<br>&nbsp;";
 </div>
 
 
+<!--
 <br>
 <div style="background-color: #EEEEEE; padding: 5px;">
 <span style="font-weight: bold; font-size: 150%;">GCAMP IMAGING VIDEO ANALYSIS</span>
@@ -162,5 +172,5 @@ foreach (array_reverse($ini_array["collectionsCa"]) as $fldrParent){
 <br>
 <i>project path information is stored in <a href="projects.ini">projects.ini</a>.</i><br>
 <i>source code for this project lives in the <a href="https://github.com/swharden/SWHLabPHP">GitHub project</a>.</i>
-
+-->
 <?php include("bot.php"); ?>
