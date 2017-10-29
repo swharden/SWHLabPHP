@@ -29,10 +29,17 @@ if (isset($_GET['clearLog'])) {
     file_put_contents("$fname", "");
 }
 
-//script_command_add("cool test command");
-echo "<h3>Commands</h3>";
-script_command_readfile("commands");
-echo "<h3>Command Log</h3>";
-script_command_readfile("log");
+if (isset($_GET['viewLog'])) {
+    // show just the log (we are done with commands)
+    echo "<h3>Command Log:</h3>";
+    script_command_readfile("log");
+} else {
+    // we are currently executing commands
+    echo "<h3>Executing Commands:</h3>";
+    script_command_readfile("commands");
+    echo "<h3>Command Log:</h3>";
+    script_command_readfile("log");
+}
+
 
 ?>
