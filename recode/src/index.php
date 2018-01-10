@@ -9,6 +9,7 @@ foreach (glob("functions/*.php") as $filename) include $filename;
 
 // determine what type of page to render
 $view = isset($_GET['view']) ? $_GET['view'] : 'demo';
+$view = str_replace("=","",$view);
 $debug = isset($_GET['debug']) ? TRUE : FALSE;
 $viewFile = 'views/'.$view.'.php';
 
