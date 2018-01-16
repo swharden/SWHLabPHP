@@ -1,42 +1,39 @@
-[2018-01-09 17:45:54] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109064.abf
-[2018-01-09 17:45:58] completed [3.705 s]
+[2018-01-16 14:54:46] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116000.abf
+[2018-01-16 14:54:46] completed [0.534 s]
 
-[2018-01-09 17:45:59] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109065.abf
-[2018-01-09 17:45:59] completed [0.477 s]
+[2018-01-16 14:54:47] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116001.abf
+[2018-01-16 14:54:48] completed [0.831 s]
 
-[2018-01-09 17:46:00] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109066.abf
-[2018-01-09 17:46:01] completed [0.444 s]
+[2018-01-16 14:54:49] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116002.abf
+[2018-01-16 14:54:50] completed [0.729 s]
 
-[2018-01-09 17:46:02] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109067.abf
-[2018-01-09 17:46:03] completed [0.720 s]
+[2018-01-16 14:54:51] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116003.abf
+[2018-01-16 14:54:52] completed [1.648 s]
 
-[2018-01-09 17:46:04] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109068.abf
-[2018-01-09 17:46:04] completed [0.817 s]
+[2018-01-16 14:54:53] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116004.abf
+[2018-01-16 14:54:54] completed [0.603 s]
 
-[2018-01-09 17:46:05] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109069.abf
-[2018-01-09 17:46:07] completed [1.988 s]
+[2018-01-16 14:54:55] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116005.abf
+[2018-01-16 14:54:56] completed [1.045 s]
 
-[2018-01-09 17:46:08] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109070.abf
-[2018-01-09 17:46:09] completed [0.821 s]
+[2018-01-16 14:54:57] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116006.abf
+[2018-01-16 14:54:57] completed [0.453 s]
 
-[2018-01-09 17:46:10] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109071.abf
-[2018-01-09 17:46:12] completed [1.816 s]
+[2018-01-16 14:54:58] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116007.abf
+[2018-01-16 14:55:00] completed [1.196 s]
 
-[2018-01-09 17:46:13] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109072.abf
-[2018-01-09 17:46:14] completed [0.469 s]
+[2018-01-16 14:55:01] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116008.abf
+[2018-01-16 14:55:01] completed [0.443 s]
 
-[2018-01-09 17:46:15] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109073.abf
-[2018-01-09 17:46:15] completed [0.688 s]
+[2018-01-16 14:55:02] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116009.abf
+[2018-01-16 14:55:03] completed [0.757 s]
 
-[2018-01-09 17:46:16] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109074.abf
-[2018-01-09 17:46:17] completed [0.661 s]
+[2018-01-16 14:55:04] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116010.abf
+[2018-01-16 14:55:05] completed [0.662 s]
 
-[2018-01-09 17:46:18] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109075.abf
-[2018-01-09 17:46:20] completed [1.790 s]
+[2018-01-16 14:55:06] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116011.abf
+[2018-01-16 14:55:07] completed [1.646 s]
 
-[2018-01-09 17:51:56] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109076.abf
-[2018-01-09 17:51:59] completed [3.178 s]
-
-[2018-01-09 17:52:00] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18109077.abf
-[2018-01-09 17:52:00] completed [0.472 s]
+[2018-01-16 14:55:08] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18116012.abf
+[2018-01-16 14:55:23] completed [14.294 s]
 
