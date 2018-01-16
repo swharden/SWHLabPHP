@@ -631,7 +631,23 @@ class ABFfolder
         // PROTOCOL ORIGIN COMMANDS /////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
         
-        echo "<h1>Origin Analysis Commands</h1>";
+        echo "<h1>Origin Analysis Commands(v1)</h1>";
+        $protocol="0111 continuous ramp";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #CCCCFF; font-family: monospace; padding: 10px; border: 1px solid #6666AA;'>";
+            echo "<b># First AP threshold and rheobase ($protocol)</b><br><br>";
+            foreach (array_keys($this->IDs) as $parent){
+                echo "setpath \"$this->fldr\\$parent.abf\"; ";
+                //$comment = $this->cellComments[$parent];                
+                //echo "modifyTags \"$comment\"; ";
+                echo "nextABFprotocol 0111; ";
+                echo "cjfmini; ";
+                echo "<br>";
+            }
+            echo "</div><br><br>";
+        }
+        
+        echo "<h1>Origin Analysis Commands(v2)</h1>";
         
         $protocol="0112 steps dual -50 to 150 step 10";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
