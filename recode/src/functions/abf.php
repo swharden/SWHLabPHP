@@ -73,8 +73,24 @@ class ABFfolder
         exec($cmd);       
         flush();ob_flush();
         
-        echo "DONE!<hr></code>";
+        echo "<b>COMPLETE!</b><hr></code>";
         
+        
+        /*
+        echo "<b>CONVERTING TIF->JPG:</b> ";
+        foreach ($tifFiles as $fname){
+            $fname1="$this->fldr_local\\$fname";
+            $fname2="$this->fldr_local\\swhlab\\$fname.jpg";
+            
+            flush();ob_flush();
+            echo "$fname ";
+            $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$this->fldr_local\\$fname\"";
+            exec($cmd);       
+            flush();ob_flush();
+        }            
+        echo "<b>DONE!</b>";
+        echo "</div>";
+        */
         
         /*
         echo "<code><b>CONVERTING TIFS:</b> ";

@@ -61,44 +61,51 @@ def image_convert2(fname,saveAs=True):
     im = ImageOps.autocontrast(im,.05)
     im.save(saveAs)
 
-def convert_tifs(path, overwrite=False):
+def convert_single(path, overwrite=False):
+    tifIn=os.path.abspath(path)
+    folderIn=os.path.dirname(tifIn)
+    folderOut=os.path.abspath(folderIn+"/swhlab/")
+    tifOut=os.path.join(folderOut,os.path.basename(tifIn)+".jpg")
+
+    if overwrite is False and os.path.exists(tifOut):
+        print("skipping", os.path.basename(tifOut))
+        return
+
+    print("converting", os.path.basename(tifOut))
+
+    # SCIPY - good for most images
+    try:
+        image_convert(tifIn, tifOut)
+        return
+    except:
+        print(" METHOD 1 FAIL")
+
+    # PIL - for what crashes
+    try:
+        image_convert2(tifIn, tifOut)
+        return
+    except:
+        print(" METHOD 2 FAIL")
+
+    print(" ALL METHODS FAILED!")
+
+def convert_folder(path, overwrite=False):
     path=os.path.abspath(path)
     print("converting all TIFs in",path)
     for tifIn in sorted(glob.glob(path+"/*.tif")):
-        tifIn=os.path.abspath(tifIn)
-        folderIn=os.path.dirname(tifIn)
-        folderOut=os.path.abspath(folderIn+"/swhlab/")
-        tifOut=os.path.join(folderOut,os.path.basename(tifIn)+".jpg")
-        if overwrite is False and os.path.exists(tifOut):
-            print("skipping", os.path.basename(tifOut));
-            continue
-        else:
-            print("converting", os.path.basename(tifOut));
-
-            # SCIPY - good for most images
-            try:
-                image_convert(tifIn, tifOut)
-                continue
-            except:
-                print(" METHOD 1 FAIL")
-
-            # PIL - for what crashes
-            try:
-                image_convert2(tifIn, tifOut)
-                continue
-            except:
-                print(" METHOD 2 FAIL")
-
-            print(" ALL METHODS FAILED!")
-
+        convert_single(tifIn)
     print("DONE")
 
 if __name__=="__main__":
     if len(sys.argv)==1:
         print("DEVELOPER TESTING")
-        convert_tifs(R"X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP")
+        #convert_folder(R"X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP")
+        convert_single(R"X:\Data\projects\2017-04-24 aging BLA\2017-10-10 BLA aging round2\data\171018jt_0010.tif")
     elif len(sys.argv)==2 and os.path.exists(sys.argv[1]):
-        convert_tifs(sys.argv[1])
+        if os.path.isfile(sys.argv[1]):
+            convert_single(sys.argv[1])
+        elif os.path.isdir(sys.argv[1]):
+            convert_folder(sys.argv[1])
     else:
         print("ARGUMENT ERROR")
         print('Usage: python convertImages.py "X:\path\to\stuff\"')
