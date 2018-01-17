@@ -58,16 +58,52 @@ class ABFfolder
             echo "<code><b>CREATING:</b> $this->fldr_local\\swhlab\\</code><br>";
             mkdir("$this->fldr_local/swhlab/");
         }
+        
+        $tifCount=sizeof($tifFiles);
+        $scriptPath='D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\recode\src\scripts\convertImages.py';
+        $__PATH_PYTHON__=$GLOBALS['__PATH_PYTHON__'];
+        $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$this->fldr_local\"";
+        echo "<code>";
+        echo "<hr><b>$tifCount TIFS REQUIRE TIF->JPG CONVERSION:<br></b> ";
+        foreach ($tifFiles as $fname) echo "$fname ";
+        echo "<hr><b>RUNNING COMMAND:</b><br>$cmd</b> ... ";
+        
+        
+        flush();ob_flush();
+        exec($cmd);       
+        flush();ob_flush();
+        
+        echo "DONE!<hr></code>";
+        
+        
+        /*
         echo "<code><b>CONVERTING TIFS:</b> ";
         foreach ($tifFiles as $fname){
             $fname1="$this->fldr_local\\$fname";
             $fname2="$this->fldr_local\\swhlab\\$fname.jpg";
-            echo "$fname ";
-            $cmd="convert -contrast-stretch .05% \"$fname1\" \"$fname2\" ";
+            
+            $size = filesize($fname1);
+            $sizeMB = $size/1024/1024;
+            echo "$fname ($sizeMB Mb) ";
+            
+            if ($sizeMB<2){
+                // less than 2MB, probably an or 16-bit single-channel TIFF                
+                // so use the ImageMagick method
+                $cmd="convert -contrast-stretch .05% \"$fname1\" \"$fname2\" ";
+                echo "IM ... ";
+            } else {
+                // NConvert method
+                $path_nconvert = 'D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\recode\src\bin\XnView\nconvert.exe';            
+                $cmd="\"$path_nconvert\" -overwrite -out jpeg -o \"$fname2\" \"$fname1\"";
+                echo "NC ... ";
+            }
+            //echo "<hr><div><code>$cmd</code></div>";
             flush();ob_flush(); // update the browser
-            exec($cmd);
+            exec($cmd);          
         }
         echo "<b>DONE!</b></code><hr>";
+        */
+        
         $this->scanFiles(); // update after making tifs
         $this->scanCellsFile();  // update after making tifs
     }

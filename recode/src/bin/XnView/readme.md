@@ -1,6 +1,4 @@
 # nconvert.exe command line documentation
-_I generated this by `nconvert.exe -help > output.md`_
-
 * [XnView Website](https://www.xnview.com/en/)
 * [NConvert User Guide](https://www.xnview.com/wiki/index.php/NConvert_User_Guide)
 
@@ -10,6 +8,8 @@ nconvert.exe -autocontrast -overwrite -out jpeg -o 18110011.jpg 18110011.tif
 ```
 
 ## Full Documentation
+
+I generated this by `nconvert.exe -help > output.md`
 
 ```
 ** NCONVERT v7.12 (c) 1991-2017 Pierre-E Gougelet (Oct 19 2017/10:20:38) **

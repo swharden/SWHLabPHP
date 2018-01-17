@@ -551,14 +551,23 @@ function analyze_tifConvert($project, $justGetABFsThatNeedConversion=False){
     
     // for each TIF that needs conversion, convert it!
     foreach ($needsConversion as $fname1){
-        $cmd="convert $flags \"$project/$fname1\" \"$project/swhlab/$fname1.jpg\"";
+        //$cmd="convert $flags \"$project/$fname1\" \"$project/swhlab/$fname1.jpg\"";
         //echo "CONVERTING TIF->JPG ($flags) [$fname1] ... ";
-        echo $cmd."<br>";
+        
+        $path_nconvert = 'D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\recode\src\bin\XnView\nconvert.exe';
+        //$path_tiff_in='X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP\18110011.tif';
+        //$path_tiff_out=dirname($path_tiff_in)."\\swhlab\\".basename($path_tiff_in).".jpg";
+        
+        $path_tiff_in="$project\\$fname1";
+        $path_tiff_out=dirname($path_tiff_in)."\\swhlab\\".basename($path_tiff_in).".jpg";
+        
+        $cmd="\"$path_nconvert\" -autocontrast -overwrite -out jpeg -o \"$path_tiff_out\" \"$path_tiff_in\"";
+
+        flush();ob_flush(); // update the browser        
+        echo "<div>EXECUTING [$cmd]<div>";
         flush();ob_flush(); // update the browser
-        //echo "<br>EXECUTING [$cmd]<br>";
-        exec($cmd);
+        //exec($cmd);
         flush();ob_flush(); // update the browser
-        echo("DONE<br>");
     }
     
     // correct an issue where stacks are saved, renaming the first slice as the abf.
