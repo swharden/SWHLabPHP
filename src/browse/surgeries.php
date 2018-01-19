@@ -32,7 +32,8 @@ function log_load($logFile, $showInstructions=true){
     }
     
     foreach ($lines as $line){
-		if (trim($line[0])=="#") continue;
+        $line=trim($line);
+        if ($line[0]=="#") continue;
         echo "<tr>";
         $parts=explode(", ",str_replace("\t","",$line));
         foreach ($parts as $part){

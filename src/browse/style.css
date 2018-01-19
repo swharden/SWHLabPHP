@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+    background-color: #F6F6F6;
+    
+    }
+
+a {color: blue; text-decoration: none;}
+a:hover {color: blue;text-decoration: underline;}
+ul {margin: 0;}
+
+h1 {
+    font-size: 175%;
+    font-weight: bold;
+    margin-bottom: 0; 
+    padding-bottom: 0;
+}
+
+h2 {
+    font-size: 100%;
+    font-weight: bold;
+    margin-bottom: 0; 
+    padding-bottom: 0;
+}
+.banner{
+	background-image: url(/SWHLabPHP/src/browse/images/banner_ap_blue.png);
+    background-size: cover;
+	padding-top: 20px;
+	padding-bottom: 20px;
+    background-position: left bottom;
+    margin: -8px;
+}
