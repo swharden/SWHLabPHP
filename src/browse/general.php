@@ -1,5 +1,17 @@
 <?php
 
+/*
+
+DESIGN CONSIDERATIONS:
+    Keep all php files to be include()'d in this same folder.
+
+*/
+
+
+
+
+
+
 // #######################################
 // ### USEFUL FUNCTIONS FOR DEVELOPERS ###
 // #######################################
@@ -18,6 +30,49 @@ function error_message($msg){
     echo "\n\n<span style='$style'>$msg</span>\n\n";
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ######################################
+// ### PATH SCANNING AND MODIFICATION ###
+// ######################################
+
+
+function dirscan_files($rootFolder){
+    // return full paths of just the files in a folder
+    $fileNames=[]; // will get filled
+    foreach (scandir($rootFolder) as $name){
+        if ($name=='.' || $name=='..') continue;
+        if (!is_dir($rootFolder."/".$name)) $fileNames[]=$name;
+    }
+    sort($fileNames);
+    return $fileNames;
+}
+
+function dirscan_folders($rootFolder){
+    // return full paths of just the folders in a folder
+    $folderNames=[]; // will get filled
+    foreach (scandir($rootFolder) as $name){
+        if ($name=='.' || $name=='..') continue;
+        if (is_dir($rootFolder."/".$name)) 
+            $folderNames[]=$name;
+    }
+    sort($folderNames);
+    return $folderNames;
+}
+
 // tidy-up a file or folder path and make everything backslashes
 function path_clean($path){
     $path = trim($path);
@@ -34,44 +89,44 @@ function path_xdrive_to_local($path){
     return path_clean($path);
 }
 
-// given the path to a markdown file, render and echo it as HTML
-function markdown_file_render($markdown_filename){
+function file_age_string($ageSec){
+    
+    // determine file age
+    //$ageSec=time()-filemtime($fname);
+    $ageMin=$ageSec/60;
+    $ageHr=$ageMin/60;
+    $ageDy=$ageHr/24;
+    $ageYr=$ageDy/365.25;
+    $ageString=date("F d Y H:i:s.", filemtime($fname));
+    
+    // determine string formatting
+    if ($ageHr<1) $ageString=sprintf("%.01f min", $ageMin);
+    else if ($ageDy<1) $ageString=sprintf("%.01f hr", $ageHr); 
+    else if ($ageDy<90) $ageString=sprintf("%.01f d", $ageDy);
+    else $ageString=sprintf("%.01f yr", $ageYr);
 
-    // ensure file exists
-    if (is_file($markdown_filename)){
-        // using it as-is, no big deal
-    } else if (path_xdrive_to_local($markdown_filename)){
-        $markdown_filename = path_xdrive_to_local($markdown_filename);
-    } else {
-        error_box("<b>FILE DOES NOT EXIST:</b><br><code>$markdown_filename</code>");
-        return;
-    }
-
-    // ensure file is not empty
-    if (filesize($markdown_filename)==0){
-        error_box("<b>FILE IS EMPTY:</b><br><code>$markdown_filename</code>");
-        return;
-    }
-
-    // render and echo the file
-    include_once('Parsedown.php');
-    $Parsedown = new Parsedown();
-    $f = fopen($markdown_filename, "r");
-    $raw = fread($f,filesize($markdown_filename));
-    fclose($f);
-    echo $Parsedown->text($raw);
-
-    // add a button to edit the file
-    $markdown_filename = path_clean($markdown_filename);
-    echo "<div align='right' style='font-size: 80%; color: #CCC;'>";
-    echo "$markdown_filename</div>";
-    //echo "<a href='$url' style='color: #CCC'>edit $url</a></div>";
-    //echo "<i>Edit this text block: $markdown_filename</i></div>";
+    return $ageString;
 }
 
+function html_link_file_age($file_path, $title=null, $url=null){
+    // display a link to a file with a color-coded tag to indicate how recently it was modified
+    $file_age_sec = time()-filemtime($file_path);
+    $file_age_days = $file_age_sec/60/60/24;
+    $file_age_string = file_age_string($file_age_sec);
+    if (!$title) $title=basename($file_path);
+    if (!$url) $url=$file_path;
+    $str_age = file_age_string($file_age_sec);
+    echo "<a href='$url'>$title</a> ";
 
+    $style='font-size: 80%; font-family: monospace; padding: 0px 3px 0px 3px; ';
 
-
+    if ($file_age_days<2) $style.="background-color: #FFFF99; color: #333; border: 1px solid #333";
+    else if ($file_age_days<14) $style.="background-color: #EEEECC; color: #999933; border: 1px solid #999933";
+    else if ($file_age_days<28) $style.="background-color: #DDEEDD; color: #666; border: 1px solid #666";
+    else $style.="background-color: #EEE; color: #999; border: 1px solid #999";
+    
+    echo"<span style='$style'>$str_age</span>";
+}
 
 
 
@@ -208,5 +263,75 @@ function link_origin_folder($folder, $title=""){
         }        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ############################
+// ### HTML GENERATION MISC ###
+// ############################
+
+
+// given the path to a markdown file, render and echo it as HTML
+function markdown_file_render($markdown_filename){
+
+    // ensure file exists
+    if (is_file($markdown_filename)){
+        // using it as-is, no big deal
+    } else if (path_xdrive_to_local($markdown_filename)){
+        $markdown_filename = path_xdrive_to_local($markdown_filename);
+    } else {
+        error_box("<b>FILE DOES NOT EXIST:</b><br><code>$markdown_filename</code>");
+        return;
+    }
+
+    // ensure file is not empty
+    if (filesize($markdown_filename)==0){
+        error_box("<b>FILE IS EMPTY:</b><br><code>$markdown_filename</code>");
+        return;
+    }
+
+    // render and echo the file
+    include_once('Parsedown.php');
+    $Parsedown = new Parsedown();
+    $f = fopen($markdown_filename, "r");
+    $raw = fread($f,filesize($markdown_filename));
+    fclose($f);
+    echo $Parsedown->text($raw);
+
+    // add a button to edit the file
+    $markdown_filename = path_clean($markdown_filename);
+    echo "<div align='right' style='font-size: 80%; color: #CCC;'>";
+    echo "$markdown_filename</div>";
+    //echo "<a href='$url' style='color: #CCC'>edit $url</a></div>";
+    //echo "<i>Edit this text block: $markdown_filename</i></div>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>

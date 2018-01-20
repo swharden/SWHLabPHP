@@ -82,9 +82,21 @@
 
     <h2>Surgery Records (animals, coordinates, and verification)</h2>
     <ul>
-        <li><a href="/swhLabPHP/src/browse/surgeries.php?path=X:\Data\surgeries">Preliminary Surgeries</a>
+        <!--<li><?php html_link_file_age('X:\Data\surgeries\surgery_log.txt', "Preliminary Surgeries", "/swhLabPHP/src/browse/surgeries.php?path=X:\Data\surgeries") ?>-->
+        <li><a href='/swhLabPHP/src/browse/surgeries.php?path=X:\Data\surgeries'>Preliminary Surgeries</a>
     </ul>
 </div>
+
+
+<div class="test"><h1>Technical</h1>
+	<ul>
+        <li>View a list of <a href='files/activeFolders/results.csv.html'>active folders (organized by date)</a> for the history of the lab.
+        <li>Github projects <a href="https://github.com/swharden/SWHLab">SWHLab</a>, <a href="https://github.com/swharden/SWHLabPHP">SWHLabPHP</a>, <a href="https://github.com/swharden/two-photon">two-photon</a>, and <a href='https://github.com/swharden/swh2p'>SWH2P</a>
+        <li>Scott's <a href="/SWHLabPHP/src/browse/scratch.php">scratch.php</a>
+        <li>Display this server's <a href="phpinfo.php">PHP information</a>
+	</ul>
+</div>
+
 
 <div align="center">
     Looking for something? It may be on the <a href="index_backup_180119.php">old website</a> ...
