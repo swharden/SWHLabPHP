@@ -115,3 +115,6 @@ On 2017-08-07 `\\Spike\X_Drive\` went offline and I had to rig SWHLabPHP to serv
 * ImageMagick `ImageMagick-6.9.8-10-Q8-x64-dll.exe` (this version)
 * Anaconda
 * `pip install neo`
+
+## Custom 404 page
+edit httpd.conf and search for the `ErrorDocument` lines
