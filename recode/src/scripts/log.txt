@@ -1,90 +1,39 @@
-[2018-01-24 10:58:47] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119025.abf
-[2018-01-24 10:58:48] completed [0.206 s]
+[2018-01-24 12:08:25] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123000.abf
+[2018-01-24 12:08:25] completed [0.472 s]
 
-[2018-01-24 10:58:49] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119026.abf
-[2018-01-24 10:58:49] completed [0.631 s]
+[2018-01-24 12:08:26] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123001.abf
+[2018-01-24 12:08:27] completed [0.866 s]
 
-[2018-01-24 10:58:50] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119027.abf
-[2018-01-24 10:58:51] completed [0.767 s]
+[2018-01-24 12:08:28] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123002.abf
+[2018-01-24 12:08:29] completed [0.862 s]
 
-[2018-01-24 10:58:52] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119028.abf
-[2018-01-24 10:58:53] completed [0.662 s]
+[2018-01-24 12:08:30] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123003.abf
+[2018-01-24 12:08:31] completed [0.576 s]
 
-[2018-01-24 10:58:54] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119029.abf
-[2018-01-24 10:58:55] completed [1.450 s]
+[2018-01-24 12:08:32] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123004.abf
+[2018-01-24 12:08:33] completed [1.674 s]
 
-[2018-01-24 10:58:56] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119030.abf
-[2018-01-24 10:58:56] completed [0.238 s]
+[2018-01-24 12:08:34] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123005.abf
+[2018-01-24 12:08:35] completed [0.812 s]
 
-[2018-01-24 10:58:57] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119031.abf
-[2018-01-24 10:58:58] completed [0.599 s]
+[2018-01-24 12:08:36] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123006.abf
+[2018-01-24 12:08:40] completed [3.784 s]
 
-[2018-01-24 10:58:59] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119032.abf
-[2018-01-24 10:59:00] completed [0.724 s]
+[2018-01-24 12:09:05] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123007.abf
+[2018-01-24 12:09:05] completed [0.522 s]
 
-[2018-01-24 10:59:01] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119033.abf
-[2018-01-24 10:59:01] completed [0.659 s]
+[2018-01-24 12:09:06] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123008.abf
+[2018-01-24 12:09:07] completed [0.767 s]
 
-[2018-01-24 10:59:02] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119034.abf
-[2018-01-24 10:59:04] completed [1.897 s]
+[2018-01-24 12:09:08] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123009.abf
+[2018-01-24 12:09:09] completed [0.782 s]
 
-[2018-01-24 10:59:05] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119035.abf
-[2018-01-24 10:59:06] completed [0.660 s]
+[2018-01-24 12:09:10] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123010.abf
+[2018-01-24 12:09:11] completed [0.675 s]
 
-[2018-01-24 10:59:07] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119036.abf
-[2018-01-24 10:59:08] completed [0.834 s]
+[2018-01-24 12:09:12] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123011.abf
+[2018-01-24 12:09:13] completed [1.560 s]
 
-[2018-01-24 10:59:09] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119037.abf
-[2018-01-24 10:59:09] completed [0.641 s]
-
-[2018-01-24 10:59:10] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119038.abf
-[2018-01-24 10:59:12] completed [1.371 s]
-
-[2018-01-24 10:59:13] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119039.abf
-[2018-01-24 10:59:13] completed [0.603 s]
-
-[2018-01-24 10:59:14] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119040.abf
-[2018-01-24 10:59:15] completed [0.778 s]
-
-[2018-01-24 10:59:16] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119041.abf
-[2018-01-24 10:59:17] completed [0.692 s]
-
-[2018-01-24 10:59:18] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119042.abf
-[2018-01-24 10:59:20] completed [2.067 s]
-
-[2018-01-24 10:59:21] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119043.abf
-[2018-01-24 10:59:22] completed [0.628 s]
-
-[2018-01-24 10:59:23] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119044.abf
-[2018-01-24 10:59:23] completed [0.778 s]
-
-[2018-01-24 10:59:24] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119045.abf
-[2018-01-24 10:59:25] completed [0.688 s]
-
-[2018-01-24 10:59:26] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119046.abf
-[2018-01-24 10:59:28] completed [1.684 s]
-
-[2018-01-24 10:59:29] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119047.abf
-[2018-01-24 10:59:29] completed [0.630 s]
-
-[2018-01-24 10:59:30] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119048.abf
-[2018-01-24 10:59:31] completed [0.795 s]
-
-[2018-01-24 10:59:32] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119049.abf
-[2018-01-24 10:59:33] completed [0.655 s]
-
-[2018-01-24 10:59:34] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119050.abf
-[2018-01-24 10:59:36] completed [1.707 s]
-
-[2018-01-24 10:59:37] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119051.abf
-[2018-01-24 10:59:37] completed [0.607 s]
-
-[2018-01-24 10:59:38] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119052.abf
-[2018-01-24 10:59:39] completed [0.709 s]
-
-[2018-01-24 10:59:40] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119053.abf
-[2018-01-24 10:59:41] completed [0.661 s]
-
-[2018-01-24 10:59:42] analyze D:\X_Drive\Data\projects\2017-07-31 CRH-tdTom mice\2017-11-13 OXT on CRH neurons\18119054.abf
-[2018-01-24 10:59:43] completed [1.834 s]
+[2018-01-24 12:09:14] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123012.abf
+[2018-01-24 12:09:20] completed [5.308 s]
 
