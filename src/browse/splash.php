@@ -42,259 +42,47 @@ li {line-height: 150%;}
 
 <br><br><br><br>
 
-<div class="test">
-    <?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\pinned.md'); ?>
-</div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\pinned.md'); ?></div>
 
-<div class='test'><h1>Electrophysiology Data Viewers</h1>
+<div class='test'>
 
-    <h2>View a folder of ABFs on the network:</h2>
+    <h1>Experiment Folder Viewers</h1>
+
+    <h2>ABF Experiment Folder</h2>
     <form action="/SWHLabPHP/recode/src/">
         <input type="hidden" name="view" value="abf">
         <input type="hidden" name="frames">
-        <input type="text" size="80" name="fldr" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="font-family: monospace;">
+        <input type="text" name="fldr" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;">
         <input type="submit" value="launch">
     </form>
 
-    <!--
-    <h2>Locate any file on the X-Drive (simple):</h2>
-    <form action="/SWHLabPHP/src/browse/search.php">
-        <input type="text" size="25" name="match" value="09610008.abf" style="font-family: monospace;">
-        <input type="submit" value="search">
-    </form>
-    -->
-
-    <h2>Locate a folder or file that moved:</h2>
-    <form action="/404.php">
-        <input type="text" size="80" name="path" value="X:\Data\some\folder\that\moved\2017-06-01 cell1 GOOD\*.123.tif" style="font-family: monospace;">
-        <input type="submit" value="search">
-        <div style='font-size: 80%; font-style: italic; color: #CCC;'>
-            This can take a filename, folder name, or a path. Asterisk wildcards are supported.
-        </div>
+    <h2>Two-Photon Experiment Folder</h2>
+    <form action="/SWHLabPHP/src/browse/old_linescan_index.php">
+        <input type="text" name="indexFolder" value="X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-08-28 Mannitol 2P" style="width:80%; font-family: monospace;">
+        <input type="submit" value="launch">
     </form>
 
-    <h2>Browse files by hand:</h2>
+    <h1>Browse Files Manually</h1>
     <ul>
         <li><a href="/SWHLabPHP/recode/src/?view=abf">ABF Browser</a>
-        <li><a href="SWHLabPHP/src/">Linescan Viewer</a>
         <li><a href="/X/">Apache File Browser</a>
     </ul>
+    <br>
 
-</div>
+    <table width="100%">
+    <tr>
+    <td><h1>ABF Locator</h1><iframe frameBorder="0" src="/SWHLabPHP/src/browse/findABF.php?view=iframe" height="300" width="100%"></iframe></td>
+    <td><h1>File or Path Locator</h1><iframe frameBorder="0" src="/404.php?view=iframe" height="300" width="100%"></iframe></td>
+    </tr>
+    </table>
 
-<div class="test"><h1>Surgical Projects</h1>
- 
-    <h2>Injection Resources</h2>
-	<ul>
-        <li>Allen Brain Atlas
-            <a href='https://scalablebrainatlas.incf.org/mouse/ABA_v3'>common coordinate framework</a>,
-            <a href='http://mouse.brain-map.org/experiment/thumbnails/100142143'>reference atlas</a>, 
-            <a href="http://help.brain-map.org/download/attachments/2818171/InjectionSites_and_StereotaxicCoordinates.pdf">stereotaxic coordinates (PDF)</a>
-    </ul>
-
-    <h2>Surgery Records (animals, coordinates, and verification)</h2>
-    <ul>
-        <!--<li><?php html_link_file_age('X:\Data\surgeries\surgery_log.txt', "Preliminary Surgeries", "/swhLabPHP/src/browse/surgeries.php?path=X:\Data\surgeries") ?>-->
-        <li><a href='/swhLabPHP/src/browse/surgeries.php?path=X:\Data\surgeries'>Preliminary Surgeries</a>
-    </ul>
-</div>
-
-
-<div class="test"><h1>Technical</h1>
-	<ul>
-        <li>View a list of <a href='files/activeFolders/results.csv.html'>active folders (organized by date)</a> for the history of the lab.
-        <li>Github projects <a href="https://github.com/swharden/SWHLab">SWHLab</a>, <a href="https://github.com/swharden/SWHLabPHP">SWHLabPHP</a>, <a href="https://github.com/swharden/two-photon">two-photon</a>, and <a href='https://github.com/swharden/swh2p'>SWH2P</a>
-        <li>Scott's <a href="/SWHLabPHP/src/browse/scratch.php">scratch.php</a>
-        <li>Display this server's <a href="phpinfo.php">PHP information</a>
-	</ul>
-</div>
-
-<div align="center" style='padding-top: 100px;'>&nbsp;</div>
-
-<div style="padding: 50px; border-top: 5px solid #FFCCCC;" align="center">
-<div style='font-size: 300%; font-weight: bold; color: #FFCCCC;'>BROKEN AND UNTESTED LINKS</div>
-<div style='font-style: italic; color: #FFCCCC;'>Scott is working on items below the red line. When they are verified as working, they will be moved above.</div>
 
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php
-function link_xdrive($path, $title="?"){
-    $url = str_replace("X:","/X/",str_replace("x:","X:",$path));
-    echo "<a href='$url' style='background-color: #FFFFCC;'>$title</a>";
-}
-?>
-
-
-
-
-<div class="test"><h1>Raw Data for Historical Projects</h1>
-  
-        <div class="cat_subsubtitle">Links here aim to summarize primary efforts and findings of large projects in one or two links.<br>For full project details use your file browser to explore all contents of the project folder.<br><br></div>
-        
-        
-        <li>OTR-Cre - PFC response to OXT:
-        <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-12-11%20OTR-Cre%20mice\2017-12-11%20PFC%20resp%20to%20OXT\data&frames'>data</a>, 
-        <a href='/dataX/projects/2017-12-11%20OTR-Cre%20mice/2017-12-11%20PFC%20resp%20to%20OXT/pics.html'>cell pics</a>, 
-        <?php link_xdrive('X:\Data\projects\2017-12-11 OTR-Cre mice\2017-12-11 PFC resp to OXT\summary.pdf','summary'); ?>
-
-
-        <li>AT1-Cre - NTS ChR2:             
-            <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-01-09%20AT1-Cre%20mice\2017-01-09%20global%20expression%20NTS&frames'>data (global)</a>,
-            <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-01-09%20AT1-Cre%20mice\2017-10-05%20nodose%20injection%20NTS&frames'>data (nodose)</a>,
-            <?php link_xdrive('X:\Data\projects\2017-01-09 AT1-Cre mice/summary_nts.pdf','summary (global and nodose)'); ?>
-        <li>AT1-Cre - MPO injection (ChR2 and halo):
-            <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-01-09%20AT1-Cre%20mice\2017-08-22%20MPO%20injection%20PVN&frames'>data</a>, 
-            <?php link_xdrive('X:\Data\projects\2017-01-09 AT1-Cre mice/summary_mpo.pdf','summary'); ?>
-        <li>AT1-Cre - MPO injection (GCaMP6f):
-            <a href='/dataX/projects/2017-01-09%20AT1-Cre%20mice/2017-12-21%20MPO%20GCaMP6f/data/'>video data</a>, 
-            <?php link_xdrive('X:\Data\projects\2017-01-09 AT1-Cre mice/summary_mpo_gcamp.pdf','summary'); ?>
-        
-        <li>Aging BLA round 1 (Bizon colab, March 2017, SH): <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-04-24%20aging%20BLA\2017-04-24%20BLA%20aging%20round1&frames'>data</a>,
-                          <a href='/dataX/projects/2017-04-24%20aging%20BLA/2017-04-24%20BLA%20aging%20round1/onenote_summary.pdf'>notes</a>,
-                          <?php link_xdrive('X:\Data\projects\2017-04-24 aging BLA/2017-04-24 BLA aging round1/summary aging round 1.pdf','summary'); ?>
-        <li>Aging BLA round 2 (Bizon colab, Oct 2017, SH/TS/JT): 
-                        <a href="/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-04-24%20aging%20BLA\2017-10-10%20BLA%20aging%20round2&frames">data</a>, 
-                        <a href="files/blagrant-2017-12-18.pdf">grant fig</a>, 
-                        <a href="files/blagrant-2017-12-18-alt.png">alt color</a>, 
-                        <?php link_xdrive('X:\Data\projects\2017-04-24 aging BLA\2017-10-10 BLA aging round2\summary round 2.pdf','summary'); ?>
-        
-        <li>OXT (not TGOT) on CRH Neurons: <a href='http://192.168.1.9/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-07-31%20CRH-tdTom%20mice\2017-11-13%20OXT%20on%20CRH%20neurons&frames'>data</a>
-        <li>Aging BLA halorhodopsin (SH): <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2017-07-17%20BLA%20halo%20aging%20Bizon\data&frames'>data</a>, <?php link_xdrive('X:\Data\projects\2017-07-17 BLA halo aging Bizon/summary.pdf','summary'); ?>
-        <li>Aging BLA study (round 1, KK and SH): <a href='/dataX/projects/2017-04-24%20aging%20BLA/2017-04-24%20BLA%20aging%20round1/onenote_summary.pdf'>notes</a>, <?php link_xdrive('X:\Data\projects\2017-04-24 aging BLA/2017-04-24 BLA aging round1/analysis/2017-10-17.pdf','summary'); ?>
-        <li>AT1-Cre PVN (ChR2 injected in MPO) BLS-evoked glu synapses onto VP+ MCNs: <?php link_xdrive('X:\Data\projects\2017-01-09 AT1-Cre mice/summary_mpo.pdf','summary'); ?>
-        <li>AT1-Cre NTS (ChR2 expressed globally) demonstrating GLU: <?php link_xdrive('X:\Data\projects\2017-01-09 AT1-Cre mice\summary_nts.pdf','summary'); ?>
-        <li>OTR-Cre (GCaMP6f injected in mPFC) fiber photometry: <a href='https://www.youtube.com/watch?v=r5iyD7B55EE'>video puffing glutamate</a> 
-        <li>OT signaling in the LHA (response to TGOT and OT-Cre/ChR2 BLS): <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\misc\2017-05-15%20SH%20MS%20LHA%20TGOT\data&frames'>data</a>, <?php link_xdrive('X:\Data\projects\misc/2017-05-15 SH MS LHA TGOT/onenote_notes3.pdf','summary'); ?> (map below)
-        <li>GCaMP6f field imaging in OT-Cre and GABA-Cre (PFC injection): <a href='/dataX/projects/misc/2017-05-10%20SH%20GCaMP6f%20PFC%20OXTR%20and%20GABA%20cre/onenote_notes.pdf'>notes</a>, <?php link_xdrive('X:\Data\projects\misc/2017-05-10 SH GCaMP6f PFC OXTR and GABA cre/summary 2017-06-11.pdf','summary'); ?>
-        <li>Evoked GLU release in the NAc: <a href='/dataX/projects/misc/2017-06-07%20SH%20NAC%20GLU%20for%20Peris/onenote_summary.pdf'>notes</a>, <a href='/dataX/projects/misc/2017-06-07%20SH%20NAC%20GLU%20for%20Peris/summary.png'>ephys figure</a>, and <a href='/dataX/projects/misc/2017-06-07%20SH%20NAC%20GLU%20for%20Peris/notes/diagram.png'>diagram</a>
-        <li>PVN astrocyte calcium imaging in CRH/tdTom mice: <a href="/dataX/projects/misc/2017-01-11%20PVN%20astrocyte%20calcium%20imaging/">results</a>, <?php link_xdrive('X:\Data\projects\misc/2017-01-11 PVN astrocyte calcium imaging/analysis/onenote_summary.pdf','summary'); ?>
-        <li>OXT Signaling in the Piriform Cortex: <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:\Data\projects\2016-09-01%20PIR%20TGOT\data&frames'>data</a>, manuscript (from 2016-01-02) is in Jason's cloud account (but <a href="http://192.168.1.9/dataX/projects/2016-09-01%20PIR%20TGOT/manuscript/backup.pdf">here</a> is a backup)
-        <li>TGOT induces sIPSCs in mouse BNST: <?php link_xdrive('X:\Data\projects\misc/2014-08 TGOT mouse BNST/summary.pdf','summary'); ?> (first demonstrated action of TGOT in our lab)
-        <li>OTR-Cre (ChR2 injected in BNST) local synapses, synapses in lateral septum and hippocampus: <a href='/dataX/projects/misc/2014-07-10%20OTR%20BNST%20ChR2/summary.txt'>summary</a> and <?php link_xdrive('X:\Data\projects\misc/2014-07-10 OTR BNST ChR2/paper outline.pdf','outline'); ?>
-        <li>OTR-Cre (ChR2 injected in VTA) intrinsic and synaptic properties: <?php link_xdrive('X:\Data\projects\misc/2014-07 VTA OXTR OPTO/results.pdf','summary'); ?>
-        <li>Two-photon calcium imaging in OT+ MCNs (OTA vs TGOT): <?php link_xdrive('X:\Data\projects\misc/2014-07 TGOT magnocellular two-photon/2P MCN TGOT 2014-08-11.pdf','R01 grant figure and follow-up'); ?>
-        <li>For projects contributed to before 2017, browse the X:\Data Analysis\ folder and read peoples' lab notebooks
-        
-</div>
-
-
-
-
-<div class="test"><h1>Animal Characterization</h1>
-
-        <a name='reporter_ottom'></a>
-        <h2>OT-Cre/Tom Mouse Line</h2>
-        <div class="cat_subsubtitle">This mouse line expresses tdTomato in OT-Cre neurons</div>
-        
-        <li>brain map: 
-        <a href="dataX/projects/2017-06-16 OT-Cre mice/reporter brain map/male/index.html">male</a>, 
-        <a href="dataX/projects/2017-06-16 OT-Cre mice/reporter brain map/female/images/index.html">female</a>
-        <br>         
-        
-        <li>Immuno-amplified tdTomato in the PFC:
-        <a href="dataX/projects\2017-06-16 OT-Cre mice\reporter brain map\2017-11-09 PFC\map.jpg">488</a>, 
-        <a href="dataX/projects\2017-06-16 OT-Cre mice\reporter brain map\2017-12-06 PFC\best-pics\map.jpg">594</a> 
-        <br> 
-
-        
-        <li>PVN validation: 
-        <a href="/dataX/projects\2017-06-16 OT-Cre mice\data\fishing\2017-06-16 mannitol linescans\data\linescans\2p/ZSeries-06302017-1049-699/MIP/out_merge">merged</a>,
-        <a href="/dataX/projects\2017-06-16 OT-Cre mice\data\fishing\2017-06-16 mannitol linescans\data\linescans\2p/ZSeries-06302017-1049-699/MIP/animated.gif">aniGray</a>,
-        <a href="/dataX/projects\2017-06-16 OT-Cre mice\data\fishing\2017-06-16 mannitol linescans\data\linescans\2p/ZSeries-06302017-1049-699/MIP/animated2.gif">aniCol</a><br>
-        
-        <li>IHC Notes: <a href='/dataX/projects/2017-06-16%20OT-Cre%20mice/reporter%20brain%20map/onenote_summary.pdf'>regarding antibodies and off-target Cre expression</a>
-
-        <a name='reporter_otchr2'></a>
-        <h2>OT-Cre/ChR2 Mouse Line</h2>
-        <div class="cat_subsubtitle">This mouse line expresses ChR2 in OT-Cre neurons. Although the rate of false-positive Cre/ChR2 expression may be 1 in 10,000, it is enough to label several non-OT neurons per slice. This means light-evoked currents (i.e., glutamate) may originate from non-OT neurons. This line is no longer being actively bred.</div>
-        <li><a href='/dataX/projects/2017-04-19%20OT-ChR2%20mice/2016-06-13%20OT%20ChR2%20brain%20map/OT-001/pvn-son-lowqual.png'>PVN/SON slice</a> (20 micron slice from Yalun)
-        <li><a href='/dataX/projects/2017-04-19%20OT-ChR2%20mice/2016-06-13%20OT%20ChR2%20brain%20map/OT-001/PIR-montage/pir_montage.png'>PIR slice</a> (20 micron slice from Yalun)
-        
-        <a name='reporter_crhtom'></a>
-        <h2>CRH-Cre/Tom Mouse Line</h2>
-        <div class="cat_subsubtitle">This mouse line expresses tdTomato in OT-Cre neurons</div>
-        
-        <li>brain map (male): 
-        <a href="/dataX/projects\2017-07-31 CRH-tdTom mice\reporter brain map/montage%2017801%20v2/enhanced_tdTom.png">Tom</a>,
-        <a href="/dataX/projects\2017-07-31 CRH-tdTom mice\reporter brain map/montage%2017801%20v2/enhanced_best.png">Tom+NP1</a><br>
-        
-        <li>PVN validation: 
-        <a href="/dataX/projects\2017-07-31 CRH-tdTom mice\reporter brain map/2p%20pvn%20flat/enhanced.png">Tom+NP1</a><br>
-
-        <a name='rat'></a>
-        <h2>Rat Neuroanatomy</h2>
-        <li>Rat pup (p16), horizontally sectioned, slice containing BLA:
-        <a href="/dataX/projects\misc\2017-07-19 TS practice\imaging/montage_enhanced.jpg">original</a> and 
-        <a href="/dataX/projects\misc\2017-07-19 TS practice\imaging/annotated.png">annotated</a><br>
-        <li>Aged rat (22mo), coronally sectioned, amygdalar complex (Todd)
-</div>
-
-
-
-<div class="test"><h1>Miscellaneous</h1>
-
-        <li>Frazier lab <?php link_xdrive('files/illustrations/filter_cubes/index.html','filter cube charts'); ?>
-        <li><a href="https://github.com/swharden/two-photon/tree/master/documentation/startup-and-shutdown">2P startup and shutdown notes</a>
-        <li><a href="https://github.com/swharden/two-photon/tree/master/software/time-series-analysis/2016-12-02-excel">2P time series (video) analysis with Excel</a> (for GCaMP or Fluo-4 AM experiments)
-        <li><a href="files/2p-shutter.pdf">two photon shutter build</a>
-        <li><a href="https://youtu.be/VrKIg0IQL98">old 2P laser calibration video</a> (see note about <a href="https://youtu.be/Bt9zSfinwFA">VVS</a>)
-        
-        <li>Calcium imaging using Fluo4 is possible in tdTomato animals: <a href="https://www.youtube.com/watch?v=gpVVqQLCe8Y">YouTube video</a>, <a href="/dataX/projects/misc/2017-03-10%20tdTomato%20fluo4/">data folder</a>, and <a href="/dataX/projects/misc/2017-03-10%20tdTomato%20fluo4/onenote_notes.pdf">notes</a>.
-        <li><a href="files/internal_k2.png">EPSCs and IPSCs are divergent at -70mV</a>using Scott's "K2" internal solution.
-        <li><a href="files/scope_frazier_vs_foster.png">comparison of slice optics between two similar microscopes</a>
-        <li><a href='https://youtu.be/4z3JDsVqICE'>time series calcium imaging analysis video tutorial</a> (for GCaMP or Fluo-4 AM experiments)
-        <li>GCaMP6f field imaging videos: <a href='https://www.youtube.com/watch?v=1OHvPi1TbII'>GABA-Cre PFC +GLU</a>, <a href='https://www.youtube.com/watch?v=EEuXCMoRtsw'>GABA-Cre mPFC +TGOT</a>, <a href='https://www.youtube.com/watch?v=zYcEWnD3GCs'>GABA-Cre iPFC +TGOT</a>, <a href='https://youtu.be/tXZq13Gtk1I'>OTR-Cre PFC +TGOT</a>
-        <li>Fiber photometry video <a href='https://www.youtube.com/watch?v=r5iyD7B55EE'>OTR-Cre PFC +GLU</a> and <a href='https://github.com/swharden/ROI-Analysis-Pipeline/tree/master/pyFiber'>software</a>
-        <li>Two-photon whole-cell experiment: <a href='/dataX/projects/misc/2017-06-08%20SH%202p%20F5%20tests/result_egta.png'>EGTA vs EGTA-Free internal</a>, <a href='/dataX/projects/misc/2017-06-08%20SH%202p%20F5%20tests/result_protocol.png'>back-acting AP protocol</a>
-        <li>Demonstration of <a href="files/eyfp-ihc.jpg">immuno-amplification of eYFP in an OTR reporter</a> (IHC reveals axons not present at rig time)
-        <li><a href="stock.php">Stock solution and aliquot calculator</a>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\historical.md'); ?></div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
 
 <div align="center">
     Looking for something? It may be on the <a href="index_backup_180119.php">old website</a> ...

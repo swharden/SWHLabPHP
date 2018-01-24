@@ -121,7 +121,12 @@ function display_surgery_log($path_csv){
                         $animal_file_path=$animal_folder.DIRECTORY_SEPARATOR.$fname;
                         if (!is_file($animal_file_path)) continue;
                         $url=str_replace("X:","/X/",$animal_file_path);
-                        echo "<a href='$url'>$fname</a> ";
+                        if (strpos(strtolower($fname),".jpg") || strpos(strtolower($fname),".png")){
+                            echo "<a href='$url'><img src='$url' height=100></a> ";
+                        } else {
+                            echo "<a href='$url'>$fname</a> ";
+                        }
+                        
                     }
                 }
             }
