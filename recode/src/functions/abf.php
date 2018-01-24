@@ -41,7 +41,9 @@ class ABFfolder
             redirect("?view=abf&fldr=X:/Data&frames");
         }
         if (!file_exists($this->fldr_local)) {
-            display_error("FOLDER DOES NOT EXIST:<br>$this->fldr_local");
+            //display_error("FOLDER DOES NOT EXIST:<br>$this->fldr_local");
+            echo "<h2>I can't seem to find:<br><code>$this->fldr_local</code></h2>";
+            echo "<h2>Try navigating for it using the <a href='/SWHLabPHP/recode/src/?view=abf&fldr=X:/Data&frames'>ABF browser</a></h2>";
             return;
         }
         $this->scanFiles(); // scan this folder and ./swhlab/
