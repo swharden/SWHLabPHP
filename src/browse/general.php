@@ -49,6 +49,34 @@ function error_message($msg){
 // ### PATH SCANNING AND MODIFICATION ###
 // ######################################
 
+// tidy-up a file or folder path and make everything backslashes
+function path_clean($path){
+    $path = trim($path);
+    $path = str_replace("/","\\",$path); // this kills me
+    while (strstr($path,"\\\\")) $path = str_replace("\\\\","\\",$path);
+    return $path;
+}
+
+function path_to_url($path, $linkToo=false){
+    $path=path_to_local($path);
+    $url=str_replace("D:\X_Drive","/X",$path);
+    $url=str_replace("\\","/",$url);
+    if ($linkToo) $url = "<a href='$url'>$url</a>";
+    return $url;
+}
+
+function path_to_network($path){
+    $path=path_to_local($path);
+    $path=str_replace("d:","D:",$path);
+    $path=str_replace("D:\X_Drive","X:",$path);
+    return path_clean($path);
+}
+
+function path_to_local($path){
+    $path=str_replace("x:","X:",$path);
+    $path=str_replace("X:","D:\X_Drive",$path);
+    return path_clean($path);
+}
 
 function dirscan_files($rootFolder){
     // return full paths of just the files in a folder
@@ -73,21 +101,6 @@ function dirscan_folders($rootFolder){
     return $folderNames;
 }
 
-// tidy-up a file or folder path and make everything backslashes
-function path_clean($path){
-    $path = trim($path);
-    $path = str_replace("/","\\",$path);
-    while (strstr($path,"\\\\")) $path = str_replace("\\\\","\\",$path);
-    return $path;
-}
-
-// given an X:\ path, return a D:\X_Drive\ path
-function path_xdrive_to_local($path){
-    $path=path_clean($path);
-    $path=str_replace("x:","X:",$path);
-    $path=str_replace("X:","D:\X_Drive",$path);
-    return path_clean($path);
-}
 
 function file_age_string($ageSec){
     
@@ -127,6 +140,7 @@ function html_link_file_age($file_path, $title=null, $url=null){
     
     echo"<span style='$style'>$str_age</span>";
 }
+
 
 
 
@@ -319,7 +333,54 @@ function markdown_file_render($markdown_filename){
 
 
 
+//  IMAGING
 
+function tiff_convert_folder($folder, $putInSwhlabFolder=true){
+    // given a folder with a bunch of TIF files, use python to make them JPGs.
+
+    if (!file_exists($folder)) return;
+
+    // ensure the output folder is ready
+    if ($putInSwhlabFolder==true){
+        $folder_output=$folder.'\\swhlab';
+        if (!file_exists($folder_output)) mkdir($folder."/swhlab/");
+    } else {
+        $folder_output=$folder;
+    }
+
+    $files = scandir($folder);
+    $files2 = scandir($folder_output);
+    $tifs_to_convert=[];
+    foreach ($files as $fname){
+        $extension=strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+        if ($extension == "tif" || $extension == "tiff") {
+            if (!in_array($fname.".jpg",$files2)){
+                $tifs_to_convert[]=$fname;
+            }            
+        }
+        
+    }
+
+    if (count($tifs_to_convert)==0) return;
+
+    // from here, a conversion is required
+    $tifCount=sizeof($tifs_to_convert);
+    $scriptPath='D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\src\browse\scripts\convertImages.py';
+    $__PATH_PYTHON__='C:\ProgramData\Anaconda3\python.exe';
+    $folder=path_to_local($folder);
+    $folder_output=path_to_local($folder_output);
+    $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$folder\" \"$folder_output\"";
+
+    echo "<div style='font-family: monospace; font-weight: bold; color: red;'>";
+    echo "CONVERTING $tifCount TIF->JPG ... ";
+    flush();ob_flush();
+    //echo "<hr>$cmd<hr>";
+    exec($cmd);       
+    flush();ob_flush();
+    
+    echo "DONE!</div>";
+
+}
 
 
 

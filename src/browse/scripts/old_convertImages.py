@@ -61,11 +61,10 @@ def image_convert2(fname,saveAs=True):
     im = ImageOps.autocontrast(im,.05)
     im.save(saveAs)
 
-def convert_single(path, folderOut=None, overwrite=False):
+def convert_single(path, overwrite=False):
     tifIn=os.path.abspath(path)
     folderIn=os.path.dirname(tifIn)
-    if folderOut is None:
-        folderOut=os.path.abspath(folderIn+"/swhlab/")
+    folderOut=os.path.abspath(folderIn+"/swhlab/")
     tifOut=os.path.join(folderOut,os.path.basename(tifIn)+".jpg")
 
     if overwrite is False and os.path.exists(tifOut):
@@ -73,13 +72,10 @@ def convert_single(path, folderOut=None, overwrite=False):
         return
 
     print("converting", os.path.basename(tifOut))
-    print(tifIn)
-    print(tifOut)
 
     # SCIPY - good for most images
     try:
         image_convert(tifIn, tifOut)
-        print(" METHOD 1 SUCCESS")
         return
     except:
         print(" METHOD 1 FAIL")
@@ -87,40 +83,29 @@ def convert_single(path, folderOut=None, overwrite=False):
     # PIL - for what crashes
     try:
         image_convert2(tifIn, tifOut)
-        print(" METHOD 2 SUCCESS")
         return
     except:
         print(" METHOD 2 FAIL")
 
     print(" ALL METHODS FAILED!")
 
-def convert_folder(path, outpath, overwrite=False):
+def convert_folder(path, overwrite=False):
     path=os.path.abspath(path)
-    outpath=os.path.abspath(outpath)
-    if not os.path.exists(outpath):
-        os.mkdir(outpath)
     print("converting all TIFs in",path)
     for tifIn in sorted(glob.glob(path+"/*.tif")):
-        convert_single(tifIn, outpath)
+        convert_single(tifIn)
     print("DONE")
 
 if __name__=="__main__":
-
-    sys.argv = ["convertImages.py",
-        R"X:\Data\surgeries\R366457",
-        R"X:\Data\surgeries\R366457\swhlab"]
-
     if len(sys.argv)==1:
         print("DEVELOPER TESTING")
-        convert_folder(R'X:\Data\surgeries\R366457',R'X:\Data\surgeries\R366457')
+        #convert_folder(R"X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-11-06 MT AP")
+        convert_single(R"X:\Data\projects\2017-04-24 aging BLA\2017-10-10 BLA aging round2\data\171018jt_0010.tif")
     elif len(sys.argv)==2 and os.path.exists(sys.argv[1]):
         if os.path.isfile(sys.argv[1]):
             convert_single(sys.argv[1])
         elif os.path.isdir(sys.argv[1]):
             convert_folder(sys.argv[1])
-    elif len(sys.argv)==3:
-        # path in, path out
-        convert_folder(sys.argv[1],sys.argv[2])
     else:
         print("ARGUMENT ERROR")
         print('Usage: python convertImages.py "X:\path\to\stuff\"')

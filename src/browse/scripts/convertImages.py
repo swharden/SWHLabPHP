@@ -108,7 +108,7 @@ if __name__=="__main__":
 
     sys.argv = ["convertImages.py",
         R"X:\Data\surgeries\R366457",
-        R"X:\Data\surgeries\R366457\swhlab"]
+        R"X:\Data\surgeries\R366457"]
 
     if len(sys.argv)==1:
         print("DEVELOPER TESTING")

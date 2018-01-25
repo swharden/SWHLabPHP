@@ -1,60 +1,19 @@
+<?php include('general.php'); ?>
+
+
 <html>
 <head>
 <style>
 body {font-family: sans-serif;}
 a {text-decoration: None; color: blue;}
 a:hover {text-decoration: underline;}
-td {padding: 10px; background-color: #EFEFEF;}
-th {padding: 10px; background-color: #CCCCCC;}
+td {font-family: 'Arial Narrow'; font-size: 80%; padding: 10px; background-color: #EFEFEF;}
+th {font-family: 'Arial Narrow'; font-size: 80%; padding: 10px; background-color: #CCCCCC;}
 </style>
 </head>
 <body>
 
 <?php
-
-function log_load2($logFile, $showInstructions=true){
-    
-    $logFileFolder=dirname(realpath($logFile));
-    $logFileFolder=str_replace("D:\\X_Drive","X:",$logFileFolder);
-    echo "<div style='font-size: 200%; font-weight: bold;'>Surgical Project Browser</div>";
-    echo "<div><code>$logFileFolder\\</code></div><br>";
-    
-    $filenames = scandir($logFileFolder);
-    $f = fopen($logFile, "r");
-    $raw=fread($f,filesize($logFile));
-    fclose($f);
-    echo "<table>";
-    $lines = explode("\n",$raw);
-    unset($lines[0]);
-    
-    foreach (["Cage Card","Species","AP/ML/DV","Surgery Date","Sac Date","notes","files"] as $part){
-        echo "<th>$part</td>";        
-    }
-    
-    foreach ($lines as $line){
-        $line=trim($line);
-        if ($line[0]=="#") continue;
-        echo "<tr>";
-        $parts=explode(", ",str_replace("\t","",$line));
-        foreach ($parts as $part){
-            $part=trim($part);
-            echo "<td>$part</td>";
-        }
-        echo "<td>";
-        foreach ($filenames as $filename){
-            if (strstr(strtoupper($filename),strtoupper(trim($parts[0])))){
-                $url="$logFileFolder\\$filename";
-                $url=str_replace("X:\Data\\","/dataX/",$url);
-                echo "<a href='$url'>";
-                echo $filename."</a><br>";
-            }
-        }
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-}
-
 
 function parse_csv ($csv_string, $delimiter = ",", $skip_empty_lines = true, $trim_fields = true)
 {
@@ -108,16 +67,26 @@ function display_surgery_log($path_csv){
     for ($row=1; $row<count($lines); $row++){
         $condensedRow=trim(str_replace(" ","",str_replace(",","",implode($lines[$row]))));
         if (strlen($condensedRow)<5) continue;
-        if ($lines[$row][0][0]=="#") continue;
+        if ($lines[$row][0][0]=="#" && !isset($_GET["showall"])) continue;
         echo "<tr>";
-        foreach ($lines[$row] as $cell) echo "<td>$cell</td>";
+        for ($col = 0; $col<count($lines[$row]); $col++) {
+            $cell=$lines[$row][$col];
+            if ($col==0){
+                echo "<td><b>$cell<b></td>";
+            } else {
+                echo "<td>$cell</td>";
+            }            
+        }
         if ($row==0) echo "<td>FILES</td>";
         else{
             echo "<td>";
             foreach ($folders as $folder){
                 if (strtolower($folder)==strtolower($lines[$row][0])){
                     $animal_folder=dirname($path_csv).DIRECTORY_SEPARATOR.$folder;
+                    tiff_convert_folder($animal_folder,false);
                     foreach (scandir($animal_folder) as $fname){
+                        $extension = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+                        if ($extension=='tif' || $extension =='tiff') continue;
                         $animal_file_path=$animal_folder.DIRECTORY_SEPARATOR.$fname;
                         if (!is_file($animal_file_path)) continue;
                         $url=str_replace("X:","/X/",$animal_file_path);
@@ -138,6 +107,8 @@ function display_surgery_log($path_csv){
 
     // display instructions
     echo "<div style='padding-top: 20px; color: #CCC;'>";
+    $path=$_GET["path"];
+    echo "<li><a href='http://192.168.1.9/SWHLabPHP/src/browse/surgeries.php?showall=true&path=$path'>display hidden animals too</a>";
     echo "<li>This file was generated from <code>$path_csv</code>";
     echo "<li>Animal numbers in the CSV file starting with # will not be displayed";
     echo "<li>Backups of this surgery log are automatically created daily.";
@@ -162,12 +133,13 @@ function file_backup($file_path){
 
 if(isset($_GET["path"])){
     $path=$_GET["path"];
-    $path=$path.DIRECTORY_SEPARATOR."surgery_log.csv";
-    if (file_exists($path)){
-        file_backup($path);
-        display_surgery_log($path);
+    $path_csv=$path.DIRECTORY_SEPARATOR."surgery_log.csv";
+    if (file_exists($path_csv)){
+        file_backup($path_csv);
+        tiff_convert_folder($path);
+        display_surgery_log($path_csv);
     } else {
-        echo "FILE DOESN'T EXIST: <code>$path</code>";
+        echo "FILE DOESN'T EXIST: <code>$path_csv</code>";
     }
     
 } else{
