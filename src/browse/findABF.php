@@ -74,6 +74,15 @@ if (!isset($_REQUEST["view"]) && !isset($_REQUEST["filename"])){
     echo "<li>Example 2 (multiple matches): <a href='$url'>$url</a><br>";
 }
 
+function showPathLink($folder){
+    $folder = str_replace('D:\X_Drive','X:',$folder);
+    $url = "/SWHLabPHP/recode/src/?view=abf&frames&fldr=$folder";
+    echo "<code><a target='_blank' href='$url'>$folder\\</a></code><br>";
+    if (isset($_REQUEST["filename"])){
+        echo "<code>altpath$=\"$folder\"</code><br><br>";
+    }
+}
+
 if (isset($_REQUEST["filename"])){
     $abf_file_name = $_REQUEST["filename"];
     echo "<div style='line-height: 150%; color: #CCC; font-style: italic; font-size: 80%;'>";
@@ -84,15 +93,11 @@ if (isset($_REQUEST["filename"])){
         echo "NO MATCH FOUND";
     } else if (count($files)==1){
         echo "found!</div>";
-        $fname = str_replace('D:\X_Drive','X:',$files[0]);
-        $url = "/SWHLabPHP/recode/src/?view=abf&frames&fldr=".dirname($fname);
-        echo "<code><a target='_blank' href='$url'>".dirname($fname)."\\</a></code><br>";
+        showPathLink(dirname($files[0]));
     } else {
         echo "found multiple matches:</div>";
         foreach ($files as $fname){
-            $fname = str_replace('D:\X_Drive','X:',$fname);
-            $url = "/SWHLabPHP/recode/src/?view=abf&frames&fldr=".dirname($fname);
-            echo "<code><a target='_blank' href='$url'>".dirname($fname)."\\</a></code><br>";
+            showPathLink(dirname($fname));
         }
     }
 }
