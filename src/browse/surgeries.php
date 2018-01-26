@@ -7,8 +7,45 @@
 body {font-family: sans-serif;}
 a {text-decoration: None; color: blue;}
 a:hover {text-decoration: underline;}
-td {font-family: 'Arial Narrow'; font-size: 80%; padding: 10px; background-color: #EFEFEF;}
-th {font-family: 'Arial Narrow'; font-size: 80%; padding: 10px; background-color: #CCCCCC;}
+table{
+    border: 2px solid #666;
+    box-shadow: 5px 5px 10px  rgba(0, 0, 0, 0.25);
+}
+td {
+    font-family: 'Arial Narrow'; 
+    font-size: 80%; padding: 5px; 
+    white-space: nowrap;
+    border: .5px solid rgba(0, 0, 0, 0.05);
+}
+
+th {
+    font-family: 'Arial Narrow'; 
+    font-size: 80%; padding: 5px; 
+    background-color: #666;
+	color: white;
+}
+
+.row0{
+    background-color: #E9E9E9;
+}
+.row1{
+    background-color: #E0E0E0;
+}
+
+.row0alt{
+    background-color: #c0e0ce;
+}
+.row1alt{
+    background-color: #afd1be;
+}
+
+.micrograph{
+    margin: 5px;
+    border: 1px solid black;
+    background-color: black;
+    box-shadow: 2px 2px 7px  rgba(0, 0, 0, 0.5); 
+}
+
 </style>
 </head>
 <body>
@@ -42,7 +79,11 @@ function parse_csv ($csv_string, $delimiter = ",", $skip_empty_lines = true, $tr
 
 
 function display_surgery_log($path_csv){
-    echo "<div style='font-size: 300%; font-weight: bold;'>Surgery Log</div>";
+    if (isset($_GET["showall"])){
+        echo "<div style='font-size: 300%; font-weight: bold;'>Surgery Log (all animals)</div>";
+    } else {
+        echo "<div style='font-size: 300%; font-weight: bold;'>Surgery Log</div>";
+    }
     echo "<div style='padding-bottom: 20px; color: #CCC;'>$path_csv</div>";
 
     // read the CSV file
@@ -61,14 +102,35 @@ function display_surgery_log($path_csv){
     }
 
     // read the CSV and create the primary data table
-    echo "<table><tr>";
-    foreach ($lines[0] as $cell) echo "<th>$cell</td>";
-    echo "<th>FILES</th></tr>";
+    echo "<table cellspacing='0' cellpadding='0'><tr>";
+    foreach ($lines[0] as $cell){
+        //if (strlen($cell)==0) continue;
+        $cell=strtoupper($cell);
+        $cell=str_replace("STRAIN","STN",$cell);
+        $cell=str_replace("TARGET","TGT",$cell);
+        $cell=str_replace("DAYS","&Delta;",$cell);
+        if (strpos($cell,"OLUME")==1) $cell="&mu;L";
+        echo "<th>$cell</td>";
+    }
+    echo "<th align='left'>FILES</th></tr>";
+    $rowsShown=0;
+	$lastRowWasSpacer=true;
     for ($row=1; $row<count($lines); $row++){
-        $condensedRow=trim(str_replace(" ","",str_replace(",","",implode($lines[$row]))));
-        if (strlen($condensedRow)<5) continue;
         if ($lines[$row][0][0]=="#" && !isset($_GET["showall"])) continue;
-        echo "<tr>";
+        $condensedRow=trim(str_replace(" ","",str_replace(",","",implode($lines[$row]))));
+        if (strlen($condensedRow)<10) {
+			if ($lastRowWasSpacer==true) continue;
+			echo "<tr style='background-color: #666;'><td colspan='99'></td></tr>";
+			$lastRowWasSpacer=true;
+			continue;
+		} else {
+			$lastRowWasSpacer=false;
+		}
+        $rowType=$rowsShown%2;
+        $rowsShown+=1;
+		$useAlt='';
+		if (trim($lines[$row][11])=='') $useAlt='alt';
+        echo "<tr class='row$rowType$useAlt'>";
         for ($col = 0; $col<count($lines[$row]); $col++) {
             $cell=$lines[$row][$col];
             if ($col==0){
@@ -79,6 +141,7 @@ function display_surgery_log($path_csv){
         }
         if ($row==0) echo "<td>FILES</td>";
         else{
+            //echo "<td style='white-space: normal;'>";
             echo "<td>";
             foreach ($folders as $folder){
                 if (strtolower($folder)==strtolower($lines[$row][0])){
@@ -86,12 +149,12 @@ function display_surgery_log($path_csv){
                     tiff_convert_folder($animal_folder,false);
                     foreach (scandir($animal_folder) as $fname){
                         $extension = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
-                        if ($extension=='tif' || $extension =='tiff') continue;
+                        if ($extension=='tif' || $extension =='tiff' || $extension=='db') continue;
                         $animal_file_path=$animal_folder.DIRECTORY_SEPARATOR.$fname;
                         if (!is_file($animal_file_path)) continue;
                         $url=str_replace("X:","/X/",$animal_file_path);
                         if (strpos(strtolower($fname),".jpg") || strpos(strtolower($fname),".png")){
-                            echo "<a href='$url'><img src='$url' height=100></a> ";
+                            echo "<a href='$url'><img class='micrograph' src='$url' height=100></a> ";
                         } else {
                             echo "<a href='$url'>$fname</a> ";
                         }
@@ -108,7 +171,9 @@ function display_surgery_log($path_csv){
     // display instructions
     echo "<div style='padding-top: 20px; color: #CCC;'>";
     $path=$_GET["path"];
-    echo "<li><a href='http://192.168.1.9/SWHLabPHP/src/browse/surgeries.php?showall=true&path=$path'>display hidden animals too</a>";
+    $urlShowing="http://192.168.1.9/SWHLabPHP/src/browse/surgeries.php?showall=true&path=$path";
+    $urlHiding="http://192.168.1.9/SWHLabPHP/src/browse/surgeries.php?&path=$path";
+    echo "<li>You can display this page <a href='$urlShowing'>showing</a> or <a href='$urlHiding'>hiding</a> ignored animals</a>";
     echo "<li>This file was generated from <code>$path_csv</code>";
     echo "<li>Animal numbers in the CSV file starting with # will not be displayed";
     echo "<li>Backups of this surgery log are automatically created daily.";
