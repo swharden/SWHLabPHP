@@ -1,39 +1,27 @@
-[2018-01-24 12:08:25] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123000.abf
-[2018-01-24 12:08:25] completed [0.472 s]
+[2018-01-25 16:35:18] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0124.abf
+[2018-01-25 16:35:18] completed [0.517 s]
 
-[2018-01-24 12:08:26] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123001.abf
-[2018-01-24 12:08:27] completed [0.866 s]
+[2018-01-25 16:35:19] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0125.abf
+[2018-01-25 16:35:20] completed [0.593 s]
 
-[2018-01-24 12:08:28] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123002.abf
-[2018-01-24 12:08:29] completed [0.862 s]
+[2018-01-25 16:35:21] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0126.abf
+[2018-01-25 16:35:22] completed [0.618 s]
 
-[2018-01-24 12:08:30] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123003.abf
-[2018-01-24 12:08:31] completed [0.576 s]
+[2018-01-25 16:35:23] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0127.abf
+[2018-01-25 16:35:23] completed [0.585 s]
 
-[2018-01-24 12:08:32] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123004.abf
-[2018-01-24 12:08:33] completed [1.674 s]
+[2018-01-25 16:35:24] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0128.abf
+[2018-01-25 16:35:25] completed [0.315 s]
 
-[2018-01-24 12:08:34] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123005.abf
-[2018-01-24 12:08:35] completed [0.812 s]
+[2018-01-25 16:35:26] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0129.abf
+[2018-01-25 16:35:27] completed [1.052 s]
 
-[2018-01-24 12:08:36] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123000\ephys\18123006.abf
-[2018-01-24 12:08:40] completed [3.784 s]
+[2018-01-25 16:35:28] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0130.abf
+[2018-01-25 16:35:30] completed [2.336 s]
 
-[2018-01-24 12:09:05] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123007.abf
-[2018-01-24 12:09:05] completed [0.522 s]
+[2018-01-25 16:35:31] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0131.abf
+[2018-01-25 16:35:33] completed [1.816 s]
 
-[2018-01-24 12:09:06] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123008.abf
-[2018-01-24 12:09:07] completed [0.767 s]
-
-[2018-01-24 12:09:08] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123009.abf
-[2018-01-24 12:09:09] completed [0.782 s]
-
-[2018-01-24 12:09:10] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123010.abf
-[2018-01-24 12:09:11] completed [0.675 s]
-
-[2018-01-24 12:09:12] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123011.abf
-[2018-01-24 12:09:13] completed [1.560 s]
-
-[2018-01-24 12:09:14] analyze D:\X_Drive\Data\projects\2017-06-16 OT-Cre mice\data\2018-01-23 PVN OT-MCNs characterization\Dendritic calcium\18123007\ephys\18123012.abf
-[2018-01-24 12:09:20] completed [5.308 s]
+[2018-01-25 16:35:34] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0132.abf
+[2018-01-25 16:35:42] completed [8.049 s]
 
