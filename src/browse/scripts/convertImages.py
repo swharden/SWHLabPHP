@@ -105,13 +105,11 @@ def convert_folder(path, outpath, overwrite=False):
     print("DONE")
 
 if __name__=="__main__":
-
-    sys.argv = ["convertImages.py",
-        R"X:\Data\surgeries\R366457",
-        R"X:\Data\surgeries\R366457"]
-
     if len(sys.argv)==1:
         print("DEVELOPER TESTING")
+        sys.argv = ["convertImages.py",
+            R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-01-25 sine pyr oxt",
+            R"X:\Data\SD\Piriform Oxytocin\pilot experiments\2018-01-25 sine pyr oxt\swhlab"]
         convert_folder(R'X:\Data\surgeries\R366457',R'X:\Data\surgeries\R366457')
     elif len(sys.argv)==2 and os.path.exists(sys.argv[1]):
         if os.path.isfile(sys.argv[1]):
