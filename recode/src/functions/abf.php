@@ -62,12 +62,15 @@ class ABFfolder
         }
         
         $tifCount=sizeof($tifFiles);
-        $scriptPath='D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\recode\src\scripts\convertImages.py';
+        //$scriptPath='D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\recode\src\scripts\convertImages.py';
+        $scriptPath='D:\X_Drive\Lab Documents\network\htdocs\SWHLabPHP\src\browse\scripts\convertImages.py';
         $__PATH_PYTHON__=$GLOBALS['__PATH_PYTHON__'];
-        $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$this->fldr_local\"";
+		$pathIN = $this->fldr_local;
+		$pathOUT = $pathIN.'\swhlab';
+        $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$pathIN\" \"$pathOUT\" ";
         echo "<code>";
-        echo "<hr><b>$tifCount TIFS REQUIRE TIF->JPG CONVERSION:<br></b> ";
-        foreach ($tifFiles as $fname) echo "$fname ";
+        echo "<hr><b>$tifCount TIFS REQUIRE TIF->JPG CONVERSION: ...</b> ";
+        //foreach ($tifFiles as $fname) echo "$fname ";
         echo "<hr><b>RUNNING COMMAND:</b><br>$cmd</b> ... ";
         
         
@@ -75,7 +78,7 @@ class ABFfolder
         exec($cmd);       
         flush();ob_flush();
         
-        echo "<b>COMPLETE!</b><hr></code>";
+        echo "<b>DONE!</b><hr></code>";
         
         
         /*
