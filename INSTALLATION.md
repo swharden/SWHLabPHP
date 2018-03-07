@@ -118,3 +118,11 @@ On 2017-08-07 `\\Spike\X_Drive\` went offline and I had to rig SWHLabPHP to serv
 
 ## Custom 404 page
 edit httpd.conf and search for the `ErrorDocument` lines
+
+## SQLite3
+Edit php.ini and add:
+```
+[ExtensionList]
+extension=php_pdo_sqlite.dll
+extension=php_sqlite3.dll
+```
