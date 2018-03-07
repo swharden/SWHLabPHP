@@ -58,7 +58,7 @@ li {line-height: 150%;}
 
     <h2>Two-Photon Experiment Folder</h2>
     <form action="/SWHLabPHP/src/browse/old_linescan_index.php">
-        <input type="text" name="indexFolder" value="X:\Data\projects\2017-06-16 OT-Cre mice\data\2017-08-28 Mannitol 2P" style="width:80%; font-family: monospace;">
+        <input type="text" name="indexFolder" value="X:\Data\OT-Cre\calcium-mannitol\2017-08-28 Mannitol 2P\MCNs" style="width:80%; font-family: monospace;">
         <input type="submit" value="launch">
     </form>
 

@@ -52,6 +52,8 @@ class ABFfolder
         $this->scanCellsFile(); // load cells.txt for cell colors and comments
     }
     
+
+
     function convertAllTiffs(){
         // automatically turn all x.tif files into ./swhlab/x.tif.JPG files
         $tifFiles=$this->tifsNeedingAnalysis();
@@ -71,7 +73,7 @@ class ABFfolder
         echo "<code>";
         echo "<hr><b>$tifCount TIFS REQUIRE TIF->JPG CONVERSION: ...</b> ";
         //foreach ($tifFiles as $fname) echo "$fname ";
-        echo "<hr><b>RUNNING COMMAND:</b><br>$cmd</b> ... ";
+        //echo "<hr><b>RUNNING COMMAND:</b><br>$cmd</b> ... ";
         
         
         flush();ob_flush();
@@ -128,7 +130,7 @@ class ABFfolder
         $this->scanFiles(); // update after making tifs
         $this->scanCellsFile();  // update after making tifs
     }
-    
+
     function abfNeedsAnalysis($cellID){
         // check if an ABF needs analysis (based on lack of files in ./swhlab/)
         if (!count($this->files2)) return True;

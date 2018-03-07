@@ -1,5 +1,7 @@
 <?php
 
+require_once('general.php');
+
 /* 
 
 ----- ABOVE THIS IS THE STIMULATED ABF CORE ----
@@ -7,33 +9,19 @@ MOVE THINGS UP THERE ONLY WHEN THEY ARE POLISHED
 
 */
 
-?>
-
-
-<html>
-<head>
-<title>ABFview</title>  
-<link rel="stylesheet" href="styles.css">
-<style>
-body {font-family: sans-serif;}
-a {color: blue; text-decoration: none;}
-a:hover {color: blue;text-decoration: underline;}
-</style>
-</head>
-<body>
-
-<?php
 
 class ProjectFolder{
 
     /* 
     
-    EXPERIMENTAL PROJECT ORGANIZATION
+    PROJECT FOLDER CLASS: ONE FOLDER FOR ONE EXPERIMENT
+    
+    Organizing Experimental Project Folders:
+        Experiments are organized into projects. All experimental data for a project is stored in a single folder.
+        Details of the project are stored in "summary.txt", "experiment.txt", "summary.md", or "experiment.md"
+        The experiment project folder full path is called "path_root".
 
-    Experiments are organized into projects. All experimental data for a project is stored in a single folder.
-    Details of the project are stored in "summary.txt", "experiment.txt", "summary.md", or "experiment.md"
-    The experiment project folder full path is called "path_root".
-
+    Example Project Paths:
         path_root\experiment.txt - explains the conditions used to collect the data (animal, bath, drugs, etc.). This file is required**
         path_root\abfs\ - stores all ABFs and TIFs acquired at a rig. The website can analyze/display ABFs same as before.
         path_root\analysis\ - small amounts of analyzed data (i.e., XLS) or graphs (JPG, PNG, TIF) for reference in the future. It is not for OPJs.
@@ -45,7 +33,7 @@ class ProjectFolder{
 
     function __construct($project_path){
         $this->path_given = $project_path;
-        $this->path_root = $this->path_to_local($project_path);
+        $this->path_root = path_to_local($project_path);
 
         // scan contents
         $this->contents = scandir($this->path_root);
@@ -116,8 +104,8 @@ class ProjectFolder{
         echo "<b>PROJECT INFORMATION</b><br>";
         echo "root path provided: $this->path_given<br>";
         echo "root local path: ".$this->path_root."<br>";
-        echo "root network path: ".$this->path_to_url($this->path_root)."<br>";
-        echo "root URL: ".$this->path_to_url($this->path_root, true)."<br>";
+        echo "root network path: ".path_to_url($this->path_root)."<br>";
+        echo "root URL: ".path_to_url($this->path_root, true)."<br>";
         echo "root path folder count: ".count($this->folders)."<br>";
         echo "root path file count: ".count($this->files)."<br>";
         echo "path contains a summary: ".($this->contains_summary ? "true" : "false")."<br>";
@@ -129,29 +117,24 @@ class ProjectFolder{
         echo "</div>";
     }
 
-    function path_to_url($path, $linkToo=false){
-        $path=$this->path_to_local($path);
-        $url=str_replace("D:\X_Drive","/X",$path);
-        $url=str_replace("\\","/",$url);
-        if ($linkToo) $url = "<a href='$url'>$url</a>";
-        return $url;
-    }
-
-    function path_to_network($path){
-        $path=$this->path_to_local($path);
-        $path=str_replace("D:\X_Drive","X:",$path);
-        return $path;
-    }
-
-    function path_to_local($path){
-        // always provide uppercase drive letter and backslash separators
-        $path=str_replace("x:","X:",$path);
-        $path=str_replace("X:","D:\X_Drive",$path);
-        $path=str_replace("/","\\",$path); // this kills me
-        return $path;
-    }
-
 }
+
+?>
+
+
+<html>
+<head>
+<title>ABFview</title>  
+<link rel="stylesheet" href="styles.css">
+<style>
+body {font-family: sans-serif;}
+a {color: blue; text-decoration: none;}
+a:hover {color: blue;text-decoration: underline;}
+</style>
+</head>
+<body>
+
+<?php
 
 $project = new ProjectFolder('x:\Data\OTR-Cre/PFC inj eYFP OXT response');
 $project = new ProjectFolder('x:\Data\OTR-Cre/PFC inj eYFP OXT response\abfs');
