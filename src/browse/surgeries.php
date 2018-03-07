@@ -7,8 +7,8 @@
 body {font-family: sans-serif;}
 a {text-decoration: None; color: blue;}
 a:hover {text-decoration: underline;}
-table{
-    border: 2px solid #666;
+.tableAnimals{
+    border: 1px solid #666;
     box-shadow: 5px 5px 10px  rgba(0, 0, 0, 0.25);
 }
 td {
@@ -52,6 +52,8 @@ th {
 
 <?php
 
+
+
 function parse_csv ($csv_string, $delimiter = ",", $skip_empty_lines = true, $trim_fields = true)
 {
     $enc = preg_replace('/(?<!")""/', '!!Q!!', $csv_string);
@@ -84,7 +86,18 @@ function display_surgery_log($path_csv){
     } else {
         echo "<div style='font-size: 300%; font-weight: bold;'>Surgery Log</div>";
     }
-    echo "<div style='padding-bottom: 20px; color: #CCC;'>$path_csv</div>";
+    echo "<div><a href='surgeries2.php'>test-out version 2</a></div>";
+    //echo "<div style='padding-bottom: 20px; color: #CCC;'>$path_csv</div>";
+	
+	// display the markdown notes
+	echo "<table cellspacing=0 class='tableAnimals' style='background-color: #EEE; margin-top: 20px; margin-bottom: 20px;'><tr><th align='left' style='font-size: 200%;'>";
+	$age_since = time()-filemtime('D:X_Drive\Data\surgeries\colony.md');
+	echo "Colony Notes (updated ".file_age_string($age_since)." ago)";
+	echo "</th></tr><tr><td style='border: none;'>";
+	echo "<div style='padding-right: 40px;'>";
+	markdown_file_render($markdown_file_folder.'X:\Data\surgeries\colony.md');
+	echo "</div>";
+	echo "</td></tr></table>";
 
     // read the CSV file
     $f = fopen($path_csv, "r");
@@ -102,7 +115,13 @@ function display_surgery_log($path_csv){
     }
 
     // read the CSV and create the primary data table
-    echo "<table cellspacing='0' cellpadding='0'><tr>";
+    echo "<table class='tableAnimals' cellspacing='0' cellpadding='0' style='margin-top: 50px;'><tr>";
+
+    echo "<tr><th colspan='15' align='left' style='font-size: 200%;'>";
+	$age_since = time()-filemtime('D:X_Drive\Data\surgeries\surgery_log.csv');
+    echo "Surgery Log (updated ".file_age_string($age_since)." ago)";
+    echo "</th></tr>";
+
     foreach ($lines[0] as $cell){
         //if (strlen($cell)==0) continue;
         $cell=strtoupper($cell);
@@ -134,7 +153,7 @@ function display_surgery_log($path_csv){
         for ($col = 0; $col<count($lines[$row]); $col++) {
             $cell=$lines[$row][$col];
             if ($col==0){
-                echo "<td><b>$cell<b></td>";
+                echo "<td style='font-weight: bold; font-size: 150%;'>$cell</td>";
             } else {
                 echo "<td>$cell</td>";
             }            
@@ -175,9 +194,12 @@ function display_surgery_log($path_csv){
     $urlHiding="http://192.168.1.9/SWHLabPHP/src/browse/surgeries.php?&path=$path";
     echo "<li>You can display this page <a href='$urlShowing'>showing</a> or <a href='$urlHiding'>hiding</a> ignored animals</a>";
     echo "<li>This file was generated from <code>$path_csv</code>";
+	echo '<li>Notes at the top are generated from <code>X:\Data\surgeries\colony.md</code>';
     echo "<li>Animal numbers in the CSV file starting with # will not be displayed";
     echo "<li>Backups of this surgery log are automatically created daily.";
     echo "</div>";
+
+    
 }
 
 function file_backup($file_path){
