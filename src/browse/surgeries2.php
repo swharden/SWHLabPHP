@@ -25,6 +25,7 @@ function display_files($folder, $figHeight=150){
 }
 
 
+
 function update_sx_log(){
 
     // connect to database
@@ -66,6 +67,14 @@ function update_sx_log(){
     
     echo "\n\n<!-- \n $sql \n -->\n\n";
 
+}
+
+function deltaDays($dateOld, $dateNew){
+    if ($dateNew=="") $dateNew = "now";
+    $d1 = strtotime($dateOld);
+    $d2 = strtotime($dateNew);   
+    $delta = ($d2-$d1)/(60*60*24);
+    return (int)$delta;
 }
 
 function display_sx_log(){
@@ -116,12 +125,14 @@ function display_sx_log(){
     echo "</br></td></tr>";
     
     function editButton($line){
+        $html.="\n\n";
         $html.='<button onclick="setData({';
         foreach ($line as $key => $value) {
             $html.="$key: '$value', ";
         }
         $html.="test: 'test'})";
         $html.='">edit</button>';
+        $html.="\n\n";
         return $html;
     }
 
@@ -129,12 +140,12 @@ function display_sx_log(){
     $shownAnimals=[];
     while ($line = $results->fetchArray(SQLITE3_ASSOC)) {
         
-        if ($line["animal"][0]=="#") {
-            if (!isset($_GET["showAll"])) continue;
+        if ($line["hidden"]!="") {
+            if (!isset($_GET["showAll"])) {
+                $shownAnimals[]=$line["animal"];
+                continue;
+            }
         }
-
-        if ($line["hidden"]=="1") continue; // skip hidden animals (database)
-        //$line["animal"]=str_replace("R","",$line["animal"]);
     
         if (!isset($_GET["showAll"])){
             if (in_array($line["animal"],$shownAnimals)){
@@ -144,28 +155,47 @@ function display_sx_log(){
             }
         } 
 
+        //$unsure = "<span style='background-color: red;'>???</span>";
+        $unsure = "?????????????????????";
         $displayedRows+=1;
         if (strlen($line["coords"]) == "") {
-            $line["coords"]="coords unknown";
+            $line["coords"].="?,?,?";
         } else {
             $coords = explode(",", $line["coords"]);
             if (sizeof($coords)==3){
                 $line["coords"]="";
-                $line["coords"].="AP: ".$coords[0].", ";
-                $line["coords"].="ML: ".$coords[1].", ";
-                $line["coords"].="DV: ".$coords[2];
+                $line["coords"].=$coords[0].", ";
+                $line["coords"].=$coords[1].", ";
+                $line["coords"].=$coords[2];
+            } else {
+                $line["coords"].="?,?,?";
             }
         }
+
+        if ($line["originalCage"]=="") $line["originalCage"]=$unsure;
+
+        $daysPostSx=deltaDays($line["dateSx"], $line["dateSac"]);
+
         $bgcolor = ($displayedRows%2==1 ? "#E9E9E9" : "#E0E0E0");
         echo "<tr style='background-color: $bgcolor; '>";
         echo "<td valign='top' style='min-width: 450px;'>";
-        echo "<div style='font-size: 200%; font-weight: bold;'>".$line["animal"]."</div>";
+
+        $style='';
+        if ($line["dateSac"]=="") $style.='background-color: lightgreen; ';
+        if ($line["hidden"]!="") $style.='text-decoration: line-through; ';
+        echo "<div style='font-size: 200%; font-weight: bold;'><span style='$style'>".$line["animal"]."</style></div>";
+
+        if ($line["dateSac"]=="") {
+            echo "<div><span style='$style'>animal is alive ($daysPostSx days post Sx)</span></div>";
+        }
+
         echo "<div><b>".$line["genotype"]."</b> ".$line["gender"]." from cage ".$line["originalCage"]."</div>";
         echo "<div><b>".$line["target"]."</b> injected with ".$line["substance"]." (".$line["volume"].")</div>";
         echo "<div>Sx: ".$line["dateSx"]." (".$line["coords"].")</div>";
-        echo "<div>Sac: ".$line["dateSac"]." <span style='font-size: 50%; color: #666;'>(scott: add post-sx days)</span></div>";
+        if ($line["dateSac"]!="") {
+            echo "<div>Sac: ".$line["dateSac"]." ($daysPostSx days post Sx)</div>";
+        }
         echo "<div>Notes: ".$line["notes"]."</div>";
-        //echo "<div><button onclick=\"setData({genotype:'C57'})\">edit</button>";
         echo "<div>".editButton($line);
         echo "</td>";
         echo "<td valign='top' style='white-space: nowrap;'>";
@@ -213,6 +243,23 @@ Number.prototype.pad = function(size) {
     return s;
 }
 
+function checkDateFormat(id){
+    var passing = true;
+    var txtNow = document.getElementById(id).value;
+    
+    if (txtNow.length!=8) passing = false;
+    else if (txtNow[2]!="-") passing = false;
+    else if (txtNow[5]!="-") passing = false;
+
+    if (txtNow=="" || passing==true){
+        document.getElementById(id+"Msg").innerHTML='';
+        document.getElementById("submit").disabled = false;
+    } else {
+        document.getElementById(id+"Msg").innerHTML='YY-MM-DD';
+        document.getElementById("submit").disabled = true;
+    }
+}
+
 function setData(dict){
     if (dict["animal"] == ""){
         document.getElementById("entryTitle").innerHTML="Add New Animal";
@@ -221,7 +268,7 @@ function setData(dict){
     }
     
     var dt = new Date();
-    today = dt.getFullYear()+"-"+dt.getMonth().pad(2)+"-"+dt.getDate().pad(2);
+    today = dt.getFullYear()+"-"+(dt.getMonth()+1).pad(2)+"-"+dt.getDate().pad(2);
     today = today.substring(2);
     if ("coords" in dict){
         coords = dict["coords"].split(",");
@@ -231,13 +278,27 @@ function setData(dict){
     }
     for (var key in dict) {
         if (dict[key]=='today') dict[key]=today;
+        if (dict[key]=='hidden') continue;
         try{
             document.getElementById(key).value=dict[key];
         }
         catch(err){}
     }
+
+    if ("hidden" in dict){
+        if (dict["hidden"]=="" || dict["hidden"]=="0" || dict["hidden"]=="display"){
+            document.getElementById("hidden").value=0;
+            document.getElementById("hidden").innderHTML="display";
+        } else {
+            document.getElementById("hidden").value=1;
+            document.getElementById("hidden").innderHTML="hidden";
+        }
+    }
+
     document.getElementById("wholeForm").style.display='block';
     document.getElementById("animal").focus();
+    checkDateFormat("dateSac");
+    checkDateFormat("dateSx");
 }
 </script>
 
@@ -289,25 +350,28 @@ function setData(dict){
                                                     ML:<input id="coordsML" name="coordsML" style="width: 40px;">
                                                     DV:<input id="coordsDV" name="coordsDV" style="width: 40px;">
                                                 </td><td></td></tr>
-        <tr><td align="right">Surgery Date:</td><td><input id="dateSx" name="dateSx"></td><td>
+        <tr><td align="right">Surgery Date:</td><td><input id="dateSx" name="dateSx" onchange="checkDateFormat('dateSx');"></td><td>
                                                 <button type="button" onclick="setData({dateSx:'today'})">today</button>
+                                                <span id="dateSxMsg" style="background-color: yellow;"></span>
                                                 </td></tr>
-        <tr><td align="right">Sac Date:</td><td><input id="dateSac" name="dateSac"></td><td>
+        <tr><td align="right">Sac Date:</td><td><input id="dateSac" name="dateSac" onchange="checkDateFormat('dateSac');"></td><td>
                                                 <button type="button" onclick="setData({dateSac:'today'})">today</button>
+                                                <span id="dateSacMsg" style="background-color: yellow;"></span>
                                                 </td></tr>
+        <tr><td align="right">Visibility:</td><td><select id="hidden" name="hidden"><option value="0">display</option><option value="1">hidden</option></select></td><td></td></tr>
         <tr><td align="right" valign="top">Notes:</td><td colspan='2'>
                                                 <textarea id="notes" name="notes" style='width:100%; height: 50px;'></textarea>
                                                 </td></tr>
         <tr><td colspan='3' align="right">
             <button type="button"  onclick="setData({animal:'', originalCage:'', genotype:'', gender:'', target:'', 
-                substance:'', volume:'', coordsAP:'', coordsML:'', coordsDV:'', dateSx:'', dateSac:'', notes:''})">RESET</button>
-            <input type="submit" value="Submit">
+                substance:'', volume:'', coordsAP:'', coordsML:'', coordsDV:'', dateSx:'', dateSac:'', notes:'', hidden:'0'})">RESET</button>
+            <input type="submit" id="submit" value="Submit">
             </td></tr>
         </table>
     </div>
 </form>
 <br><button style='font-size: 150%; font-weight: bold;' onclick="setData({animal:'', originalCage:'', genotype:'', gender:'', target:'', 
-                substance:'', volume:'', coordsAP:'', coordsML:'', coordsDV:'', dateSx:'', dateSac:'', notes:''})">Add New Animal</button><br><br>
+                substance:'', volume:'', coordsAP:'', coordsML:'', coordsDV:'', dateSx:'', dateSac:'', notes:'', hidden:'0'})">Add New Animal</button><br><br>
 <!-- END: EDIT ANIMAL FORM -->
 
 
