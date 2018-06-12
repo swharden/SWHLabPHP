@@ -325,8 +325,10 @@ function markdown_file_render($markdown_filename){
 
     // add a button to edit the file
     $markdown_filename = path_clean($markdown_filename);
+    $url=path_to_url($markdown_filename);
     echo "<div align='right' style='font-size: 80%; color: #CCC; padding-right: 10px;'>";
-    echo "$markdown_filename</div>";
+    echo "<a href='$url' style='color: #CCC;'>$markdown_filename</a>";
+    echo "</div>";
     //echo "<a href='$url' style='color: #CCC'>edit $url</a></div>";
     //echo "<i>Edit this text block: $markdown_filename</i></div>";
 }
