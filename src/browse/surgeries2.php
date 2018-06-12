@@ -1,10 +1,46 @@
 
 <?php
 
+/*
+function tiff_convert_folder($folder, $putInSubFolder="/swhlab/"){
+    // given a folder with a bunch of TIF files, use python to make them JPGs.
+
+    if (!file_exists($folder)) return;
+
+    $folder_output=$folder.$putInSubFolder;
+    if (!file_exists($folder_output)) mkdir($folder_output);
+
+    $files = scandir($folder);
+    $files2 = scandir($folder_output);
+    $tifs_to_convert=[];
+    foreach ($files as $fname){
+        $extension=strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+        if ($extension == "tif" || $extension == "tiff") {
+            if (!in_array($fname.".jpg",$files2)){
+                $tifs_to_convert[]=$fname;
+            }
+        }
+        
+    }
+
+    foreach ($tifs_to_convert as $tifFile){
+        $fileIn=$folder."/".$tifFile;
+        $fileOut=$folder_output.$tifFile.".png";
+        if (file_exists($fileOut)) continue;
+        $cmd="convert \"$fileIn\" -contrast-stretch 0.15x0.05% \"$fileOut\"";
+        echo "<div style='font-family: monospace;'>$cmd</div>";
+        exec($cmd);       
+        flush();ob_flush();
+    }
+    
+}
+*/
+
+
 function display_files($folder, $figHeight=150){
     if (!is_dir($folder)) {
-        echo "<i style='color: #AAA;'>folder does not exist</i>";
-        //mkdir($folder);
+		mkdir($folder);
+        echo "<i style='color: #AAA;'>automatically created this folder</i>";
         return;
     }
     $files = scandir($folder);
@@ -60,12 +96,16 @@ function update_sx_log(){
     if(!$ret) {
        echo $db->lastErrorMsg();
     } else {
-       echo "<div style='font-family: monospace; font-weight: bold; font-size: 200%;'>Successfully updated record for ".$_POST["animal"]."</div>";
+       echo "<div style='font-family: monospace; font-weight: bold; font-size: 200%;'>SAVING...</div>";
     }
     $db->close();
 
     
     echo "\n\n<!-- \n $sql \n -->\n\n";
+    //echo "<div style='font-family: monospace;'>$sql</div>";
+
+    // forward to this page so clicking refresh doesn't break things
+    echo '<meta http-equiv="refresh" content="1; url=surgeries2.php" />';
 
 }
 
@@ -77,19 +117,31 @@ function deltaDays($dateOld, $dateNew){
     return (int)$delta;
 }
 
-function display_sx_log(){
-
-    class MyDB extends SQLite3 {
-        function __construct() {
-            $this->open('D:\X_Drive\Data\surgeries\surgeries.db'); // TODO: path specific
-        }
+class MyDB extends SQLite3 {
+    function __construct() {
+        $this->open('D:\X_Drive\Data\surgeries\surgeries.db'); // TODO: path specific
     }
-    
+}
+
+function editButton($line){
+    $html.="\n\n";
+    $html.='<button onclick="setData({';
+    foreach ($line as $key => $value) {
+        $html.="$key: '$value', ";
+    }
+    $html.="test: 'test'})";
+    $html.='">edit</button>';
+    $html.="\n\n";
+    return $html;
+}
+
+function display_sx_log($showAlive=false){
+
     $db = new MyDB();
     if(!$db) echo $db->lastErrorMsg();
     
     // match pattern
-    $results = $db->query('SELECT * FROM animals ORDER BY id DESC');
+    $results = $db->query('SELECT * FROM animals ORDER BY dateSac DESC, id DESC');
     
     if (isset($_GET["csv"])){
         echo "<a href='?'>regular view</a><br><br>";
@@ -119,22 +171,13 @@ function display_sx_log(){
 
 
     // html generation
+    if ($showAlive) $msg="animals still alive";
+    else $msg="sac'd animals";
     echo "<table cellpadding='10' cellspacing='0' style='border: 2px solid #666;' width='100%'>";
-    echo "<tr><td colspan='2' style='background-color: #666; color: white;'><span style='font-size: 200%; font-weight: bold;'>Surgery Log</span><br>";
+    echo "<tr><td colspan='2' style='background-color: #666; color: white;'><span style='font-size: 200%; font-weight: bold;'>Surgery Log ($msg)</span><br>";
     echo "display <a href='?showAll'>full</a> or <a href='?'>standard</a> records or <a href='?csv'>export as CSV</a>";
     echo "</br></td></tr>";
     
-    function editButton($line){
-        $html.="\n\n";
-        $html.='<button onclick="setData({';
-        foreach ($line as $key => $value) {
-            $html.="$key: '$value', ";
-        }
-        $html.="test: 'test'})";
-        $html.='">edit</button>';
-        $html.="\n\n";
-        return $html;
-    }
 
     $displayedRows=0;
     $shownAnimals=[];
@@ -158,29 +201,35 @@ function display_sx_log(){
         //$unsure = "<span style='background-color: red;'>???</span>";
         $unsure = "?????????????????????";
         $displayedRows+=1;
-        if (strlen($line["coords"]) == "") {
-            $line["coords"].="?,?,?";
+
+        if ($line["coords"] == "") {
+            $line["coords"].=$unsure;
         } else {
             $coords = explode(",", $line["coords"]);
             if (sizeof($coords)==3){
                 $line["coords"]="";
-                $line["coords"].=$coords[0].", ";
-                $line["coords"].=$coords[1].", ";
-                $line["coords"].=$coords[2];
+                $line["coords"].=trim("$coords[0],");
+                $line["coords"].=trim("$coords[1],");
+                $line["coords"].=trim("$coords[2]");
             } else {
-                $line["coords"].="?,?,?";
+                $line["coords"].=$unsure;
             }
         }
 
+        if ($line["dateSac"]=="" and $showAlive==false) continue;
+        if ($line["dateSac"]!="" and $showAlive==true) continue;
+        
         if ($line["originalCage"]=="") $line["originalCage"]=$unsure;
 
         $daysPostSx=deltaDays($line["dateSx"], $line["dateSac"]);
 
         $bgcolor = ($displayedRows%2==1 ? "#E9E9E9" : "#E0E0E0");
+		if (strpos(strtolower($line["notes"]),"king")!==False) $bgcolor="#a1c3e0";
         echo "<tr style='background-color: $bgcolor; '>";
         echo "<td valign='top' style='min-width: 450px;'>";
 
         $style='';
+
         if ($line["dateSac"]=="") $style.='background-color: lightgreen; ';
         if ($line["hidden"]!="") $style.='text-decoration: line-through; ';
         echo "<div style='font-size: 200%; font-weight: bold;'><span style='$style'>".$line["animal"]."</style></div>";
@@ -191,11 +240,16 @@ function display_sx_log(){
 
         echo "<div><b>".$line["genotype"]."</b> ".$line["gender"]." from cage ".$line["originalCage"]."</div>";
         echo "<div><b>".$line["target"]."</b> injected with ".$line["substance"]." (".$line["volume"].")</div>";
-        echo "<div>Sx: ".$line["dateSx"]." (".$line["coords"].")</div>";
+        echo "<div>Sx: ".$line["dateSx"].", AP=$coords[0], ML=$coords[1], DV=$coords[2]</div>";
         if ($line["dateSac"]!="") {
             echo "<div>Sac: ".$line["dateSac"]." ($daysPostSx days post Sx)</div>";
         }
-        echo "<div>Notes: ".$line["notes"]."</div>";
+        if (strlen($line["notes"])){
+            echo "<div>Notes: <span style='font-style: italic; font-weight: bold; color: darkgreen;'>";
+            echo $line["notes"];
+            echo "</span></div>";
+        }
+        
         echo "<div>".editButton($line);
         echo "</td>";
         echo "<td valign='top' style='white-space: nowrap;'>";
@@ -206,6 +260,7 @@ function display_sx_log(){
     
     }
     echo "</table>";
+    echo "<br><br><br>";
 
     $db->close();
     
@@ -215,6 +270,10 @@ function display_sx_log(){
 
 <html>
 <head>
+
+<!-- PREPROCESS: update log if POST animal is given -->
+<?php if ($_POST["animal"]!="") update_sx_log(); ?>
+
 <style>
 body {
     font-family: sans-serif;
@@ -260,11 +319,23 @@ function checkDateFormat(id){
     }
 }
 
+ function fixCoords(){
+     var coordsText = "";
+     coordsText += document.getElementById("coordsAP").value + ",";
+     coordsText += document.getElementById("coordsML").value + ",";
+     coordsText += document.getElementById("coordsDV").value;
+    document.getElementById("coords").value = coordsText;
+ }
+
 function setData(dict){
     if (dict["animal"] == ""){
         document.getElementById("entryTitle").innerHTML="Add New Animal";
+		document.getElementById("animal").readOnly = false;
+		document.getElementById("animal").style.backgroundColor = "";
     } else {
         document.getElementById("entryTitle").innerHTML="Edit Animal Record";
+		document.getElementById("animal").readOnly = true;
+		document.getElementById("animal").style.backgroundColor = "#CCCCCC";
     }
     
     var dt = new Date();
@@ -306,21 +377,16 @@ function setData(dict){
 <body>
 
 
-
-
-<!-- PREPROCESS: update log if POST animal is given -->
-<?php if ($_POST["animal"]!="") update_sx_log(); ?>
-
-
-
 <!-- START: EDIT ANIMAL FORM -->
+<?php if ($_POST["animal"]!="") echo " <!-- "; ?>
+
 <form action = "surgeries2.php" method="post"  id="wholeForm" style="display: none;">
     <div  style='display:inline-block; background-color: #DDEEDD; margin: 20px 0px 20px 0px; padding: 10px 10px 10px 10px; border: 2px solid #BBDDBB; line-height: 150%;'>
         <div id="entryTitle" style='font-size: 200%; font-weight: bold;'>New Surgery Entry</div>
         <i>Buttons are just suggestions. Any text can be manually entered.</i>
         <table>
-        <tr><td align="right">Animal ID:</td><td><input id="animal" name="animal" /></td><td><!--no button--></td></tr>
-        <tr><td align="right">Original cage:</td><td><input id="originalCage" name="originalCage"></td><td><!--no button--></td></tr>
+        <tr><td align="right">Animal ID:</td><td><input id="animal" name="animal" /></td><td></td></tr>
+        <tr><td align="right">Original cage:</td><td><input id="originalCage" name="originalCage"></td><td></td></tr>
         <tr><td align="right">Species/Strain:</td><td><input id="genotype" name="genotype"></td><td>
                                                 <button type="button" onclick="setData({genotype:'C57'})">C57</button>
                                                 <button type="button" onclick="setData({genotype:'SD'})">SD</button>
@@ -346,9 +412,10 @@ function setData(dict){
                                                 <button type="button" onclick="setData({volume:'600'})">600</button>
                                                 </td></tr>
         <tr><td align="right">Coordinates:</td><td colspan="2" style="line-height: 150%">
-                                                    AP:<input id="coordsAP" name="coordsAP" style="width: 40px;">
-                                                    ML:<input id="coordsML" name="coordsML" style="width: 40px;">
-                                                    DV:<input id="coordsDV" name="coordsDV" style="width: 40px;">
+                                                    AP:<input id="coordsAP" name="coordsAP" onchange="fixCoords();" style="width: 40px;">
+                                                    ML:<input id="coordsML" name="coordsML" onchange="fixCoords();" style="width: 40px;">
+                                                    DV:<input id="coordsDV" name="coordsDV" onchange="fixCoords();" style="width: 40px;">
+                                                       <input id="coords" name="coords" value="???">
                                                 </td><td></td></tr>
         <tr><td align="right">Surgery Date:</td><td><input id="dateSx" name="dateSx" onchange="checkDateFormat('dateSx');"></td><td>
                                                 <button type="button" onclick="setData({dateSx:'today'})">today</button>
@@ -372,13 +439,22 @@ function setData(dict){
 </form>
 <br><button style='font-size: 150%; font-weight: bold;' onclick="setData({animal:'', originalCage:'', genotype:'', gender:'', target:'', 
                 substance:'', volume:'', coordsAP:'', coordsML:'', coordsDV:'', dateSx:'', dateSac:'', notes:'', hidden:'0'})">Add New Animal</button><br><br>
+
+<?php if ($_POST["animal"]!="") echo " --> "; ?>
 <!-- END: EDIT ANIMAL FORM -->
 
 
 
 
 <!-- DISPLAY SURGERY LOG -->
-<?php display_sx_log(); ?>
+<?php 
+if ($_POST["animal"]=="") {
+    display_sx_log(true);
+    display_sx_log(false);
+	echo "<div>Scott recommends <a href='http://sqlitebrowser.org'>DB Browser for SQLite</a> to edit the database manually.</div>";
+}
+?>
+
 
 
 </body>

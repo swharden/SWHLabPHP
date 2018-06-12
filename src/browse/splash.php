@@ -46,6 +46,7 @@ li {line-height: 150%;}
 
 <div class='test'>
 
+
     <h1>Experiment Folder Viewers</h1>
 
     <h2>ABF Experiment Folder</h2>
@@ -62,6 +63,13 @@ li {line-height: 150%;}
         <input type="submit" value="launch">
     </form>
 
+	<h1>Surgery</h1>
+    <ul>
+        <li><a href="/SWHLabPHP/src/browse/surgeries2.php">Records and injection photos</a>
+		<li><a href='http://mouse.brain-map.org/experiment/thumbnails/100142143'>Allen Brain Atlas (with coordinates)</a>
+		<li><a href='http://help.brain-map.org/download/attachments/2818171/InjectionSites_and_StereotaxicCoordinates.pdf'>Allen Stereotaxic Coordinates</a>
+    </ul>
+	
     <h1>Browse Files Manually</h1>
     <ul>
         <li><a href="/SWHLabPHP/recode/src/?view=abf">ABF Browser</a>
@@ -80,13 +88,17 @@ li {line-height: 150%;}
 </div>
 
 
+<a name="jason"></a>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\jason.md'); ?></div>
 <div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\historical.md'); ?></div>
 <div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
 <div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
 
+<!--
 <div align="center">
     Looking for something? It may be on the <a href="index_backup_180119.php">old website</a> ...
 </div>
+-->
 
 <img src="/SWHLabPHP/src/browse/images/banner_die_blue.png" style='width: 100%;'>
 
