@@ -278,7 +278,22 @@ class ABFfolder
         
         $this->cells_file_backup($this->fldr_local);
        
-        $fnameCellsFile="$this->fldr_local"."/cells.txt"; 
+        $fnameCellsFileThisFolder = "$this->fldr_local"."/cells.txt"; 
+        $fnameCellsFileUpFolder = "$this->fldr_local"."/../cells.txt"; 
+
+        if (is_file($fnameCellsFileThisFolder)){
+            // cells file exists in this folder
+            $fnameCellsFile=$fnameCellsFileThisFolder;
+        } else if (is_file($fnameCellsFileUpFolder))
+        {
+            // cells file exists a folder up
+            $fnameCellsFile=$fnameCellsFileUpFolder;
+        }
+        else{
+            // cells file can't be found
+            return;
+        }
+        
         if (!is_file($fnameCellsFile)) return; // only proceed if cells.txt exists  
         
         $this->cellColors=[]; // keyed by cell ID, contains colorcode of each cell
@@ -391,7 +406,12 @@ class ABFfolder
                 echo "<input type='radio' name='color' value='$colorcode' $checked></span>";
             }
             echo "<br><input style='margin-top: 8px;' type='text' size='35' name='comment' value='$comment' />";
-            echo " <input type='submit' value='Submit'>";
+            if (strstr($this->fldr,"ignore")){
+                // disable modifying cells file if in ignored folder
+                echo " <input type='submit' value='Submit' disabled>";
+            }else{
+                echo " <input type='submit' value='Submit'>";
+            }
             echo " <a href='$urlMenu' target='menu'>refresh menu</a>";
             echo "</form>";       
             echo "</div>";
