@@ -112,7 +112,7 @@ On 2017-08-07 `\\Spike\X_Drive\` went offline and I had to rig SWHLabPHP to serv
 * edit /src/config.php and change SPIKE references as needed
 
 ## Install Other Stuff
-* ImageMagick `ImageMagick-6.9.8-10-Q8-x64-dll.exe` (this version)
+* ImageMagick `ImageMagick-7.0.8-8-Q16-HDRI-x64-dll.exe` (must be HDRI version)
 * Anaconda
 * `pip install neo`
 
