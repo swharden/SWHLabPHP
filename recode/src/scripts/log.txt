@@ -1,18 +1,90 @@
-[2018-08-01 13:10:04] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0000.abf
-[2018-08-01 13:10:05] completed [0.742 s]
+[2018-08-01 15:46:41] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801000.abf
+[2018-08-01 15:46:42] completed [0.799 s]
 
-[2018-08-01 13:10:06] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0001.abf
-[2018-08-01 13:10:07] completed [0.653 s]
+[2018-08-01 15:46:43] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801001.abf
+[2018-08-01 15:46:44] completed [0.638 s]
 
-[2018-08-01 13:10:08] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0002.abf
-[2018-08-01 13:10:08] completed [0.637 s]
+[2018-08-01 15:46:45] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801002.abf
+[2018-08-01 15:46:45] completed [0.663 s]
 
-[2018-08-01 13:10:09] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0003.abf
-[2018-08-01 13:10:10] completed [0.741 s]
+[2018-08-01 15:46:46] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801003.abf
+[2018-08-01 15:46:47] completed [0.253 s]
 
-[2018-08-01 13:10:11] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0004.abf
-[2018-08-01 13:10:13] completed [2.015 s]
+[2018-08-01 15:46:48] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801004.abf
+[2018-08-01 15:46:48] completed [0.774 s]
 
-[2018-08-01 13:10:14] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0005.abf
-[2018-08-01 13:10:16] completed [1.533 s]
+[2018-08-01 15:46:49] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801005.abf
+[2018-08-01 15:46:50] completed [1.098 s]
+
+[2018-08-01 15:46:51] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801006.abf
+[2018-08-01 15:46:52] completed [0.779 s]
+
+[2018-08-01 15:46:53] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801007.abf
+[2018-08-01 15:46:54] completed [0.698 s]
+
+[2018-08-01 15:46:55] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801008.abf
+[2018-08-01 15:46:56] completed [0.705 s]
+
+[2018-08-01 15:51:12] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801009.abf
+[2018-08-01 15:51:12] completed [0.577 s]
+
+[2018-08-01 15:51:13] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801010.abf
+[2018-08-01 15:51:15] completed [1.914 s]
+
+[2018-08-01 15:51:16] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801011.abf
+[2018-08-01 15:51:16] completed [0.240 s]
+
+[2018-08-01 15:51:17] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801012.abf
+[2018-08-01 15:51:18] completed [0.641 s]
+
+[2018-08-01 15:51:19] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801013.abf
+[2018-08-01 15:51:20] completed [0.592 s]
+
+[2018-08-01 15:51:21] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801014.abf
+[2018-08-01 15:51:21] completed [0.588 s]
+
+[2018-08-01 15:51:22] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801015.abf
+[2018-08-01 15:51:23] completed [0.703 s]
+
+[2018-08-01 15:51:24] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801016.abf
+[2018-08-01 15:51:25] completed [0.640 s]
+
+[2018-08-01 15:58:10] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801017.abf
+[2018-08-01 15:58:11] completed [0.780 s]
+
+[2018-08-01 15:58:12] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801018.abf
+[2018-08-01 15:58:12] completed [0.807 s]
+
+[2018-08-01 16:10:13] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801019.abf
+[2018-08-01 16:10:14] completed [0.834 s]
+
+[2018-08-01 16:10:15] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801020.abf
+[2018-08-01 16:10:17] completed [1.586 s]
+
+[2018-08-01 16:10:18] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801021.abf
+[2018-08-01 16:10:18] completed [0.235 s]
+
+[2018-08-01 16:10:19] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801022.abf
+[2018-08-01 16:10:20] completed [0.657 s]
+
+[2018-08-01 16:31:52] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801023.abf
+[2018-08-01 16:31:53] completed [0.788 s]
+
+[2018-08-01 16:31:54] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801024.abf
+[2018-08-01 16:31:55] completed [0.864 s]
+
+[2018-08-01 16:31:56] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801025.abf
+[2018-08-01 16:31:57] completed [0.849 s]
+
+[2018-08-01 16:31:58] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801026.abf
+[2018-08-01 16:31:58] completed [0.586 s]
+
+[2018-08-01 16:31:59] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801027.abf
+[2018-08-01 16:32:00] completed [0.957 s]
+
+[2018-08-01 16:32:01] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801028.abf
+[2018-08-01 16:32:02] completed [0.990 s]
+
+[2018-08-01 16:32:03] analyze D:\X_Drive\Data\OT-Cre\calcium-mannitol\2018-01-23 PVN OT-MCNs characterization\2018-08-01 intrinsic properties\18801029.abf
+[2018-08-01 16:32:05] completed [1.464 s]
 

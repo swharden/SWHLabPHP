@@ -729,6 +729,21 @@ class ABFfolder
         echo "If your protocols change, this page will not be useful to you.<br>";
         echo "</div><br>";
 
+        
+        echo "<br><br><br>";
+        echo "<div style='font-size: 200%;font-weight: bold;'>USE THESE SCRIPTS AT YOUR OWN RISK!</div>";
+        echo "<div style='font-size: 120%;'>";
+        echo "They may change without warning.<br>";
+        echo "There may be Origin tools to simplify your workflow without using these scripts.<br>";
+        echo "</div><br>";
+
+        echo "<br><br><br>";
+        echo "<div style='font-size: 200%;font-weight: bold;'>Do you want to modify these scripts?</div>";
+        echo "<div style='font-size: 120%;'>";
+        echo "Use VS code to edit the following file: <code>/htdocs/SWHLabPHP/recode/src/functions/abf.php</code><br>";
+        echo "... but be EXTREMELY careful! A single typo can break the <i>whole</i> ABF browsing website.<br>";
+        echo "</div><br>";
+
         //////////////////////////////////////////////////////////////////////////////////
         // RECENTLY UPDATED COMMANDS /////////////////////////////////////////////////////
 
