@@ -1,27 +1,18 @@
-[2018-01-25 16:35:18] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0124.abf
-[2018-01-25 16:35:18] completed [0.517 s]
+[2018-08-01 13:10:04] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0000.abf
+[2018-08-01 13:10:05] completed [0.742 s]
 
-[2018-01-25 16:35:19] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0125.abf
-[2018-01-25 16:35:20] completed [0.593 s]
+[2018-08-01 13:10:06] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0001.abf
+[2018-08-01 13:10:07] completed [0.653 s]
 
-[2018-01-25 16:35:21] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0126.abf
-[2018-01-25 16:35:22] completed [0.618 s]
+[2018-08-01 13:10:08] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0002.abf
+[2018-08-01 13:10:08] completed [0.637 s]
 
-[2018-01-25 16:35:23] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0127.abf
-[2018-01-25 16:35:23] completed [0.585 s]
+[2018-08-01 13:10:09] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0003.abf
+[2018-08-01 13:10:10] completed [0.741 s]
 
-[2018-01-25 16:35:24] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0128.abf
-[2018-01-25 16:35:25] completed [0.315 s]
+[2018-08-01 13:10:11] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0004.abf
+[2018-08-01 13:10:13] completed [2.015 s]
 
-[2018-01-25 16:35:26] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0129.abf
-[2018-01-25 16:35:27] completed [1.052 s]
-
-[2018-01-25 16:35:28] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0130.abf
-[2018-01-25 16:35:30] completed [2.336 s]
-
-[2018-01-25 16:35:31] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0131.abf
-[2018-01-25 16:35:33] completed [1.816 s]
-
-[2018-01-25 16:35:34] analyze D:\X_Drive\Data\SD\Piriform Oxytocin\pilot experiments\2017-01-25 sine pyr oxt\2018_01_25_0132.abf
-[2018-01-25 16:35:42] completed [8.049 s]
+[2018-08-01 13:10:14] analyze D:\X_Drive\Data\F344\Aging BLA\basal excitability round3\abfs-intrinsics\2018_08_01_DIC2_0005.abf
+[2018-08-01 13:10:16] completed [1.533 s]
 

@@ -557,12 +557,19 @@ class ABFfolder
                     $color = ($color ? $color : 'black'); // color to use if colorcode isn't found
                     $url="?view=abf&fldr=$this->fldr&match=$cellID&data";
                     $nABFs = count($this->IDs[$cellID]);
+					$nABFsText=sprintf('%01d', $nABFs);
                     if ($nABFs==0) continue; // skip ABFs seen in cells.txt without their data in this folder
-                    $nSelected+=1;
+					$nSelected+=1;
+					$nPics = 0;
+					foreach ($this->files2 as $fname){
+						if (!strstr($fname,"$cellID")) continue;
+						if (!strstr($fname,".tif.")) continue;
+						$nPics += 1;
+					}
+					$nPicsText=sprintf('%01d', $nPics);					
                     echo "<div style='white-space: nowrap;'>";
                     echo "<span class='abftick' id='$nSelected' style='visibility: hidden;'>&raquo;</span>";
-                    $nABFsText=sprintf('%02d', $nABFs);
-                    echo "<a target='content' href='$url' onclick='setClicked($nSelected)' style='background-color: $color;'>$cellID</a> ($nABFsText) ";
+                    echo "<a target='content' href='$url' onclick='setClicked($nSelected)' style='background-color: $color;'>$cellID</a> ($nABFsText/$nPicsText) ";
                     echo "<i style='color: #CCC;'>$comment</i></div>";
                 }
             }
@@ -707,41 +714,145 @@ class ABFfolder
         
         
         /////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
         // PROTOCOL ORIGIN COMMANDS /////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
         
-        echo "<h1>Origin Analysis Commands</h1>";
+        echo "<br><br><br>";
+        echo "<div style='font-size: 200%;font-weight: bold;'>Origin Analysis Workflow</div>";
+        echo "<div style='font-size: 120%;'>";
+        echo "We use ClampEx protocols to help us measure what intend to investigate.<br>";
+        echo "We know what we want to measure before we hit record.<br>";
+        echo "We know how we will analyze each ABF before we hit record.<br>";
+        echo "If a protocol never changes, its analysis workflow will never change.<br>";
+        echo "If your protocols change, this page will not be useful to you.<br>";
+        echo "</div><br>";
 
+        //////////////////////////////////////////////////////////////////////////////////
+        // RECENTLY UPDATED COMMANDS /////////////////////////////////////////////////////
 
         $protocol="0201 memtest";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># Voltage-Clamp Membrane Test ($protocol)</b><br>";
+
+            echo '<br># Set the first ABF, adjust memtest properties to include Cm, then run:<br>';
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
                 echo "memtest;<br>";
             }
-            //echo "<br>getgroups 1 _mStats mean.S;";
-            //echo "<br>RunOnBooks UpdateSummarySheets;";
-            echo '<br>getgroups 1 _MT Ih.SS;<br>getgroups 3 _MT Rm.SS;<br>getgroups 4 _MT Cm.SS;<br>getgroups 7 _MT Id.SS;<br>';
-            echo '<br>runonsheets .SS. "addx; rave;";';
+
+            echo '<br># use raved to set source from 0 to 0, use index not time, set n% to 99, then update workbooks with:<br>';
+            echo 'runonbooks MemTests "getcols 1 _MT S.Ih";<br>';
+            echo 'runonbooks MemTests "getcols 3 _MT S.Rm";<br>';
+            echo 'runonbooks MemTests "getcols 4 _MT S.Cm";<br>';
+            echo 'runonbooks MemTests "getcols 7 _MT S.Id";<br>';
+            echo 'runonbooks MemTests "runonsheets S. rave; SortSheets;";<br>';
+
+            echo '<br># later you can update the output sheets with:<br>';
+            echo 'runonbooks MemTests UpdateSummarySheets;<br>';
+
+            echo '<br># then create a new workbook and used linked columns to organize groups<br>';
+            echo '<br># use ttest for statistical comparison between groups.<br>';
             echo "</div><br><br>";
         }
         
-        $protocol="0202 IV dual";
+        $protocol="0203 IV fast";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
-            echo "<b># Voltage-Clamp dual IV Curve ($protocol)</b><br>";
-            echo "# enable lowpass filter<br>";
-            echo "<br>modifyTags GROUPNAME;<br>m1 2340; m2 2540;<br><br>";
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<b># Voltage-Clamp fast IV Curve ($protocol)</b><br>";
+            echo '<br># Set the first ABF, enable the lowpass filter, set marker stats to output mean, then run:<br>';
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
+                echo "m1 700; m2 1000; getstats;<br>";
+            }
+            echo '<br># update workbooks with:<br>';
+            echo 'runonbooks MarkerStats "getcols 1 _mStats S.mean; ccave; addx; letters; AA*=5; AA=AA-110;";';
+            echo '<br><br># use ANOVA for statistical comparison between groups.<br>';
+            echo '</div><br><br>';
+
+        } 
+
+        $protocol="0113 steps dual -100 to 300 step 25";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<b># AP Gain (medium power) ($protocol)</b><br>";
+            echo "<br># to analyze gain after regular step:<br>m1 120; m2 670;<br>";
+            echo "<br># to analyze gain after hyperpolarizing step:<br>m1 1620; m2 2170;<br>";
+            echo "<br># set the first ABF, set markers where desired, enable event detection, customize for ideal AP detection, then run:<br>";
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                echo "modifyNames \"$comment\"; ";
+                echo "cjfmini;<br>";
+            }
+            echo '<br># update workbooks with:<br>';
+            echo 'runonbooks Events "getcols 3 _EVN S.freq; ccave; addx; letters; AA*=25; AA-=100;";';
+            echo '<br><br># use ANOVA for statistical comparison between groups.<br>';
+            echo "</div><br><br>";
+        }
+
+        $protocol="0111 continuous ramp";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #6666AA;'>";
+            echo "<b># First AP threshold and rheobase ($protocol)</b><br>";
+            echo "<br># set the first ABF, disable markers, enable event detection, customize for ideal AP detection, enable saving data for event markers, then run:<br>";
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                echo "modifyNames \"$comment\"; ";
+                echo "cjfmini;<br>";
+            }
+            echo '<br># use raved to set source from 0 to 0, use index not time, set n% to 99, then update workbooks with:<br>';
+            echo 'runonbooks Events "getcols 8 _byEvent S.halfWidth; addx; rave;";<br>';
+            echo 'runonbooks Events "getcols 11 _byEvent S.rheobase; addx; rave;";<br>';
+            echo 'runonbooks Events "getcols 12 _byEvent S.threshold; addx; rave;";<br>';
+            echo 'runonbooks Events "getcols 14 _byEvent S.repol; addx; rave;";<br>';
+
+            echo '<br># later you can update the output sheets with:<br>';
+            echo 'runonbooks Events UpdateSummarySheets;<br>';
+
+            echo '<br># then create a new workbook and used linked columns to organize groups<br>';
+            echo '<br># use ttest for statistical comparison between groups.<br>';
+
+            echo "</div><br><br>";
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+        // OUTDATED COMMANDS //////////////////////////////////////////////////////////
+
+        echo "<br><br><br>";
+        echo "<div style='font-size: 200%;font-weight: bold;'>Older Analysis Workflows</div>";
+        echo "<div style='font-size: 120%;'>";
+        echo "These commands have not been reviewed in some time.<br>";
+        echo "They may utilize Origin commands no longer recommended (e.g., 'modifyTags').<br>";
+        echo "A global search/replace replaced modifyTags with modifyNames, but these functions are untested.<br>";
+        echo "</div><br>";
+
+        $protocol="0202 IV dual";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<b># Voltage-Clamp dual IV Curve ($protocol)</b><br>";
+            echo "# enable lowpass filter<br>";
+            echo "<br>modifyNames GROUPNAME;<br>m1 2340; m2 2540;<br><br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                echo "modifyNames \"$comment\"; ";
                 echo "getstats;<br>";
             }
             echo "<br>getgroups 1 _mStats mean.S;";
@@ -750,43 +861,11 @@ class ABFfolder
             echo "</div><br><br>";
         } 
 
-        $protocol="0203 IV fast";
-        if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
-            echo "<b># Voltage-Clamp fast IV Curve ($protocol)</b><br>";
-            echo "# enable lowpass filter<br>";
-            echo "<br>modifyTags GROUPNAME;<br>m1 500; m2 1000;<br><br>";
-            foreach ($abfsByProtocol[$protocol] as $abfID){
-                $parent=$this->abf_parent($abfID);
-                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
-                $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
-                echo "getstats;<br>";
-            }
-            echo "<br>getgroups 1 _mStats mean.S;";
-            echo "<br>RunOnBooks UpdateSummarySheets;";
-            echo "<br>addx; letters; AA*=5; AA=AA-110;";
-            echo "</div><br><br>";
-        } 
 
-        $protocol="0111 continuous ramp";
-        if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #6666AA;'>";
-            echo "<b># First AP threshold and rheobase ($protocol)</b><br><br>";
-            foreach ($abfsByProtocol[$protocol] as $abfID){
-                $parent=$this->abf_parent($abfID);
-                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
-                $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
-                echo "cjfmini;<br>";
-            }
-
-            echo "</div><br><br>";
-        }
                 
         $protocol="0112 steps dual -50 to 150 step 10";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># AP Gain (low power) ($protocol)</b>";
             echo "<br><br># gain after regular step:<br>m1 120; m2 670;";
             echo "<br><br># gain after hyperpolarizing step:<br>m1 1620; m2 2170;";
@@ -795,7 +874,7 @@ class ABFfolder
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                //echo "modifyTags \"$comment\"; ";
+                //echo "modifyNames \"$comment\"; ";
                 echo "cjfmini;<br>";
             }
             echo "<br>getcols 3 EVN freqInBin.S;";
@@ -805,30 +884,10 @@ class ABFfolder
             echo "</div><br><br>";
         }
         
-        $protocol="0113 steps dual -100 to 300 step 25";
-        if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
-            echo "<b># AP Gain (medium power) ($protocol)</b><br>";
-            echo "<br><br># gain after regular step:<br>m1 120; m2 670;";
-            echo "<br><br># gain after hyperpolarizing step:<br>m1 1620; m2 2170;";
-            echo "<br><br>";
-            foreach ($abfsByProtocol[$protocol] as $abfID){
-                $parent=$this->abf_parent($abfID);
-                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
-                $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
-                echo "cjfmini;<br>";
-            }
-            echo "<br>getcols 3 EVN freqInBin.S;";
-            echo "<br>addx; letters; AA*=25; AA-=100;";
-            //echo "<br>getgroups 3 _EVN freqInBin.S;";
-            //echo "<br>RunOnBooks UpdateSummarySheets;";
-            echo "</div><br><br>";
-        }
         
         $protocol="0114 steps dual -100 to 2000 step 100";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># AP Gain (medium power) ($protocol)</b><br>";
             echo "<br><br># gain after regular step:<br>m1 120; m2 670;";
             echo "<br><br># gain after hyperpolarizing step:<br>m1 1620; m2 2170;";
@@ -837,7 +896,7 @@ class ABFfolder
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
                 echo "cjfmini;<br>";
             }
             echo "<br>getcols 3 EVN freqInBin.S;";
@@ -849,13 +908,13 @@ class ABFfolder
         
         $protocol="0303 IC 20s IC ramp drug";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># IC repeated ramps ($protocol)</b><br>";
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
                 echo "cjfmini;<br>";
             }
             echo "<br>getgroups 3 _EVN freqInBin.S;";
@@ -865,13 +924,13 @@ class ABFfolder
         
         $protocol="0406 VC 10s MT-50";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># VC repeated memtest ($protocol)</b><br>";
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
                 echo "memtest;<br>";
             }
             echo "<br>getgroups 1 _MT Ih.S;<br>getgroups 2 _MT Ra.S;<br>getgroups 3 _MT Rm.S;";
@@ -882,13 +941,13 @@ class ABFfolder
 
         $protocol="0402 VC 2s MT-50";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># VC repeated memtest ($protocol)</b><br>";
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
                 $comment = $this->cellComments[$parent];                
-                echo "modifyTags \"$comment\"; ";
+                echo "modifyNames \"$comment\"; ";
                 echo "memtest;<br>";
             }
             echo "<br>getgroups 1 _MT Ih.S;<br>getgroups 2 _MT Ra.S;<br>getgroups 3 _MT Rm.S;";
@@ -899,11 +958,11 @@ class ABFfolder
         
         $protocol="0911 VC 15s stim PPR varied";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># ISI assessment ($protocol)</b><br>";
             echo "# use same settings as protocol 0912<br>";
             echo "# set evoked markers for sweep 2 (always discard sweep 1)<br>";
-            echo "<br>modifyTags GROUPNAME;<br>m1 500; m2 1000;<br><br>";
+            echo "<br>modifyNames GROUPNAME;<br>m1 500; m2 1000;<br><br>";
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
                 echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
@@ -915,14 +974,14 @@ class ABFfolder
         
         $protocol="0912 VC 20s stim PPR 40ms";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
-            echo "<div style='background-color: #AAFFAA; font-family: monospace; padding: 10px; border: 1px solid #66AA66;'>";
+            echo "<div style='background-color: #AAAAAB; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
             echo "<b># Paired Pulse Analysis ($protocol)</b><br>";
             echo "# enable lowpass filter<br>";
             echo "# enable Cm in membrane test<br>";
             echo "# enable evoked stats (channel 0, min and mean) and manually place evoked markers<br>";
             echo "# enable phasic analysis<br>";
             echo "# configure event detection<br>";
-            echo "<br>modifyTags GROUPNAME;<br>m1 5000; m2 20000;<br><br>";
+            echo "<br>modifyNames GROUPNAME;<br>m1 5000; m2 20000;<br><br>";
             
             foreach ($abfsByProtocol[$protocol] as $abfID){
                 $parent=$this->abf_parent($abfID);
@@ -933,6 +992,89 @@ class ABFfolder
             echo "</div><br><br>";
         }
         
+        $protocol="0409 VC 30s three step";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #CCFFCC; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<br><b># 3 step E/I analysis ($protocol)</b><br>";
+
+            echo "<br><br>";
+            echo "### EVENT DETECTION OF INWARD CURRENTS - GLU ###<br>";
+            echo "# load the first ABF in the list, enable lowpass filter, enable moving baseline filter, customize event detection<br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];    
+                $comment = strtolower($comment);            
+                echo "modifyNames \"glu-$comment\"; ";
+                echo "m1 4000; m2 9000; ";
+                echo "cjfmini;<br>";
+            }
+
+            echo "<br><br>";
+            echo "### EVENT DETECTION OF OUTWARD CURRENTS - GABA ###<br>";
+            echo "# load the first ABF in the list, enable lowpass filter, enable moving baseline filter, customize event detection<br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                $comment = strtolower($comment);
+                echo "modifyNames \"gaba-$comment\"; ";
+                echo "m1 22000; m2 27000; ";
+                echo "cjfmini;<br>";
+            }
+
+            echo "<br><br>";
+            echo "### PHASIC ANALYSIS OF BIPHASIC CURRENTS ###<br>";
+            echo "# load the first ABF in the list, enable lowpass filter, enable moving baseline filter, customize mstats for phasic analysis<br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                $comment = strtolower($comment);
+                echo "modifyNames \"biphasic-$comment\"; ";
+                echo "m1 13000; m2 18000; ";
+                echo "getstats;<br>";
+            }
+
+            echo "<br><br>";
+            echo "### MEMTEST STABILITY ANALYSIS OF EXPERIMENT ABFs ###<br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                $comment = strtolower($comment);
+                echo "modifyNames \"biphasic-$comment\"; ";
+                echo "memtest;<br>";
+            }
+
+            echo "<br><br>";
+            echo "### ANALYSIS ###<br>";
+            echo "# use raved to set range, set max n0% to 99<br>";
+            echo "runonbooks Events \"getcols 3 _EVN S.FreqInBin\";<br>";
+            echo "runonbooks Events \"runonsheets S. rave; SortSheets;\";<br>";
+            echo "runonbooks MarkerStats \"getcols 3 _mStats S.PhasicPos\";<br>";
+            echo "runonbooks MarkerStats \"getcols 4 _mStats S.PhasicNeg\";<br>";
+            echo "runonbooks MarkerStats \"runonsheets S. rave; SortSheets;\";<br>";
+            
+            
+            echo "<br><br>";
+            echo "### INSPECTION OF EVENT DETECTION - GLU ###<br>";
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];    
+                $comment = strtolower($comment);
+                echo "";
+                echo "win -a ABFGraph1; axisset x 3800 9200; axisset y -30 10; ";
+                echo "<br>plotSweep 05; expGraph type:=jpg path:= \"%Y/abfgraph\" filename:=\"$abfID-sw01.jpg\";";
+                echo "<br>plotSweep 10; expGraph type:=jpg path:= \"%Y/abfgraph\" filename:=\"$abfID-sw10.jpg\";";
+                echo "<br>plotSweep 15; expGraph type:=jpg path:= \"%Y/abfgraph\" filename:=\"$abfID-sw15.jpg\";";
+                echo "<br><br>";
+            }
+
+
+            echo "</div><br><br>";
+        }
         
         
         

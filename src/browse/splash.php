@@ -44,12 +44,16 @@ li {line-height: 150%;}
 
 <div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\pinned.md'); ?></div>
 
+<a name="jason"></a>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\jason.md'); ?></div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\historical.md'); ?></div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
+<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
+
 <div class='test'>
 
 
-    <h1>Experiment Folder Viewers</h1>
-
-    <h2>ABF Experiment Folder</h2>
+    <h1>ABF Folder Launcher</h1>
     <form action="/SWHLabPHP/recode/src/">
         <input type="hidden" name="view" value="abf">
         <input type="hidden" name="frames">
@@ -57,25 +61,13 @@ li {line-height: 150%;}
         <input type="submit" value="launch">
     </form>
 
+    <!--
     <h2>Two-Photon Experiment Folder</h2>
     <form action="/SWHLabPHP/src/browse/old_linescan_index.php">
         <input type="text" name="indexFolder" value="X:\Data\OT-Cre\calcium-mannitol\2017-08-28 Mannitol 2P\MCNs" style="width:80%; font-family: monospace;">
         <input type="submit" value="launch">
     </form>
-
-	<h1>Surgery</h1>
-    <ul>
-        <li><a href="/SWHLabPHP/src/browse/surgeries2.php">Records and injection photos</a>
-		<li><a href='http://mouse.brain-map.org/experiment/thumbnails/100142143'>Allen Brain Atlas (with coordinates)</a>
-		<li><a href='http://help.brain-map.org/download/attachments/2818171/InjectionSites_and_StereotaxicCoordinates.pdf'>Allen Stereotaxic Coordinates</a>
-    </ul>
-	
-    <h1>Browse Files Manually</h1>
-    <ul>
-        <li><a href="/SWHLabPHP/recode/src/?view=abf">ABF Browser</a>
-        <li><a href="/X/">Apache File Browser</a>
-    </ul>
-    <br>
+    -->
 
     <table width="100%">
     <tr>
@@ -86,19 +78,6 @@ li {line-height: 150%;}
 
 
 </div>
-
-
-<a name="jason"></a>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\jason.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\historical.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
-
-<!--
-<div align="center">
-    Looking for something? It may be on the <a href="index_backup_180119.php">old website</a> ...
-</div>
--->
 
 <img src="/SWHLabPHP/src/browse/images/banner_die_blue.png" style='width: 100%;'>
 
