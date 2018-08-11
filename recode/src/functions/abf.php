@@ -187,6 +187,24 @@ class ABFfolder
             $this->scanFiles(); // re-scan required since stuff is missing now
         }
         
+        if (isset($_GET['ignoreABF'])){
+            // ignore the given ABF by renaming it from .abf to .abf.ignore
+            $bn = $_GET['ignoreABF'];
+            $dn = $_GET['fldr'];
+            $fullpath = $dn."/".$bn;
+            $fullpathLocal = path_local($fullpath);
+            $msg="";
+            if (file_exists($fullpathLocal)){
+                $msg="RENAMING: <br>$fullpath<br>$fullpath.ignored";
+                rename($fullpathLocal, $fullpathLocal.".ignored");
+            } else {
+                $msg="ERROR - FILE DOES NOT EXIST:<br>$fullpath";
+            }
+            echo "<div style='background-color: #FFDDDD; padding: 20px; margin: 20px;'><code>$msg</code></div>";
+            echo "<hr>";
+            $this->scanFiles(); // re-scan required since stuff is missing now
+        }
+
         if (isset($_GET['analyzeFolder'])){
             
             // clear the log file if it contains nothing new
@@ -419,15 +437,40 @@ class ABFfolder
             // LIST OF ASSOCIATED ABF FILES
             echo "<div style='background-color: #EEE; padding: 10px;'>";
             echo "<b>ABFs associated with this cell:<br></b>";
+            $seenProtocols=[];
             foreach ($files_abf as $fname){
                 $fname=path_network($fname);
+                $fldr=dirname($fname);
                 $bn=basename($fname);
                 $protocol = abf_protocol(path_local($fname));
                 $filesize = filesize_formatted(path_local($fname));
                 $btn = html_button_copy($fname, True, "copy path");
                 $setpath='setpath "'.$fname.'"';
                 $btn2 = html_button_copy($setpath, True, "setpath");
-                echo "<code>$bn $btn $btn2 $protocol ($filesize)</code><br>";
+
+                // prepare ignore button
+                //$urlIgnoreABF='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
+                //$urlIgnoreABF.="?view=abf&fldr=$fldr&data";
+                //$urlIgnoreABF.="?view=abf&fldr=$this->fldr&match=$cellID&data";
+                $urlIgnoreABF = $url;
+                $urlIgnoreABF .= "&ignoreABF=$bn";
+                $urlIgnoreABF = str_replace("\\","/",$urlIgnoreABF);
+                $jsCodeAsk = "confirm('Do you REALLY want to hide $bn?\\nProceeding will rename .abf to .abf.ignored')";
+                $jsCode = "if($jsCodeAsk){window.location.href='$urlIgnoreABF';}else{alert('Cancelled - no changes made')}";
+
+                if ($fname==path_network($files_abf[0])){
+                    $btn3 = "<input type='button' class='button_copy' value='ignore' onclick=\"$jsCode\" disabled style='color: #DDD;'>";
+                } else {
+                    $btn3 = "<input type='button' class='button_copy' value='ignore' onclick=\"$jsCode\" >";
+                }
+
+                // display the line for the ABF
+                echo "<code>$bn $btn $btn2 $btn3 $protocol ($filesize)</code> ";
+                if (in_array($protocol,$seenProtocols)){
+                    echo "<span style='font-weight: bold; font-color: red; background-color: yellow;'>REPEAT</span>";
+                }                
+                echo "<br>";
+                $seenProtocols[]=$protocol;
             }
             foreach ($files_unknown as $fname){
                 $fname=path_network($fname);
@@ -720,6 +763,15 @@ class ABFfolder
         /////////////////////////////////////////////////////////////////////////////////
         
         echo "<br><br><br>";
+        echo "<div style='font-size: 200%;font-weight: bold;'>Origin Analysis Documentation:</div>";
+        echo "<div style='font-size: 150%;'>";
+        echo "<a href='https://github.com/cjfraz/CJFLab/tree/master/documentation/project-organization'>https://github.com/cjfraz/CJFLab/</a>";
+        echo "</div><br>";
+
+        for ($x = 0; $x <= 100; $x++) echo "<br>";
+        
+
+        echo "<br><br><br>";
         echo "<div style='font-size: 200%;font-weight: bold;'>Origin Analysis Workflow</div>";
         echo "<div style='font-size: 120%;'>";
         echo "We use ClampEx protocols to help us measure what intend to investigate.<br>";
@@ -818,10 +870,31 @@ class ABFfolder
             echo "</div><br><br>";
         }
 
+        $protocol="0114 steps dual -100 to 2000 step 100";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<b># AP Gain (medium power) ($protocol)</b><br>";
+            echo "<br># to analyze gain after regular step:<br>m1 120; m2 670;<br>";
+            echo "<br># to analyze gain after hyperpolarizing step:<br>m1 1620; m2 2170;<br>";
+            echo "<br># set the first ABF, set markers where desired, enable event detection, customize for ideal AP detection, then run:<br>";
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                echo "modifyNames \"$comment\"; ";
+                echo "cjfmini;<br>";
+            }
+            echo '<br># update workbooks with:<br>';
+            echo 'runonbooks Events "getcols 3 _EVN S.freq; ccave; addx; letters; AA*=100; AA-=100;";';
+            echo '<br><br># use ANOVA for statistical comparison between groups.<br>';
+            echo "</div><br><br>";
+        }
+
         $protocol="0111 continuous ramp";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
             echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #6666AA;'>";
-            echo "<b># First AP threshold and rheobase ($protocol)</b><br>";
+            echo "<b># First AP half-width, threshold, rheobase, repolarization, etc ($protocol)</b><br>";
             echo "<br># set the first ABF, disable markers, enable event detection, customize for ideal AP detection, enable saving data for event markers, then run:<br>";
             echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
             foreach ($abfsByProtocol[$protocol] as $abfID){
