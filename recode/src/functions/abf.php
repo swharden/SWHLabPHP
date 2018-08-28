@@ -232,6 +232,34 @@ class ABFfolder
             
             redirect("?view=commands&refresh=1");            
         }
+
+        if (isset($_GET['analyzeFolder2'])){
+            
+            // clear the log file if it contains nothing new
+            $logfile = realpath(dirname(dirname(__FILE__))."/scripts/log.txt");
+            if (time()-filemtime($logfile) > 60*30) {
+                echo "<hr>CLEARED OLD LOG FILE<hr>";
+                file_put_contents("$logfile", "");
+            }
+            
+            // analyze all unanalyzed ABFs in this entire folder
+            display_error("analyzing entire folder...");
+            $commands="";
+            
+            foreach ($this->abfsNeedingAnalysis() as $cellID){
+                //$path=realpath("$this->fldr_network/$cellID.abf"); // best for network PC
+                if (is_file($path=realpath("$this->fldr_local/$cellID.rsv"))) continue;
+                $path=realpath("$this->fldr_local/$cellID.abf"); // best for server PC
+                $commands.="analyze2 $path\n";
+            }
+            // write commands to commands.txt
+            $CMDFILE = realpath(dirname(dirname(__FILE__))."/scripts/commands.txt");           
+            $f = fopen($CMDFILE, "a");
+            fwrite($f, $commands."\n");
+            fclose($f);
+            
+            redirect("?view=commands&refresh=1");            
+        }
     }
     
     function scanFiles()
@@ -480,16 +508,22 @@ class ABFfolder
             
             // DISPLAY ANALYSIS BUTTONS
             echo "<div style='background-color: #F6F6F6; padding: 10px;'>";
-            echo "Analysis: ";
+            //echo "Cell data analysis: ";
             $urlDelCell = "?".$_SERVER['QUERY_STRING']."&delete=$ID";
-            $urlAnlFldr = "?".$_SERVER['QUERY_STRING']."&analyzeFolder";
-            echo "<a href='$urlDelCell'>delete graphs for this cell</a>";
-            $neededABF=count($this->abfsNeedingAnalysis());
+            $urlAnlFldrSWHLab = "?".$_SERVER['QUERY_STRING']."&analyzeFolder";
+            $urlAnlFldrPYABF = "?".$_SERVER['QUERY_STRING']."&analyzeFolder2";
+            $neededABF=count($this->abfsNeedingAnalysis());           
+            
+            echo "<div>";
             if ($neededABF){
-                echo " | <span style='background-color: yellow;'>";
-                echo "<a href='$urlAnlFldr'>process unanalyzed ABFs ($neededABF)</a>";
-                echo "</span>";
-            }            
+                echo "<span style='background-color: yellow; font-weight: bold;'>$neededABF ABFs require analysis</span>";
+                echo " | <a href='$urlAnlFldrSWHLab'>analyze with SWHLab (old)</a>";
+                echo " | <a href='$urlAnlFldrPYABF' style='color: #999;'>analyze with pyABF (new)</a>";
+            } else {
+                echo "<span style='color: #999;'>All ABFs in this project folder have been analyzed.</span>";
+            }
+            echo " | <a href='$urlDelCell'>delete graphs for this cell</a>";
+            echo "</div>";
             echo "</div>";
             
             // SHOW PICTURES
@@ -814,7 +848,7 @@ class ABFfolder
                 echo "memtest;<br>";
             }
 
-            echo '<br># use raved to set source from 0 to 0, use index not time, set n% to 99, then update workbooks with:<br>';
+            echo '<br># use raved to set source from 0 to 999, then update workbooks with:<br>';
             echo 'runonbooks MemTests "getcols 1 _MT S.Ih";<br>';
             echo 'runonbooks MemTests "getcols 3 _MT S.Rm";<br>';
             echo 'runonbooks MemTests "getcols 4 _MT S.Cm";<br>';
@@ -1212,6 +1246,7 @@ class ABFfolder
             echo "<code>$this->fldr $btn </code><hr>";      
 
             // show information about processing/analyzing ABFs
+            /*
             $neededABF=count($this->abfsNeedingAnalysis());
             if ($neededABF){
                 $urlAnlFldr = "?".$_SERVER['QUERY_STRING']."&analyzeFolder";
@@ -1223,10 +1258,11 @@ class ABFfolder
             } else {
                 display_message("All ABFs have been analyzed.");
             }
+            */
             
             // show cells.txt
-            display_file($this->fldr."\\experiment.txt");
             display_file($this->fldr."\\cells.txt");
+            display_file($this->fldr."\\experiment.txt");
             $this->display_origin_commands();
             
         } else {
