@@ -518,7 +518,7 @@ class ABFfolder
             if ($neededABF){
                 echo "<span style='background-color: yellow; font-weight: bold;'>$neededABF ABFs require analysis</span>";
                 echo " | <a href='$urlAnlFldrSWHLab'>analyze with SWHLab (old)</a>";
-                echo " | <a href='$urlAnlFldrPYABF' style='color: #999;'>analyze with pyABF (new)</a>";
+                echo " | <a href='$urlAnlFldrPYABF'>analyze with pyABF (new)</a>";
             } else {
                 echo "<span style='color: #999;'>All ABFs in this project folder have been analyzed.</span>";
             }
