@@ -4,7 +4,7 @@ import time
 import datetime
 import traceback
 import matplotlib.pyplot as plt
-plt.ion()
+plt.ioff()
 
 PATH = os.path.dirname(os.path.abspath(__file__)) # this file
 PATH_SWHLAB = os.path.abspath(PATH+"/../../../../../repos/swhlab/")
@@ -14,6 +14,16 @@ import swhlab
 import swhlab.analysis.protocols
 #sys.path.insert(0,PATH+"/../../../repos/ROI-Analysis-Pipeline/pyLS")
 
+#PATH_PYABF = os.path.abspath(PATH+"/../../../../../repos/pyABF/src/")
+#sys.path.append(R"D:\X_Drive\Lab Documents\network\repos\pyABF/src/")
+#sys.path.insert(0,PATH_PYABF)
+#import pyabf
+
+#PATH_AUTOANALYSIS = R"D:\X_Drive\Lab Documents\network\repos\pyABF\dev\autoanalysis"
+#sys.path.insert(0,PATH_AUTOANALYSIS)
+sys.path.append(R"D:\X_Drive\Lab Documents\network\repos\pyABF\dev\autoanalysis")
+import autoabf
+
 CMDFILE = os.path.join(PATH,"commands.txt")
 LOGFILE = os.path.join(PATH,"log.txt")
 
@@ -22,9 +32,14 @@ def getstamp():
     stamp = stamp.strftime('%Y-%m-%d %H:%M:%S')
     return stamp
 
-def analyze(abfFile):
-    print("analyzing",abfFile)
-    swhlab.analysis.protocols.analyze(abfFile,show=False)
+def analyze(command):
+    command,abfFile=command
+    if command=="analyze":
+        print("analyzing with SWHLab:",abfFile)
+        swhlab.analysis.protocols.analyze(abfFile,show=False)
+    else:
+        print("analyzing with pyABF:",abfFile)
+        autoabf.autoAnalyzeAbf(abfFile)
     print("SUCCESS\n")
 
 def log(msg):
@@ -47,9 +62,9 @@ def runTopCommand():
         f.write("\n".join(raw))
     t1 = time.perf_counter()
     command=command.split(" ",1)
-    if command[0]=="analyze":
+    if command[0] in ["analyze", "analyze2"]:
         try:
-            analyze(command[1])
+            analyze(command)
         except Exception as e:
             e=traceback.format_exc()
             print("ERROR",e)
