@@ -126,3 +126,6 @@ Edit php.ini and add:
 extension=php_pdo_sqlite.dll
 extension=php_sqlite3.dll
 ```
+
+## Configure Python to Auto-Analyze ABFs
+On the server computer launch [launch_server.bat](https://github.com/swharden/SWHLabPHP/blob/master/recode/src/scripts/launch_server.bat) (which really just runs [commands.py](https://github.com/swharden/SWHLabPHP/blob/master/recode/src/scripts/commands.py))
