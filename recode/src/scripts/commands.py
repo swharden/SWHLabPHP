@@ -4,6 +4,7 @@ import time
 import datetime
 import traceback
 import matplotlib.pyplot as plt
+import imp
 
 PATH = os.path.dirname(os.path.abspath(__file__)) # this file
 PATH_SWHLAB = os.path.abspath(PATH+"/../../../../../repos/swhlab/")
@@ -22,6 +23,7 @@ import swhlab.analysis.protocols
 #sys.path.insert(0,PATH_AUTOANALYSIS)
 sys.path.append(R"D:\X_Drive\Lab Documents\network\repos\pyABF\dev\autoanalysis")
 import autoabf
+import analysisByProtocol
 
 CMDFILE = os.path.join(PATH,"commands.txt")
 LOGFILE = os.path.join(PATH,"log.txt")
@@ -39,6 +41,8 @@ def analyze(command):
         swhlab.analysis.protocols.analyze(abfFile,show=False)
     else:
         plt.ioff()
+        imp.reload(autoabf)
+        imp.reload(analysisByProtocol)
         print("analyzing with pyABF:",abfFile)
         autoabf.autoAnalyzeAbf(abfFile)
     print("SUCCESS\n")
@@ -59,8 +63,6 @@ def runTopCommand():
     raw=raw.split("\n")
     command=raw.pop(0) # pluck out the top command
     log(command)
-    with open(CMDFILE,'w') as f:
-        f.write("\n".join(raw))
     t1 = time.perf_counter()
     command=command.split(" ",1)
     if command[0] in ["analyze", "analyze2"]:
@@ -72,6 +74,8 @@ def runTopCommand():
             log("ERROR: "+e)
     else:
         log("not sure how to run that command\n")
+    with open(CMDFILE,'w') as f:
+        f.write("\n".join(raw))
     elapsed = time.perf_counter()-t1
     log("completed [%.03f s]\n"%elapsed)
     return
