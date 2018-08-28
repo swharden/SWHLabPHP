@@ -4,7 +4,6 @@ import time
 import datetime
 import traceback
 import matplotlib.pyplot as plt
-plt.ioff()
 
 PATH = os.path.dirname(os.path.abspath(__file__)) # this file
 PATH_SWHLAB = os.path.abspath(PATH+"/../../../../../repos/swhlab/")
@@ -35,9 +34,11 @@ def getstamp():
 def analyze(command):
     command,abfFile=command
     if command=="analyze":
+        plt.ion()
         print("analyzing with SWHLab:",abfFile)
         swhlab.analysis.protocols.analyze(abfFile,show=False)
     else:
+        plt.ioff()
         print("analyzing with pyABF:",abfFile)
         autoabf.autoAnalyzeAbf(abfFile)
     print("SUCCESS\n")
