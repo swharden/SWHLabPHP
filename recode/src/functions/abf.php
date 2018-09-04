@@ -387,6 +387,25 @@ class ABFfolder
         }        
     }
     
+    function _IDpreviousParent($ID){
+        // return the parent ID just before this one
+        $pos = array_search($ID, $this->cells);
+        if ($pos>0) {
+            return $this->cells[$pos-1];
+        } else {
+            return $ID;
+        }
+    }
+    function _IDnextParent($ID){
+        // return the parent ID just after this one
+        $pos = array_search($ID, $this->cells);
+        if ($pos==sizeof($pos)-1) {
+            return $ID;
+        } else {
+            return $this->cells[$pos+1];            
+        }
+    }
+
     function _display_cell_data($filesByCell){
         // given an array of arrays, display all relevant cell data.
         // the first item of each array is the ABF id, everuthing else is an associated file
@@ -429,11 +448,18 @@ class ABFfolder
 
             // HEADER: CELL ID AND COMMENT
             $color = $this->colorcodes[$this->cellColors[$ID]];
-            $comment = strip_tags($this->cellComments[$ID]);            
+            $comment = strip_tags($this->cellComments[$ID]);   
+
+            $IDprev = $this->_IDpreviousParent($ID);
+            $IDprevURL='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."?view=abf&fldr=$this->fldr&match=$IDprev&data";
+            $IDnext = $this->_IDnextParent($ID);
+            $IDnextURL='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."?view=abf&fldr=$this->fldr&match=$IDnext&data";
+
             echo "<div style='background-color: $color; padding: 10px;'>";
-            echo "<b>CELL ID: <a href='$url'>$ID</a></b> $btn<br>";
-            echo "<code>$this->fldr_network</code> $btnFldr<br>";
-            echo "Cell comment: <i>$comment</i>";
+            echo "<div><b>CELL ID: <a href='$url'>$ID</a></b> $btn</div>";
+            echo "<div><code><a href='$IDprevURL'>$IDprev</a> << $ID >> <a href='$IDprevURL'>$IDnext</a></code></div>";
+            //echo "<code>$this->fldr_network</code> $btnFldr<br>";
+            //echo "Cell comment: <i>$comment</i>";
             echo "</div>";
             
             // CELL COMMENT AND COLOR ASSIGNMENT
