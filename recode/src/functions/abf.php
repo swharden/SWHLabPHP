@@ -457,7 +457,7 @@ class ABFfolder
 
             echo "<div style='background-color: $color; padding: 10px;'>";
             echo "<div><b>CELL ID: <a href='$url'>$ID</a></b> $btn</div>";
-            echo "<div><code><a href='$IDprevURL'>$IDprev</a> << $ID >> <a href='$IDprevURL'>$IDnext</a></code></div>";
+            echo "<div><code><a href='$IDprevURL'>$IDprev</a> << $ID >> <a href='$IDnextURL'>$IDnext</a></code></div>";
             //echo "<code>$this->fldr_network</code> $btnFldr<br>";
             //echo "Cell comment: <i>$comment</i>";
             echo "</div>";
