@@ -158,10 +158,15 @@ class ABFfolder
     function tifsNeedingAnalysis(){
         // return a list of TIF files needing conversion
         $needAnalysis=[];
+        $seenFiles = $this->files2;
+        for ($i=0; $i<count($seenFiles); $i++){
+            $seenFiles[$i] = strtoupper($seenFiles[$i]);
+        }
         foreach ($this->files as $fname1){
-            if (endsWith($fname1,".tif")||endsWith($fname1,".TIF")) {
-                $fname1=str_replace(".TIF",".tif",$fname1);
-                if ((!in_array("$fname1.jpg",$this->files2))&&(!in_array("$fname1-0.jpg",$this->files2))) {
+            if (endsWith(strtoupper($fname1),".TIF")) 
+            {
+                $fname2 = strtoupper($fname1.".jpg");
+                if (!in_array($fname2,$seenFiles)) {
                     $needAnalysis[]=$fname1;
                 }
             }
@@ -1312,21 +1317,11 @@ class ABFfolder
 function abf_protocol($abfFile, $comment=False){
 	// opens the ABF file in binary mode to pull the protocol information
     // it can return the protocol filename or the protocol comment
-	$handle = fopen($abfFile, "r");
-	$abfData=fread($handle,10000);
-	if (startsWith($abfData,"ABF2")){
-	} else {echo("<br>!!!ABF VERSION UNSUPPORTED!!!<br>");return;}
-	
-	$abfData=explode("Clampex",$abfData)[1];
-	$abfData=explode("IN ",$abfData)[0];
-	$protoFile=explode(".pro",basename($abfData))[0];
-    if (strpos($abfData, '.pro') !== false){
-        $protoComment=explode(".pro",$abfData)[1];
-    } else {
-        $protoComment="NOPROTO";
-    }
-	if ($comment) return $protoComment;
-	return $protoFile;
+
+    include_once(dirname(__FILE__)."/../../../../../repos/phpABF/src/abf.php");
+    $abf = new ABF($abfFile);
+    return $abf->protocol;
+    
 }
 
 ?>
