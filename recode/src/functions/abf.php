@@ -545,15 +545,16 @@ class ABFfolder
             $urlAnlFldrPYABF = "?".$_SERVER['QUERY_STRING']."&analyzeFolder2";
             $neededABF=count($this->abfsNeedingAnalysis());           
             
-            echo "<div>";
+            echo "<div style='color: #999;'>";
+            echo "<span style='color: #CCC;'>$neededABF ABFs require analysis</span>";
+            echo " | <a href='$urlAnlFldrSWHLab' style='color: #CCC;'>analyze the old way</a>";
             if ($neededABF){
-                echo "<span style='background-color: yellow; font-weight: bold;'>$neededABF ABFs require analysis</span>";
-                echo " | <a href='$urlAnlFldrSWHLab'>analyze with SWHLab (old)</a>";
-                echo " | <a href='$urlAnlFldrPYABF'>analyze with pyABF (new)</a>";
+                $style="background-color: #f9ffaf; padding: 5px; border: 1px solid #d9e088; font-weight: bold;";
             } else {
-                echo "<span style='color: #999;'>All ABFs in this project folder have been analyzed.</span>";
+                $style="color: #CCC;";
             }
-            echo " | <a href='$urlDelCell'>delete graphs for this cell</a>";
+            echo " | <a href='$urlAnlFldrPYABF' style='$style'>Analyze new ABFs</a>";
+            echo " | <a href='$urlDelCell' style='color: #CCC;'>delete graphs for this cell</a>";
             echo "</div>";
             echo "</div>";
             
