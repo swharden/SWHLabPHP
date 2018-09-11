@@ -42,6 +42,20 @@ iframe{
     width: 100%; 
     border: none;
 }
+
+
+.bannerBottom{
+	background-image: url(/SWHLabPHP/src/browse/images/banner_die_blue.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+
+	padding-top: 20px;
+	padding-bottom: 20px;
+    background-position: left bottom;
+    margin: -8px;
+    margin-bottom: 20px;
+
+}
 </style>
 
 <script>
@@ -72,7 +86,6 @@ setInterval(updatePath, 100);
 </script>
 </head>
 <body>
-
 <div class='banner'>
     <div style="font-size: 250%; font-weight: bold; padding-left: 20px; position: relative; top: -15px;">
         Frazier Laboratory
@@ -88,7 +101,7 @@ setInterval(updatePath, 100);
     </div>
 </div>
 
-<br><br><br><br>
+<br><br><br>
 
 <div class="sectionMenu">
     <a class='menuLink' href='#experiments'>Experiments</a>
@@ -139,13 +152,16 @@ setInterval(updatePath, 100);
     <h1>Folder-to-URL</h1>
     <div>Input an X-Drive path and a URL will be generated for it:</div>    
     <input type="text" name="fldr" id="pathForUrlConv" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;" onkeypress="updatePath()">
-    <div><br>That X-Drive path is available as a URL:<br><a href='' id='urlFromPath'>?</code></div>
+    <div><br>That X-Drive path is available as a URL:<br><a href='' id='urlFromPath'>?</a></code></div>
     <br>
 
 
 </div>
 
-<img src="/SWHLabPHP/src/browse/images/banner_die_blue.png">
+
+<div class='bannerBottom' style='height: 400px;'>
+
+</div>
 
 </body>
 </html>

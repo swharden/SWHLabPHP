@@ -828,13 +828,11 @@ class ABFfolder
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
         
-        echo "<br><br><br>";
+        for ($x = 0; $x <= 100; $x++) echo "<br>";
         echo "<div style='font-size: 200%;font-weight: bold;'>Origin Analysis Documentation:</div>";
         echo "<div style='font-size: 150%;'>";
         echo "<a href='https://github.com/cjfraz/CJFLab/tree/master/documentation/project-organization'>https://github.com/cjfraz/CJFLab/</a>";
         echo "</div><br>";
-
-        for ($x = 0; $x <= 100; $x++) echo "<br>";
         
 
         echo "<br><br><br>";
@@ -1273,9 +1271,9 @@ class ABFfolder
     function display_splash(){
         // shows experiment info
         if (count($this->IDs)){
-            echo "<br><b>ABF Project Summary</b><br>";
-            $btn = html_button_copy(path_network($this->fldr));
-            echo "<code>$this->fldr $btn </code><hr>";      
+            //echo "<br><b>ABF Project Summary</b><br>";
+            //$btn = html_button_copy(path_network($this->fldr));
+            //echo "<code>$this->fldr $btn </code><hr>";      
 
             // show information about processing/analyzing ABFs
             /*
@@ -1293,7 +1291,10 @@ class ABFfolder
             */
             
             // show cells.txt
-            display_file($this->fldr."\\cells.txt");
+            //display_file($this->fldr."\\cells.txt");
+            echo "<br><br>Cell groups, color, and comments are is stored in:<br><code>$this->fldr\\cells.txt</code><br>";
+            
+            echo "<br><br>Experiment design information (bath, internal, etc.) may be stored in:<br><code>$this->fldr\\experiment.txt</code>";
             display_file($this->fldr."\\experiment.txt");
             $this->display_origin_commands();
             
