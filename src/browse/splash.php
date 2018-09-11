@@ -8,7 +8,7 @@
 <style>
 /* TODO: MOVE MATURE STYLES TO CSS FILE */
 li {line-height: 150%;}
-.test{
+.section{
     width: 85%;
     padding-left: 20px;
     padding-top: 2px;
@@ -22,7 +22,54 @@ li {line-height: 150%;}
     margin-right: auto;
     margin-bottom: 50px;
 }
+
+.sectionMenu{
+    font-size: 120%;
+    width: 85%;
+    padding-left: 20px;
+    padding-right: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.menuSep{
+    color: #CCC;
+}
+
+iframe{
+    display: block;
+    width: 100%; 
+    border: none;
+}
 </style>
+
+<script>
+function updatePath(){
+    var url = document.getElementById("pathForUrlConv").value;
+
+    while (url.indexOf("\\")>=0){
+        url = url.replace("\\", "/");
+    }
+    
+    document.getElementById('urlFromPath').href = "invalid path";
+    document.getElementById('urlFromPath').innerHTML = "invalid path";
+
+    url = url.replace("x:", "X:");
+
+    if (url.indexOf('X:') == -1) {
+        return;
+    }
+    url = url.replace("X:/", "/X/");
+    url = 'http://192.168.1.9'+url;
+    document.getElementById('urlFromPath').href = url;
+    document.getElementById('urlFromPath').innerHTML = url;
+}
+
+// the function is called only on keypresses. This captures mouse pastes.
+setInterval(updatePath, 100);
+
+</script>
 </head>
 <body>
 
@@ -43,32 +90,62 @@ li {line-height: 150%;}
 
 <br><br><br><br>
 
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\pinned.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\historical.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
-<div class="test"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
+<div class="sectionMenu">
+    <a class='menuLink' href='#experiments'>Experiments</a>
+    <span class='menuSep'>|</span>
+    <a class='menuLink' href='#animal'>Animals</a>
+    <span class='menuSep'>|</span>
+    <a class='menuLink' href='#surgical'>Surgeries</a>
+    <span class='menuSep'>|</span>
+    <a class='menuLink' href='#misc'>Miscellaneous</a>
+    <span class='menuSep'>|</span>
+    <a class='menuLink' href='#browseABF'>ABF Browser</a>
+    <span class='menuSep'>|</span>
+    <a class='menuLink' href='#fileLocator'>File Locator</a>
+</div>
 
-<div class='test'>
+<div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\experiments.md'); ?></div>
+<div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\surgical.md'); ?></div>
+<div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\animal.md'); ?></div>
+<div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\misc.md'); ?></div>
 
-    <h1>ABF Folder Launcher</h1>
-
+<a name='browseABF'></a>
+<div class="section">
+    <h1>ABF Browser</h1>
+    <div>Launch the given folder in the ABF browser website:</div>
     <form action="/SWHLabPHP/recode/src/">
         <input type="hidden" name="view" value="abf">
         <input type="hidden" name="frames">
         <input type="text" name="fldr" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;">
         <input type="submit" value="launch">
     </form>
+</div>
 
-    <table width="100%">
-        <tr>
-        <td><h1>ABF Locator</h1><iframe frameBorder="0" src="/SWHLabPHP/src/browse/findABF.php?view=iframe" height="300" width="100%"></iframe></td>
-        <td><h1>File or Path Locator</h1><iframe frameBorder="0" src="/404.php?view=iframe" height="300" width="100%"></iframe></td>
-        </tr>
-    </table>
+<a name='fileLocator'></a>
+<div class="section">
+    <h1>File Locator</h1>
+    <div>Input the filename (not the full path) of an ABF and it will be located on the X-drive:</div>
+    <iframe src="/SWHLabPHP/src/browse/findABF.php?view=iframe" style='height: 300;'></iframe>
+</div>
+
+<div class="section">
+    <h1>File or Path Locator</h1>
+    <iframe src="/404.php?view=iframe" style='height: 500;'></iframe>
+</div>
+
+
+<a name='browseFolder'></a>
+<div class="section">
+    <h1>Folder-to-URL</h1>
+    <div>Input an X-Drive path and a URL will be generated for it:</div>    
+    <input type="text" name="fldr" id="pathForUrlConv" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;" onkeypress="updatePath()">
+    <div><br>That X-Drive path is available as a URL:<br><a href='' id='urlFromPath'>?</code></div>
+    <br>
+
 
 </div>
 
-<img src="/SWHLabPHP/src/browse/images/banner_die_blue.png" style='width: 100%;'>
+<img src="/SWHLabPHP/src/browse/images/banner_die_blue.png">
 
 </body>
 </html>

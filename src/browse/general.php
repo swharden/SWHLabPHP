@@ -315,13 +315,19 @@ function markdown_file_render($markdown_filename){
         return;
     }
 
+    // provide an anchor for this file
+    $anchorName = basename($markdown_filename);
+    $anchorName = explode('.',$anchorName)[0];
+    echo "<a name='$anchorName'></a>";
+
     // render and echo the file
     include_once('Parsedown.php');
     $Parsedown = new Parsedown();
     $f = fopen($markdown_filename, "r");
     $raw = fread($f,filesize($markdown_filename));
     fclose($f);
-    echo $Parsedown->text($raw);
+    $html = $Parsedown->text($raw);
+    echo $html;
 
     // add a button to edit the file
     $markdown_filename = path_clean($markdown_filename);

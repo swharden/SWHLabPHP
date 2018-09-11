@@ -35,10 +35,13 @@ if (isset($_GET['viewLog'])) {
     script_command_readfile("log");
 } else {
     // we are currently executing commands
-    echo "<h3>Executing Commands:</h3>";
+    echo "<h1>Analyzing Data...</h1>";
+    echo "<div style='color: #CCC;'>";
+    echo "<code><b>commands queued to run on the server:</b></code><br>";
     script_command_readfile("commands");
     echo "<h3>Command Log:</h3>";
     script_command_readfile("log");
+    echo "</div>";
 }
 
 
