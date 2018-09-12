@@ -8,7 +8,8 @@ $url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/'.$_SERVER[
 $urlLength=strlen($url);
 $tailMessage= "<a href='https://github.com/swharden/SWHLabPHP'>SWHLabPHP</a> by Scott Harden | ";
 $tailMessage.= "<a href='?view=commands&viewLog'>view log</a> | ";
-$tailMessage.= "<a href='?view=commands&clearLog'>clear log</a> <br>";
+$tailMessage.= "<a href='?view=commands&clearLog'>clear log</a> |";
+$tailMessage.= "<a href='?view=commands&refresh=3'>running commands</a> <br>";
 $tailMessage.= "<span style='color: #AAA;'>";
 $tailMessage.= "Server: $serverName<br>";
 $tailMessage.= "Timestamp: $pageGenTimeStamp<br>"; 
