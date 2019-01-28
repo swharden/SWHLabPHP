@@ -72,7 +72,9 @@ class ABFfolder
         $cmd="\"$__PATH_PYTHON__\" \"$scriptPath\" \"$pathIN\" \"$pathOUT\" ";
         echo "<code>";
         echo "<hr><b>$tifCount TIFS REQUIRE TIF->JPG CONVERSION: ...</b> ";
-        //foreach ($tifFiles as $fname) echo "$fname ";
+        echo "<!--\n\n";
+        foreach ($tifFiles as $fname) echo "$fname\n";
+        echo "\n\n-->";
         //echo "<hr><b>RUNNING COMMAND:</b><br>$cmd</b> ... ";
         
         
@@ -523,13 +525,23 @@ class ABFfolder
                     $btn3 = "<input type='button' class='button_copy' value='ignore' onclick=\"$jsCode\" >";
                 }
 
+                // highlight ABFs greater than 5Mb
+                if (filesize(path_local($fname))>5*1e6){
+                    $abfLineStyle='color: black;';
+                } else {
+                    $abfLineStyle='color: gray;';
+                }
+
                 // display the line for the ABF
-                echo "<code>$bn $btn $btn2 $btn3 $protocol ($filesize)</code> ";
+                echo "<code style='$abfLineStyle'>$bn $btn $btn2 $btn3 $protocol ($filesize)</code> ";
                 if (in_array($protocol,$seenProtocols)){
                     echo "<span style='font-weight: bold; font-color: red; background-color: yellow;'>REPEAT</span>";
                 }                
                 echo "<br>";
                 $seenProtocols[]=$protocol;
+                    
+                // FLUSH THE BUFFER
+                flush();
             }
             foreach ($files_unknown as $fname){
                 $fname=path_network($fname);
@@ -557,6 +569,9 @@ class ABFfolder
             echo " | <a href='$urlDelCell' style='color: #CCC;'>delete graphs for this cell</a>";
             echo "</div>";
             echo "</div>";
+
+            // FLUSH THE BUFFER
+            flush();
             
             // SHOW PICTURES
             display_thumbnail($files_data);
@@ -660,7 +675,22 @@ class ABFfolder
                 }
                 echo "<br><div class='menu_title' style='padding: 10 5 5 0px;'>$group (n=$nGroupCells)</div>";
                 foreach ($this->cellGroups[$group] as $cellID){
+
+                    // prepare the comment to go beside ABF IDs
                     $comment = $this->cellComments[$cellID];
+
+                    // search/replace to colorize certain text in comments
+                    $comment = str_replace("PYR","<span style='background-color: #b3e5fc; color: #000000;'>PYR</span>", $comment);
+                    $comment = str_replace("FSI","<span style='background-color: #e5d9b7; color: #000000;'>FSI</span>", $comment);
+                    $comment = str_replace("RSI","<span style='background-color: #e5d9b7; color: #000000;'>RSI</span>", $comment);
+                    $comment = str_replace("stim","<span style='background-color: #f6ffce; color: #bbd352;'>stim</span>", $comment);
+                    $comment = str_replace("L3","<span style='background-color: #AAA; color: #000; font-weight: bold;'>L3</span>", $comment);
+                    $comment = str_replace("L2","<span style='background-color: #CCC; color: #000; font-weight: bold;'>L2</span>", $comment);
+                    $comment = str_replace("L1","<span style='background-color: #EEE; color: #000; font-weight: bold;'>L1</span>", $comment);
+                    $comment = str_replace("LOT","<span style='background-color: #EEE; color: #000; font-weight: bold;'>LOT</span>", $comment);
+                    
+                    
+
                     $colorcode = $this->cellColors[$cellID];
                     $color = $this->colorcodes[$colorcode];
                     $color = ($color ? $color : 'black'); // color to use if colorcode isn't found
@@ -678,7 +708,17 @@ class ABFfolder
 					$nPicsText=sprintf('%01d', $nPics);					
                     echo "<div style='white-space: nowrap;'>";
                     echo "<span class='abftick' id='$nSelected' style='visibility: hidden;'>&raquo;</span>";
-                    echo "<a target='content' href='$url' onclick='setClicked($nSelected)' style='background-color: $color;'>$cellID</a> ($nABFsText/$nPicsText) ";
+                    echo "<a target='content' href='$url' onclick='setClicked($nSelected)' style='background-color: $color;'>$cellID</a> ";
+
+                    // show the number of ABFs
+                    if ($nABFs==7){
+                        $nABFstyle='color: #DDD;';
+                    } else {
+                        $nABFstyle='color: black;';
+                    }
+                    echo "<span style='$nABFstyle'>($nABFsText) </span>";
+
+
                     echo "<i style='color: #CCC;'>$comment</i></div>";
                 }
             }
@@ -828,7 +868,7 @@ class ABFfolder
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
         
-        for ($x = 0; $x <= 100; $x++) echo "<br>";
+        for ($x = 0; $x <= 200; $x++) echo "<br>";
         echo "<div style='font-size: 200%;font-weight: bold;'>Origin Analysis Documentation:</div>";
         echo "<div style='font-size: 150%;'>";
         echo "<a href='https://github.com/cjfraz/CJFLab/tree/master/documentation/project-organization'>https://github.com/cjfraz/CJFLab/</a>";
@@ -912,6 +952,27 @@ class ABFfolder
             echo '</div><br><br>';
 
         } 
+
+        $protocol="0112 steps dual -50 to 150 step 10";
+        if (in_array($protocol,array_keys($abfsByProtocol))){            
+            echo "<div style='background-color: #c7d6f9; font-family: monospace; padding: 10px; border: 1px solid #000000;'>";
+            echo "<b># AP Gain (medium power) ($protocol)</b><br>";
+            echo "<br># to analyze gain after regular step:<br>m1 120; m2 670;<br>";
+            echo "<br># to analyze gain after hyperpolarizing step:<br>m1 1620; m2 2170;<br>";
+            echo "<br># set the first ABF, set markers where desired, enable event detection, customize for ideal AP detection, then run:<br>";
+            echo '# WARNING: THIS BLOCK IS JUST FOR ILLUSTRATION! DO THIS MANUALLY!<br>';
+            foreach ($abfsByProtocol[$protocol] as $abfID){
+                $parent=$this->abf_parent($abfID);
+                echo "parent=$parent; setpath \"$this->fldr\\$abfID.abf\"; ";
+                $comment = $this->cellComments[$parent];                
+                echo "modifyNames \"$comment\"; ";
+                echo "cjfmini;<br>";
+            }
+            echo '<br># update workbooks with:<br>';
+            echo 'runonbooks Events "getcols 3 _EVN S.freq; ccave; addx; letters; AA*=10; AA-=50;";';
+            echo '<br><br># use ANOVA for statistical comparison between groups.<br>';
+            echo "</div><br><br>";
+        }
 
         $protocol="0113 steps dual -100 to 300 step 25";
         if (in_array($protocol,array_keys($abfsByProtocol))){            
