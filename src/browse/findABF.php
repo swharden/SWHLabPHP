@@ -75,11 +75,20 @@ if (!isset($_REQUEST["view"]) && !isset($_REQUEST["filename"])){
 }
 
 function showPathLink($folder){
+    $folderOriginal = $folder;
     $folder = str_replace('D:\X_Drive','X:',$folder);
+    $filename = $_REQUEST["filename"];
+    $filePath = $folder."\\".$filename;
+    $filePathOriginal = $folderOriginal."\\".$filename;
+    $fileSize = filesize($filePathOriginal)/1000000;
+    $fileSizeString = number_format($fileSize,2);
     $url = "/SWHLabPHP/recode/src/?view=abf&frames&fldr=$folder";
-    echo "<code><a target='_blank' href='$url'>$folder\\</a></code><br>";
+    echo "<code style='color: gray;'>File path:</code> <code>$filePath</code> <code style='color: gray;'>($fileSizeString MB)</code><br>";
+    echo "<code style='color: gray;'>ABF browser:</code> <code><a target='_blank' href='$url'>$folder\\</a></code><br>";
     if (isset($_REQUEST["filename"])){
-        echo "<code>altpath$=\"$folder\"</code><br><br>";
+        echo "<code style='color: gray;'>Load Directly Into Origin:</code> <code>setpath \"$folder\\$filename\"; </code><br>";
+        echo "<code style='color: gray;'>Set Origin's Alternate Path:</code> <code>altpath$=\"$folder\"</code><br>";
+        echo "<br>";
     }
 }
 
