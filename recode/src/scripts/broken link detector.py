@@ -45,6 +45,8 @@ def highlightBadURLs():
             continue
         if not url.startswith("http"):
             url = URL_INDEX+"/"+url
+        if url.endswith(".md"):
+            continue
         if not URL_INDEX in url:
             continue
         thisUrlStyle = STYLE_GOOD
