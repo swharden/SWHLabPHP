@@ -30,7 +30,7 @@ li {line-height: 150%;}
     padding-right: 4px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 }
 
 .menuSep{
@@ -104,18 +104,22 @@ setInterval(updatePath, 100);
 <br><br><br>
 
 <div class="sectionMenu">
-    <a class='menuLink' href='#experiments'>Experiments</a>
-    <span class='menuSep'>|</span>
-    <a class='menuLink' href='#animal'>Animals</a>
-    <span class='menuSep'>|</span>
-    <a class='menuLink' href='#surgical'>Surgeries</a>
-    <span class='menuSep'>|</span>
-    <a class='menuLink' href='#misc'>Miscellaneous</a>
-    <span class='menuSep'>|</span>
-    <a class='menuLink' href='#browseABF'>ABF Browser</a>
-    <span class='menuSep'>|</span>
-    <a class='menuLink' href='#fileLocator'>File Locator</a>
+    Experimental:
+    <a class='menuLink' href='#experiments'>Experiments</a>, 
+    <a class='menuLink' href='#animal'>Animals</a>, 
+    <a class='menuLink' href='#surgical'>Surgeries</a>, 
+    <a class='menuLink' href='onenote:https://uflorida.sharepoint.com/sites/FrazierLab/SiteAssets/Frazier%20Lab%20Main%20Notebook/'>OneNote</a>
 </div>
+
+<div class="sectionMenu">
+    Technical:
+    <a class='menuLink' href='#browseABF'>ABF Browser</a>, 
+    <a class='menuLink' href='#fileLocator'>ABF Locator</a>,
+    <a class='menuLink' href='#browseFolder'>Path-to-URL</a>, 
+    <a class='menuLink' href='broken.html'>broken URL detector</a>
+</div>
+
+<br><br>
 
 <div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\experiments.md'); ?></div>
 <div class="section"><?php markdown_file_render($markdown_file_folder.'X:\Lab Documents\website\surgical.md'); ?></div>
@@ -134,11 +138,20 @@ setInterval(updatePath, 100);
     </form>
 </div>
 
+<a name='browseFolder'></a>
+<div class="section">
+    <h1>Folder-to-URL</h1>
+    <div>Input an X-Drive path and a URL will be generated for it:</div>    
+    <input type="text" name="fldr" id="pathForUrlConv" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;" onkeypress="updatePath()">
+    <div><br>That X-Drive path is available as a URL:<br><a href='' id='urlFromPath'>?</a></code></div>
+    <br>
+</div>
+
 <a name='fileLocator'></a>
 <div class="section">
-    <h1>File Locator</h1>
+    <h1>ABF Locator</h1>
     <div>Input the filename (not the full path) of an ABF and it will be located on the X-drive:</div>
-    <iframe src="/SWHLabPHP/src/browse/findABF.php?view=iframe" style='height: 300;'></iframe>
+    <iframe src="/SWHLabPHP/src/browse/findABF.php?view=iframe" style='height: 500;'></iframe>
 </div>
 
 <div class="section">
@@ -147,17 +160,22 @@ setInterval(updatePath, 100);
 </div>
 
 
-<a name='browseFolder'></a>
+
+
+<a name='edit'></a>
 <div class="section">
-    <h1>Folder-to-URL</h1>
-    <div>Input an X-Drive path and a URL will be generated for it:</div>    
-    <input type="text" name="fldr" id="pathForUrlConv" value="X:\Data\OTR-Cre\PFC inj eYFP OXT response\abfs" style="width:80%; font-family: monospace;" onkeypress="updatePath()">
-    <div><br>That X-Drive path is available as a URL:<br><a href='' id='urlFromPath'>?</a></code></div>
+    <h1>Editing this Page</h1>
+    <div>Sections can be edited (with Notepad++) by editing the file listed on the bottom-right of each section.</div>    
+    <div>Larger changes to this webpage can be made (with Notepad++ or Visual Studio Code) by editing:</div>    
+	<div><code>X:\Lab Documents\network\htdocs\SWHLabPHP\src\browse\splash.php</code></div>
+	<div><code>X:\Lab Documents\network\htdocs\SWHLabPHP\recode\src\functions\abf.php</code></div>
+	<div><i>... but edit with caution, as one typo can break the lab website for everybody!</i></div>
     <br>
+</div>
+
 
 
 </div>
-
 
 <div class='bannerBottom' style='height: 400px;'>
 
